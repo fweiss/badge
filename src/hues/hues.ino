@@ -8,7 +8,7 @@ int sat = 255;
 int val = 120;
 
 void setup() {
-  FastLED.addLeds<WS2812, 13>(leds, NUM_LEDS);
+  FastLED.addLeds<WS2812, 6>(leds, NUM_LEDS);
 }
 
 void loop() {
