@@ -16,13 +16,13 @@ Vector<Data>::Vector(Data d) : d_size(0), d_capacity(0), d_data(0) {
   
 }
 
-//template<class Data>
-//    Vector<Data>::Vector(Data a, Data b, Data c, Data d) {
-//        push_back(a);
-//        push_back(b);
-//        push_back(c);
-//        push_back(d);
-//    }
+template<class Data>
+Vector<Data>::Vector(Data a, Data b, Data c, Data d) {
+    push_back(a);
+    push_back(b);
+    push_back(c);
+    push_back(d);
+}
 
 template<class Data>
     Vector<Data>::~Vector()
@@ -31,15 +31,16 @@ template<class Data>
     }; // Destructor
 
 template<class Data>
-    Vector<Data>& Vector<Data>::operator=(Vector<Data> const &other)
-    {
-        free(d_data);
-        d_size = other.d_size;
-        d_capacity = other.d_capacity;
-        d_data = (Data *)malloc(d_capacity*sizeof(Data));
-        memcpy(d_data, other.d_data, d_size*sizeof(Data));
-        return *this;
-    }; // Needed for memory management
+Vector<Data>& Vector<Data>::operator=(Vector<Data> const &other) {
+  if (d_data) {
+    free(d_data); 
+  }
+  d_size = other.d_size;
+  d_capacity = other.d_capacity;
+  d_data = (Data *)malloc(d_capacity*sizeof(Data));
+  memcpy(d_data, other.d_data, d_size*sizeof(Data));
+  return *this;
+}; // Needed for memory management
 
 template<class Data>
     void Vector<Data>::push_back(Data const &x)

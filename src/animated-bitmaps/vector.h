@@ -1,3 +1,6 @@
+#ifndef VECTOR_H_
+#define VECTOR_H_
+
 #include <stdlib.h>
 
 template<class Data>
@@ -12,7 +15,7 @@ public:
     Vector(Vector const &other); 
     Vector(Data a);  
 
-//    Vector(Data a, Data b, Data c, Data d);
+    Vector(Data a, Data b, Data c, Data d);
     
     ~Vector();
 
@@ -34,3 +37,6 @@ private:
     void resize();
 
 };
+
+#endif VECTOR_H_
+
