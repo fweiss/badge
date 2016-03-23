@@ -21,11 +21,17 @@ There are a wide variety of libraries that can be used with the Arduino toolchai
 
 ## Libraries
 
-#### fastled
+### fastled
 
-#### Adafruit NeoPixel
+### Adafruit NeoPixel
 
 https://github.com/adafruit/Adafruit_NeoPixel
+
+### SPIFFS
+
+On ESP8266, binary files can be uploaded to the flash and read from the program.
+
+https://github.com/esp8266/Arduino/blob/master/doc/filesystem.md
 
 ## Hardware
 

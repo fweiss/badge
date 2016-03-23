@@ -5,7 +5,7 @@
 CRGB leds[NUM_LEDS];
 int hue = 0;
 int sat = 255;
-int val = 120;
+int val = 60;
 
 void setup() {
   FastLED.addLeds<WS2812, 6>(leds, NUM_LEDS);
