@@ -19,6 +19,13 @@ devices and CPUs, not just the original Arduino AVR.
 
 There are a wide variety of libraries that can be used with the Arduino toolchain.
 
+#### C++11
+
+This project uses array initializers. Youe need to enable C++11 in your Arduino toolchain.
+
+in arduino/hardware/arduino/avr, in the platform.txt file, add "-std=gnu++11 to the end of the property
+compiler.cpp.flags
+
 ## Libraries
 
 ### fastled
