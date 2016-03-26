@@ -2,6 +2,7 @@
 
 #define NUM_LEDS 64
 #define PIN 6
+#define FRAME_PERIOD_MILLIS 200
 
 CRGB leds[NUM_LEDS];
 int hue = 0;
@@ -16,23 +17,48 @@ int p4[] = { 28, 0, 1, 2, 3, 4, 5, 6, 7, 8, 15, 16, 23, 24, 31, 32, 39, 40, 47, 
 int* pp[] = { p1, p2, p3, p4, p3, p2 };
 int ppp = 1;
 int vv = 90;
+int sss = 2;
+CHSV spen(120, 255, val);
+
+void drawBackground(CHSV hsv);
+void animate(int &frameIndex, CHSV pen);
+void draw(int *frame, CHSV pen);
 
 void setup() {
   FastLED.addLeds<WS2812, PIN>(leds, NUM_LEDS);
 }
 
 void loop() {
-  for (int i=0; i<64; i++) {
-    leds[i].setHSV(hue, sat, val);
-  }
+//  drawBackground(CHSV(hue, sat, val));
+  drawBackground(CHSV(0, 0, 0));
+  
+  animate(ppp, CHSV(0, 0, vv));
+  animate(sss, spen);
 
-  int* z = pp[ppp];
-  for (int i=0; i<z[0]; i++) {
-    leds[z[i + 1]].setHSV(0, 0, vv);
-  }
-  ppp = (ppp + 1) % 6;
+  hue++;
 
   FastLED.show();
-  delay(100);
-  hue++;
+  delay(FRAME_PERIOD_MILLIS);
 }
+
+void drawBackground(CHSV hsv) {
+  for (int i=0; i<NUM_LEDS; i++) {
+    leds[i] = hsv;
+  }
+  
+}
+
+void animate(int &frameIndex, CHSV pen) {
+  frameIndex = frameIndex % 4;
+  int *frame = pp[frameIndex];
+  draw(frame, pen);
+  frameIndex = (frameIndex + 1) % 4;
+}
+
+void draw(int *frame, CHSV pen) {
+  for (int i=0; i<frame[0]; i++) {
+    leds[frame[i + 1]] = pen;
+  }
+  
+}
+
