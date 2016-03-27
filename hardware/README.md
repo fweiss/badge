@@ -39,7 +39,7 @@ Abundant charge, clunky 13.2 mm thick, inexpensive. Could use with smaller LiPo 
 * Input: 2000mA @ 5 V
 * Output: 2400 mA @ 5 V (split outlets)
 * Peak current: ??
-* Size: 100 x 66 x 7.5 (mm)
+* Size: 100 x 66 x 13 (mm)
 * Weight:
 * Extra: charge % display, satin charcoal aluminum case
 
@@ -57,12 +57,12 @@ It's very thin, 6 mm. It's not expensive.
 
 20160326 $14.95 @ Central Computers*
 
-## Antc Lifebar
+## Antec Lifebar
 
 This is the one that Mike got.
 
 ## Sparkfun ESP8266 Thing Dev
 
-Highly integrated WiFi, CPU, and IO. built in FTDI and micro USB, built-in 3.3 V regulator, pass-through 5V.
+Highly integrated WiFi, CPU, and I/O. built in FTDI and micro USB, built-in 3.3 V regulator, pass-through 5V.
 
-Development is eased by Being able to program over  micro-USB directly with the integrated FTDI chip.
+Development is eased by being able to program over micro-USB directly with the integrated FTDI chip.
