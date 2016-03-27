@@ -2,7 +2,7 @@
 
 #define NUM_LEDS 64
 #define PIN 6
-#define FRAME_PERIOD_MILLIS 400
+#define FRAME_PERIOD_MILLIS 200
 
 CRGB leds[NUM_LEDS];
 int hue = 0;
@@ -34,10 +34,24 @@ public:
   }
 };
 
-Animation box1 = { 4, 0, pp, CHSV(27, 255, val) };
-Animation box2 = { 4, 1, pp, CHSV(170, 255, val) };
-Animation box3 = { 4, 2, pp, CHSV(0, 0, vv /2) };
-Animation box4 = { 4, 3, pp, CHSV(120, 255, val) }; 
+CHSV white(0, 0, val);
+CHSV black(0, 0, 0);
+CHSV red(0, 255, val);
+CHSV orange(80, 255, val);
+CHSV yellow(64, 255, val);
+CHSV green(96, 255, val);
+CHSV blue(160, 255, val);
+CHSV violet(192, 255, val);
+CHSV pink(224, 255, val);
+
+//Animation box1 = { 4, 0, pp, CHSV(27, 255, val) };
+//Animation box2 = { 4, 1, pp, CHSV(170, 255, val) };
+//Animation box3 = { 4, 2, pp, CHSV(0, 0, vv /2) };
+//Animation box4 = { 4, 3, pp, CHSV(120, 255, val) }; 
+Animation box1 = { 4, 0, pp, red };
+Animation box2 = { 4, 1, pp, orange };
+Animation box3 = { 4, 2, pp, green };
+Animation box4 = { 4, 3, pp, blue }; 
 
 void setup() {
   FastLED.addLeds<WS2812, PIN>(leds, NUM_LEDS);
