@@ -66,3 +66,9 @@ This is the one that Mike got.
 Highly integrated WiFi, CPU, and I/O. built in FTDI and micro USB, built-in 3.3 V regulator, pass-through 5V.
 
 Development is eased by being able to program over micro-USB directly with the integrated FTDI chip.
+
+## Adafruit Feather 32u4 Bluefruit LE
+
+Highly integrated ATmega32u4, MDBT40 bluetooth, LiPo charger.
+
+20160328 $29.95 @ Adafruit (out of stock)
