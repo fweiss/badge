@@ -4,7 +4,7 @@
 
 #include <ESP8266WiFi.h>
 
-const char WiFiAPPSK[] = "sparfun";
+const char WiFiAPPSK[] = "sparkfun";
 
 #define PIN 5
 #define NUMPIXELS 64
