@@ -14,7 +14,7 @@ On the smart phone, look for an access point that starts with "ESP8266 Thing". C
 
 ## Changing the text
 
-Open this url: [http://192.168.4.1]. The browser will display a text box and a submit button.
+Open this url from the smart phone: [http://192.168.4.1]. The browser will display a text box and a submit button.
 
 Tap the text box and enter a message. Click Submit. The message you entered will be displayed on the ticker.
 
