@@ -5,7 +5,7 @@ via WiFi.
 
 ## Hardware
 
-This requires an ESP8266-based device. It was tested with a Sparkfun ESP82666 Thing Dev device. It ought to run on any
+This requires an ESP8266-based device. It was tested with a Sparkfun ESP8266 Thing Dev device. It ought to run on any
 device which uses the ESP8266 chip.
 
 ## WiFi connection
