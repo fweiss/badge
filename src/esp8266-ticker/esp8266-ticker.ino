@@ -17,12 +17,12 @@ Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(8, 8, PIN,
 
 int x = 0;
 String text = "once upon a time, in a land far, far away";
+uint32_t color = matrix.Color(40, 40, 40);
 
 WiFiServer server(80);
 
 void setup() {
   matrix.begin();
-  matrix.setTextColor(matrix.Color(40, 40, 40));
   matrix.setTextWrap(false);
 
   setupWifiAccessPoint();
@@ -36,6 +36,7 @@ void loop() {
   }
   
   matrix.fillScreen(0);
+  matrix.setTextColor(color);
   matrix.setCursor(-x, 0);
   matrix.print(text);
   matrix.show();
@@ -71,25 +72,34 @@ void handleClient(WiFiClient &client) {
   client.flush();
 
   if (req.indexOf("/submit") != -1) {
-    int p1 = req.indexOf("?text=");
-    int p2 = req.lastIndexOf(" ");
-    if (p1 > -1 && p2 > -1) {
-      p1 += 6;
-      if (p1 < p2) {
-          String newText = req.substring(p1, p2);
-          urlDecode(newText);
-          text = newText;
-      }
+    String uri = parseUri(req);
+    String newText = parseQueryParam(uri, "text");
+    String newColor = parseQueryParam(uri, "color");
+    if (newColor.equals("white")) {
+          color = matrix.Color(40, 40, 40);
+    }
+    if (newColor.equals("red")) {
+          color = matrix.Color(120, 0, 0);
+    }
+    if (newColor.equals("blue")) {
+          color = matrix.Color(0, 0, 120);
+    }
+    if (newColor.equals("green")) {
+          color = matrix.Color(0, 120, 0);
+    }
+    if (newText.length() > 0) {
+      text = newText;
     }
   }
   client.flush();
 
   // Prepare the response. Start with the common header:
-  String style =
-    "body { font-size: 200%; }"
-    "div { width: auto; padding: 1em 0; }"
-    "a { display: block; }"
-    "button { width: 100%; height: 10%; margin: 1em 0; font-size: 100%; font-weight: bold; }";
+  String style = "\
+    body { font-size: 200%; }\
+    div { width: auto; padding: 1em 0; }\
+    a { display: block; }\
+    button { width: 100%; height: 10%; margin: 1em 0; font-weight: bold; }\
+    input, select { margin: 1em; }";
 
   String s = "HTTP/1.1 200 OK\r\n";
   s += "Content-Type: text/html\r\n\r\n";
@@ -100,7 +110,16 @@ void handleClient(WiFiClient &client) {
   s += "</head>";
   s += "<body>";
 
-  s += "<form method=\"get\" action=\"submit\"><input type=\"text\" name=\"text\"/><input type=\"submit\"/></form>";
+  s += "<form method=\"get\" action=\"submit\">";
+  s += "<input type=\"text\" name=\"text\"/>";
+  s += "<select name=\"color\">";
+  s += "<option value=\"white\">White</option>";
+  s += "<option value=\"red\">Red</option>";
+  s += "<option value=\"green\">Green</option>";
+  s += "<option value=\"blue\">Blue</option>";
+  s += "</select>";
+  s += "<input type=\"submit\"/>";
+  s += "</form>";
   
   s += "</body></html>\n";
 
@@ -108,6 +127,29 @@ void handleClient(WiFiClient &client) {
   client.print(s);
 }
 
+String parseUri(String request) {
+  int p1 = request.indexOf(" ");
+  int p2 = request.lastIndexOf(" ");
+  return p2 > p1 ? request.substring(p1 + 1, p2) : "";
+}
+
+String parseQueryParam(String uri, String name) {
+  // handle only single value
+  int p1 = -1;
+  int p2 = -1;
+  p1 = uri.indexOf("?" + name + "=");
+  p1 = p1 > -1 ? p1 : uri.indexOf("&" + name + "=");
+  if (p1 > -1) {
+    p1 += name.length() + 2;
+    p2 =uri.indexOf("&", p1);
+    String value = p2 > -1 ? uri.substring(p1, p2) : uri.substring(p1);
+    urlDecode(value);
+    return value;
+  }
+  return "";
+}
+
+// TODO add support for accented characters, such as %1F
 void urlDecode(String &param) {
   param.replace("+"," ");
   param.replace("%21","!");
