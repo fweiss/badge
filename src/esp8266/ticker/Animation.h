@@ -19,10 +19,14 @@ public:
     text = newText;
     offset = 0;
   }
+  void setTextColor(uint32_t color) {
+    textColor = color;
+  }
   void update(unsigned long now) {
     if (now >= lastTime + period) {
       lastTime = now;
       matrix->fillScreen(textBackgroundColor);
+      matrix->setTextColor(textColor);
       matrix->setCursor(-offset, 0);
       matrix->print(text);
       matrix->show();

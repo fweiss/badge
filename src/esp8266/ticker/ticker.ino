@@ -68,6 +68,12 @@ String page = "<! DOCTYPE html>\
     <div>\
       <form action=\"/message\" method=\"get\">\
         <input type=\"text\" name=\"text\"/>\
+        <select name=\"color\">\
+          <option value=\"white\">White</option>\
+          <option value=\"red\">Red</option>\
+          <option value=\"green\">Green</option>\
+          <option value=\"blue\">Blue</option>\
+        </select>\
         <button id=\"submit\">Set Message</button>\
       </form>\
     </div>\
@@ -77,6 +83,19 @@ String page = "<! DOCTYPE html>\
 void handleMessage() {
   String newText = server.arg("text");
   lovely.setText(newText);
+  String newColor = server.arg("color");
+  if (newColor.equals("white")) {
+    lovely.setTextColor(matrix.Color(40, 40, 40));
+  }
+  if (newColor.equals("red")) {
+    lovely.setTextColor(matrix.Color(120, 0, 0));
+  }
+  if (newColor.equals("blue")) {
+      lovely.setTextColor(matrix.Color(0, 0, 120));
+  }
+  if (newColor.equals("green")) {
+      lovely.setTextColor(matrix.Color(0, 120, 0));
+  }
   server.send(200, "text/html", page);
 }
 
