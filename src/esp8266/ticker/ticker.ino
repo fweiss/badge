@@ -7,6 +7,8 @@
 #include <ESP8266WebServer.h>
 
 #include "TickerAnimation.h"
+#include "StackAnimation.h"
+#include "PlasmaAnimation.h"
 
 const char* ssid = "Thing";
 const char* password = "sparkfun";
@@ -27,6 +29,8 @@ uint32_t textBackgroundColor;
 uint32_t textColor;
 
 TickerAnimation lovely(matrix);
+StackAnimation stack(matrix);
+PlasmaAnimation plasma(matrix);
 
 void setup() {
   lovely.textColor = matrix.Color(40, 40, 40);
@@ -46,7 +50,10 @@ void setup() {
 
 void loop() {
   server.handleClient();
-  lovely.update(millis());
+//  lovely.update(millis());
+//  stack.update(millis());
+  plasma.update(millis());
+  matrix.show();
   delay(1);
 }
 

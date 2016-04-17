@@ -53,6 +53,8 @@ https://github.com/adafruit/Adafruit_NeoPixel
 
 plus matrix, gfx
 
+https://learn.adafruit.com/adafruit-gfx-graphics-library/overview
+
 ### SPIFFS
 
 On ESP8266, binary files can be uploaded to the flash and read from the program.

@@ -33,7 +33,6 @@ void TickerAnimation::draw() {
   matrix.setTextColor(textColor);
   matrix.setCursor(-offset, 0);
   matrix.print(text);
-  matrix.show();
   offset = (offset + 1) % (text.length() * PIXELS_PER_CHAR);      
 }
 
