@@ -6,7 +6,7 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
 
-#include "Animation.h"
+#include "TickerAnimation.h"
 
 const char* ssid = "Thing";
 const char* password = "sparkfun";
@@ -26,7 +26,7 @@ Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(8, 8, PIN,
 uint32_t textBackgroundColor;
 uint32_t textColor;
 
-Animation lovely(&matrix);
+TickerAnimation lovely(matrix);
 
 void setup() {
   lovely.textColor = matrix.Color(40, 40, 40);
