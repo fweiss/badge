@@ -31,6 +31,20 @@ public:
     Point d = { a.x - b.x, a.y - b.y };
     return sqrt(d.x * d.x + d.y * d.y);
   }
+  uint32_t warp(float d1, float d2, float d3) {
+      const float scale = 60.0;
+      const float base = 20.0;
+
+      float r = (sin(d1 * d2 * 0.1) + 1.0) * scale + base;
+      float g = (sin(d2 * d3 * 0.1) + 1.0) * scale + base;
+      float b = (sin(d3 * d1 * 0.1) + 1.0) * scale + base;
+
+      // make the dominant color more dominant      
+      if (r < 0) r = 0; if (r > 511) r = 511;
+      if (g < 0) r = 0; if (g > 511) g = 511;
+      if (b < 0) b = 0; if (b > 511) b = 511;
+      return matrix.Color(r/2, g/2, b/2);
+  }
 };
 
 void PlasmaAnimation::draw() {
@@ -55,19 +69,7 @@ void PlasmaAnimation::draw() {
       float d1 = distance(p1, rc);
       float d2 = distance(p2, rc);
       float d3 = distance(p3, rc);
-      const float scale = 60.0;
-      const float base = 20.0;
-      float r = (sin(d1 * d2 * 0.1) + 1.0) * scale + base;
-      float g = (sin(d2 * d3 * 0.1) + 1.0) * scale + base;
-      float b = (sin(d3 * d1 * 0.1) + 1.0) * scale + base;
-
-      // make the dominant color more dominant
-      
-      
-      if (r < 0) r = 0; if (r > 511) r = 511;
-      if (g < 0) r = 0; if (g > 511) g = 511;
-      if (b < 0) b = 0; if (b > 511) b = 511;
-      uint32_t color = matrix.Color(r/2, g/2, b/2);
+      uint32_t color = warp(d1, d2, d3);
       matrix.drawPixel(row, col, color);
     }
   }

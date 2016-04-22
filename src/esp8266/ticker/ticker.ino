@@ -9,6 +9,7 @@
 #include "TickerAnimation.h"
 #include "StackAnimation.h"
 #include "PlasmaAnimation.h"
+#include "UberAnimation.h"
 
 const char* ssid = "Thing";
 const char* password = "sparkfun";
@@ -37,6 +38,10 @@ void setup() {
   lovely.textBackgroundColor = matrix.Color(0, 0, 0);
   lovely.textColor = matrix.Color(40, 0, 0);
 //  textBackgroundColor = matrix.Color(10, 10, 10);
+
+  lovely.start();
+//  plasma.start();
+//  stack.start();
     
   matrix.begin();
   matrix.setTextColor(textColor);
@@ -50,10 +55,12 @@ void setup() {
 
 void loop() {
   server.handleClient();
-//  lovely.update(millis());
-//  stack.update(millis());
+  
+  lovely.update(millis());
+  stack.update(millis());
   plasma.update(millis());
   matrix.show();
+  
   delay(1);
 }
 

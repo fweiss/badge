@@ -9,14 +9,21 @@ class Animation {
 private:
   unsigned long lastTime;
   unsigned long period;
+  bool running = false;
 protected:
   Adafruit_NeoMatrix &matrix;
   virtual void draw() {
   }
 public:
   Animation(Adafruit_NeoMatrix &matrix);
+  void start() {
+    running = true;
+  }
+  void stop() {
+    running = false;
+  }
   void update(unsigned long now) {
-    if (now >= lastTime + period) {
+    if (running && now >= lastTime + period) {
       lastTime = now;
       draw();
     }
