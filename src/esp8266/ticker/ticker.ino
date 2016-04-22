@@ -24,22 +24,20 @@ Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(8, 8, PIN,
   NEO_MATRIX_TOP + NEO_MATRIX_LEFT + NEO_MATRIX_ROWS + NEO_MATRIX_PROGRESSIVE,
   NEO_GRB + NEO_KHZ800);
 
-//int x = 0;
-//String text = "once upon a time, in a galaxy far, far away";
 uint32_t textBackgroundColor;
 uint32_t textColor;
 
-TickerAnimation lovely(matrix);
+TickerAnimation ticker(matrix);
 StackAnimation stack(matrix);
 PlasmaAnimation plasma(matrix);
 
 void setup() {
-  lovely.textColor = matrix.Color(40, 40, 40);
-  lovely.textBackgroundColor = matrix.Color(0, 0, 0);
-  lovely.textColor = matrix.Color(40, 0, 0);
-//  textBackgroundColor = matrix.Color(10, 10, 10);
+  ticker.setText("Once upon a time, in a galaxy far, far away");
+  ticker.textBackgroundColor = matrix.Color(0, 0, 0);
+  ticker.textColor = matrix.Color(40, 0, 0);
 
-  lovely.start();
+  // until we get sequencer, manually start just one animation
+  ticker.start();
 //  plasma.start();
 //  stack.start();
     
@@ -56,7 +54,7 @@ void setup() {
 void loop() {
   server.handleClient();
   
-  lovely.update(millis());
+  ticker.update(millis());
   stack.update(millis());
   plasma.update(millis());
   matrix.show();
@@ -96,19 +94,19 @@ String page = "<! DOCTYPE html>\
 
 void handleMessage() {
   String newText = server.arg("text");
-  lovely.setText(newText);
+  ticker.setText(newText);
   String newColor = server.arg("color");
   if (newColor.equals("white")) {
-    lovely.setTextColor(matrix.Color(40, 40, 40));
+    ticker.setTextColor(matrix.Color(40, 40, 40));
   }
   if (newColor.equals("red")) {
-    lovely.setTextColor(matrix.Color(120, 0, 0));
+    ticker.setTextColor(matrix.Color(120, 0, 0));
   }
   if (newColor.equals("blue")) {
-      lovely.setTextColor(matrix.Color(0, 0, 120));
+      ticker.setTextColor(matrix.Color(0, 0, 120));
   }
   if (newColor.equals("green")) {
-      lovely.setTextColor(matrix.Color(0, 120, 0));
+      ticker.setTextColor(matrix.Color(0, 120, 0));
   }
   server.send(200, "text/html", page);
 }
