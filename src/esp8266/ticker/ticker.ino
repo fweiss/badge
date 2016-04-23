@@ -1,4 +1,6 @@
 
+#include "config.h"
+
 #include <Adafruit_GFX.h>
 #include <Adafruit_NeoMatrix.h>
 #include <Adafruit_NeoPixel.h>
@@ -44,6 +46,12 @@ void setup() {
   matrix.begin();
   matrix.setTextColor(textColor);
   matrix.setTextWrap(false);
+
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(wifi_ssid, wifi_pass);
+  while ( WiFi.status() != WL_CONNECTED ) {
+    delay ( 500 );
+  }
 
   server.on("/message", HTTP_GET, handleMessage);
   server.on("/", HTTP_GET, handleRoot);
@@ -114,5 +122,6 @@ void handleMessage() {
 void handleRoot() {
   server.send(200, "text/html", page);
 }
+
 
 
