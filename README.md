@@ -27,10 +27,12 @@ This will not work with the Sparkfun Thing, which has only 512 kB flash.
 
 #### C++11
 
-This project uses array initializers. Youe need to enable C++11 in your Arduino toolchain.
+A number of examples in this project use array initializers. You need to enable C++11 in your Arduino toolchain.
 
-in arduino/hardware/arduino/avr, in the platform.txt file, add "-std=gnu++11 to the end of the property
+In arduino/hardware/arduino/avr, in the platform.txt file, add "-std=gnu++11 to the end of the property
 compiler.cpp.flags
+
+Additional info about initializers in C++11: http://www.informit.com/articles/article.aspx?p=1852519
 
 ### glediator
 

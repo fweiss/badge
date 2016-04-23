@@ -3,15 +3,24 @@
 
 #include "Animation.h"
 
-class UberAnimation : public Animation {
+class UberAnimation {
 private:
-  Animation *tickerAnimation;
-  Animation *plasmaAnimation;
-  
+  unsigned long lastTime;
+  unsigned long period;
+  bool running = false;
+  Animation *ticker;
+  Animation *plasma;
+  Animation *square;
 protected:
+  unsigned int segment;
 public:
-  UberAnimation(Adafruit_NeoMatrix &matrix) : Animation(matrix) {
-    
+  UberAnimation(unsigned long _period) {
+    period = _period;
+  }
+  void add(Animation *_ticker, Animation *_plasma, Animation *_square) {
+    ticker = _ticker;
+    plasma = _plasma;
+    square = _square;
   }
 };
 

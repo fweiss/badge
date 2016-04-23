@@ -13,6 +13,8 @@
 #include "PlasmaAnimation.h"
 #include "UberAnimation.h"
 
+#include "WebPage.h"
+
 const char* ssid = "Thing";
 const char* password = "sparkfun";
 
@@ -32,6 +34,7 @@ uint32_t textColor;
 TickerAnimation ticker(matrix);
 StackAnimation stack(matrix);
 PlasmaAnimation plasma(matrix);
+UberAnimation uberAnimation(1000);
 
 void setup() {
   ticker.setText("Once upon a time, in a galaxy far, far away");
@@ -42,12 +45,14 @@ void setup() {
   ticker.start();
 //  plasma.start();
 //  stack.start();
+
+  uberAnimation.add(&ticker, &plasma, &stack);
     
   matrix.begin();
   matrix.setTextColor(textColor);
   matrix.setTextWrap(false);
 
-  WiFi.mode(WIFI_STA);
+//  WiFi.mode(WIFI_STA);
   WiFi.begin(wifi_ssid, wifi_pass);
   while ( WiFi.status() != WL_CONNECTED ) {
     delay ( 500 );
@@ -73,32 +78,6 @@ void loop() {
 void handleNotFound() {
   server.send(404, "text/plain", "nothing at this URI");
 }
-String page = "<! DOCTYPE html>\
-<html>\
-  <head>\
-    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\
-    <style>\
-      body { font-size: 200%; }\
-      div { width: auto; padding: 1em 0; }\
-      a { display: block; }\
-      button { width: 100%; height: 10%; margin: 1em 0; font-size: 100%; font-weight: bold; }\
-    </style>\
-  </head>\
-  <body>\
-    <div>\
-      <form action=\"/message\" method=\"get\">\
-        <input type=\"text\" name=\"text\"/>\
-        <select name=\"color\">\
-          <option value=\"white\">White</option>\
-          <option value=\"red\">Red</option>\
-          <option value=\"green\">Green</option>\
-          <option value=\"blue\">Blue</option>\
-        </select>\
-        <button id=\"submit\">Set Message</button>\
-      </form>\
-    </div>\
-  </body>\
-</html>";
 
 void handleMessage() {
   String newText = server.arg("text");
