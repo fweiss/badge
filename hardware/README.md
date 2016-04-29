@@ -72,3 +72,11 @@ Development is eased by being able to program over micro-USB directly with the i
 Highly integrated ATmega32u4, MDBT40 bluetooth, LiPo charger.
 
 20160328 $29.95 @ Adafruit (out of stock)
+
+## Olimex MOD-ESP8266-DEV
+
+This is a basic ESP8266+flash development board. It's smaller that either of the Sparkfun boards,
+yet exposes all the ESP8266 I/O pins with 2.54 mm pitch through holes. It's a bit harder to program, as
+it requires holding GPIO0 low during reset.
+
+One really cool thing about it is the 2 MB (yes megabyte) flash, which allows using the the flash as a file system.
