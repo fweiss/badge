@@ -53,10 +53,10 @@ void setup() {
   matrix.setTextWrap(false);
 
 //  WiFi.mode(WIFI_STA);
-  WiFi.begin(wifi_ssid, wifi_pass);
-  while ( WiFi.status() != WL_CONNECTED ) {
-    delay ( 500 );
-  }
+//  WiFi.begin(wifi_ssid, wifi_pass);
+//  while ( WiFi.status() != WL_CONNECTED ) {
+//    delay ( 500 );
+//  }
 
   server.on("/message", HTTP_GET, handleMessage);
   server.on("/", HTTP_GET, handleRoot);
@@ -66,10 +66,12 @@ void setup() {
 
 void loop() {
   server.handleClient();
+
+  uberAnimation.update(millis());
   
-  ticker.update(millis());
-  stack.update(millis());
-  plasma.update(millis());
+//  ticker.update(millis());
+//  stack.update(millis());
+//  plasma.update(millis());
   matrix.show();
   
   delay(1);
@@ -94,6 +96,10 @@ void handleMessage() {
   }
   if (newColor.equals("green")) {
       ticker.setTextColor(matrix.Color(0, 120, 0));
+  }
+  String tickerCheck = server.arg("ticker");
+  if (tickerCheck.equals("on")) {
+    uberAnimation.setCurrent(&ticker);
   }
   server.send(200, "text/html", page);
 }
