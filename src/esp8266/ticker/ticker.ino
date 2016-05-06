@@ -15,6 +15,7 @@
 #include "TickerAnimation.h"
 #include "StackAnimation.h"
 #include "PlasmaAnimation.h"
+#include "PixelAnimation.h"
 #include "UberAnimation.h"
 
 #include "WebPage.h"
@@ -40,6 +41,7 @@ uint32_t textColor;
 TickerAnimation ticker(matrix);
 StackAnimation stack(matrix);
 PlasmaAnimation plasma(matrix);
+PixelAnimation pixel(matrix);
 UberAnimation uberAnimation(1000);
 
 void setup() {
@@ -53,7 +55,7 @@ void setup() {
 //  stack.start();
 
   uberAnimation.add(&ticker, &plasma, &stack);
-  uberAnimation.setCurrent(&ticker);
+  uberAnimation.setCurrent(&pixel);
     
   matrix.begin();
   matrix.setTextColor(textColor);
