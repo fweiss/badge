@@ -22,14 +22,12 @@ public:
     ticker = _ticker;
     plasma = _plasma;
     square = _square;
-    current = plasma;
-    current->start();
   }
   void update(unsigned long millis) {
     current->update(millis);
   }
   void setCurrent(Animation *select) {
-    current->stop();
+//    current->stop();
     current = select;
     current->start();
   }

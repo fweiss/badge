@@ -1,12 +1,16 @@
 
 #include "config.h"
 
+#define NOCONTROLLER
+
 #include <Adafruit_GFX.h>
 #include <Adafruit_NeoMatrix.h>
 #include <Adafruit_NeoPixel.h>
 
+#ifdef WEBCONTROLLER
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
+#endif
 
 #include "TickerAnimation.h"
 #include "StackAnimation.h"
@@ -18,7 +22,9 @@
 const char* ssid = "Thing";
 const char* password = "sparkfun";
 
+#ifdef WEBCONTROLLER
 ESP8266WebServer server(80);
+#endif
 
 const int PIN = 5;
 const int NUMPIXELS = 64;
@@ -26,7 +32,7 @@ const int DELAY = 100;
 
 Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(8, 8, PIN, 
   NEO_MATRIX_TOP + NEO_MATRIX_LEFT + NEO_MATRIX_ROWS + NEO_MATRIX_PROGRESSIVE,
-  NEO_GRB + NEO_KHZ800);
+  NEO_GRB + NEO_KHZ400);
 
 uint32_t textBackgroundColor;
 uint32_t textColor;
@@ -47,11 +53,13 @@ void setup() {
 //  stack.start();
 
   uberAnimation.add(&ticker, &plasma, &stack);
+  uberAnimation.setCurrent(&ticker);
     
   matrix.begin();
   matrix.setTextColor(textColor);
   matrix.setTextWrap(false);
 
+#ifdef WEBCONTROLLER
 //  WiFi.mode(WIFI_STA);
 //  WiFi.begin(wifi_ssid, wifi_pass);
 //  while ( WiFi.status() != WL_CONNECTED ) {
@@ -62,10 +70,14 @@ void setup() {
   server.on("/", HTTP_GET, handleRoot);
   server.onNotFound(handleNotFound);
   server.begin();
+#endif
+
 }
 
 void loop() {
+  #ifdef WEBCONTROLLER
   server.handleClient();
+  #endif
 
   uberAnimation.update(millis());
   
@@ -77,6 +89,7 @@ void loop() {
   delay(1);
 }
 
+#ifdef WEBCONTROLLER
 void handleNotFound() {
   server.send(404, "text/plain", "nothing at this URI");
 }
@@ -107,6 +120,7 @@ void handleMessage() {
 void handleRoot() {
   server.send(200, "text/html", page);
 }
+#endif
 
 
 
