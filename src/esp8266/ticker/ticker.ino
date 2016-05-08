@@ -42,7 +42,7 @@ TickerAnimation ticker(matrix);
 StackAnimation stack(matrix);
 PlasmaAnimation plasma(matrix);
 PixelAnimation pixel(matrix);
-UberAnimation uberAnimation(1000);
+UberAnimation uberAnimation(25000);
 
 void setup() {
   ticker.setText("Once upon a time, in a galaxy far, far away");
@@ -54,7 +54,7 @@ void setup() {
 //  plasma.start();
 //  stack.start();
 
-  uberAnimation.add(&ticker, &plasma, &stack);
+  uberAnimation.add(&ticker, &plasma, &pixel);
   uberAnimation.setCurrent(&pixel);
     
   matrix.begin();
