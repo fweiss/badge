@@ -24,7 +24,7 @@ public:
     text = "strong";
     offset = 0;
     textBackgroundColor = matrix.Color(0, 0, 0);
-    textColor = matrix.Color(40, 0, 0);
+    textColor = matrix.Color(0, 60, 0);
   }  
 };
 
@@ -33,7 +33,8 @@ void TickerAnimation::draw() {
   matrix.setTextColor(textColor);
   matrix.setCursor(-offset, 0);
   matrix.print(text);
-  offset = (offset + 1) % (text.length() * PIXELS_PER_CHAR);      
+  offset = (offset + 1) % (text.length() * PIXELS_PER_CHAR);
+  matrix.show();     
 }
 
 #endif TICKERANIMATION_H

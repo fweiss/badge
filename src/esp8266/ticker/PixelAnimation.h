@@ -41,6 +41,7 @@ void PixelAnimation::drawPixels(const int* pixels) {
   for (int i=0; i<pixels[0]; i++) {
     matrix.setPixelColor(pixels[i + 1], color);
   }
+  matrix.show();
 }
 
 #endif PIXELANIMATION_H

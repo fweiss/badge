@@ -1,7 +1,7 @@
 
 #include "config.h"
 
-#define NOCONTROLLER
+#define WEBCONTROLLER
 
 #include <Adafruit_GFX.h>
 #include <Adafruit_NeoMatrix.h>
@@ -47,7 +47,7 @@ UberAnimation uberAnimation(25000);
 void setup() {
   ticker.setText("Once upon a time, in a galaxy far, far away");
   ticker.textBackgroundColor = matrix.Color(0, 0, 0);
-  ticker.textColor = matrix.Color(40, 0, 0);
+  ticker.textColor = matrix.Color(0, 60, 0);
 
   // until we get sequencer, manually start just one animation
   ticker.start();
@@ -86,7 +86,8 @@ void loop() {
 //  ticker.update(millis());
 //  stack.update(millis());
 //  plasma.update(millis());
-  matrix.show();
+
+//  matrix.show();
   
   delay(1);
 }

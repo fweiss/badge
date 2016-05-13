@@ -72,7 +72,7 @@ void PlasmaAnimation::draw() {
       matrix.drawPixel(row, col, color);
     }
   }
-  
+  matrix.show();
 }
 
 #endif PLASMAANIMATION_H
