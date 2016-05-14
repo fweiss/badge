@@ -26,12 +26,23 @@ public:
     plasma = _plasma;
     square = _square;
   }
+  Animation* getByIndex(int s) {
+    return s == 1 ? square : s == 2 ? plasma : ticker; 
+  }
   void update(unsigned long now) {
     if (now > lastTime + period) {
       lastTime = now;
-      int s = index % 3;
-      setCurrent(s == 1 ? square : s == 2 ? plasma : ticker );
-      index++;
+      
+      int s = (index + 1) % 3;
+      for (int i=0; i<3; i++) {
+        int candIndex = (s + i) % 3;
+        Animation* cand = getByIndex(candIndex);
+        if (cand->isRunning()) {
+          setCurrent(cand);
+          index = candIndex;
+          break;
+        }
+      }
     }
     current->update(now);
   }

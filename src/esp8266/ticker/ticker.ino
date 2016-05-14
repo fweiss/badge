@@ -56,6 +56,10 @@ void setup() {
 
   uberAnimation.add(&ticker, &plasma, &pixel);
   uberAnimation.setCurrent(&pixel);
+  ticker.start();
+  stack.start();
+  plasma.start();
+  pixel.start();
     
   matrix.begin();
   matrix.setTextColor(textColor);
@@ -82,13 +86,7 @@ void loop() {
   #endif
 
   uberAnimation.update(millis());
-  
-//  ticker.update(millis());
-//  stack.update(millis());
-//  plasma.update(millis());
 
-//  matrix.show();
-  
   delay(1);
 }
 

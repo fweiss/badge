@@ -42,7 +42,7 @@ public:
       if (r < 0) r = 0; if (r > 511) r = 511;
       if (g < 0) r = 0; if (g > 511) g = 511;
       if (b < 0) b = 0; if (b > 511) b = 511;
-      return matrix.Color(r/2, g/2, b/2);
+      return matrix.Color(r/1.6, g/2.2, b/2.2);
   }
 };
 

@@ -22,6 +22,9 @@ public:
   void stop() {
     running = false;
   }
+  boolean isRunning() {
+    return running;
+  }
   void update(unsigned long now) {
     if (running && now >= lastTime + period) {
       lastTime = now;
