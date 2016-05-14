@@ -1,7 +1,7 @@
 
 #include "config.h"
 
-#define WEBCONTROLLER
+#define NOCONTROLLER
 
 #include <Adafruit_GFX.h>
 #include <Adafruit_NeoMatrix.h>
@@ -16,6 +16,7 @@
 #include "StackAnimation.h"
 #include "PlasmaAnimation.h"
 #include "PixelAnimation.h"
+#include "BitmapAnimation.h"
 #include "UberAnimation.h"
 
 #include "WebPage.h"
@@ -42,6 +43,7 @@ TickerAnimation ticker(matrix);
 StackAnimation stack(matrix);
 PlasmaAnimation plasma(matrix);
 PixelAnimation pixel(matrix);
+BitmapAnimation bitmap(matrix);
 UberAnimation uberAnimation(25000);
 
 void setup() {
@@ -54,12 +56,13 @@ void setup() {
 //  plasma.start();
 //  stack.start();
 
-  uberAnimation.add(&ticker, &plasma, &pixel);
-  uberAnimation.setCurrent(&pixel);
+  uberAnimation.add(&ticker, &plasma, &bitmap);
+  uberAnimation.setCurrent(&bitmap);
   ticker.start();
   stack.start();
   plasma.start();
   pixel.start();
+  bitmap.start();
     
   matrix.begin();
   matrix.setTextColor(textColor);
