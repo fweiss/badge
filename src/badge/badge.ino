@@ -1,6 +1,9 @@
 
-#include "config.h"
+//#include "config.h"
 
+// options for remote controller
+// NOCONTROLLER - no remote
+// WEBCONTROLLER - esp8266
 #define NOCONTROLLER
 
 #include <Adafruit_GFX.h>
