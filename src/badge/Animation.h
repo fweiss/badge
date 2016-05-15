@@ -26,7 +26,7 @@ public:
     return running;
   }
   void update(unsigned long now) {
-    if (running && now >= lastTime + period) {
+    if (lastTime == 0 || running &&  now >= lastTime + period) {
       lastTime = now;
       draw();
     }

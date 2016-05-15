@@ -3,26 +3,28 @@
 
 #include "Animation.h"
 
-const int PIXELS_PER_CHAR = 6;
 
 class TickerAnimation : public Animation {
+private:
+  unsigned long scrollOffset;
+  unsigned long scrollLength;
 protected:
   String text;
-  unsigned long offset;
   void draw() override;
+  const int pixelsPerChar = 6;
 public:
   uint32_t textBackgroundColor;
   uint32_t textColor;
   void setText(String newText) {
     text = newText;
-    offset = 0;
+    scrollOffset = 0;
+    scrollLength = (text.length() + 2) * pixelsPerChar;
   }
   void setTextColor(uint32_t color) {
     textColor = color;
   }
   TickerAnimation(Adafruit_NeoMatrix &m) : Animation(m) {
-    text = "strong";
-    offset = 0;
+    setText("strong");
     textBackgroundColor = matrix.Color(0, 0, 0);
     textColor = matrix.Color(0, 60, 0);
   }  
@@ -31,10 +33,10 @@ public:
 void TickerAnimation::draw() {
   matrix.fillScreen(textBackgroundColor);
   matrix.setTextColor(textColor);
-  matrix.setCursor(-offset, 0);
+  matrix.setCursor(pixelsPerChar - scrollOffset, 0); // dwell to scroll in first char
   matrix.print(text);
-  offset = (offset + 1) % (text.length() * PIXELS_PER_CHAR);
   matrix.show();     
+  scrollOffset = (scrollOffset + 1) % scrollLength;
 }
 
 #endif TICKERANIMATION_H

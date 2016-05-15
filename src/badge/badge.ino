@@ -44,20 +44,15 @@ StackAnimation stack(matrix);
 PlasmaAnimation plasma(matrix);
 PixelAnimation pixel(matrix);
 BitmapAnimation bitmap(matrix);
-UberAnimation uberAnimation(25000);
+UberAnimation uberAnimation(26000);
 
 void setup() {
   ticker.setText("Once upon a time, in a galaxy far, far away");
   ticker.textBackgroundColor = matrix.Color(0, 0, 0);
   ticker.textColor = matrix.Color(0, 60, 0);
 
-  // until we get sequencer, manually start just one animation
-  ticker.start();
-//  plasma.start();
-//  stack.start();
-
   uberAnimation.add(&ticker, &plasma, &bitmap);
-  uberAnimation.setCurrent(&bitmap);
+//  uberAnimation.setCurrent(&bitmap);
   ticker.start();
   stack.start();
   plasma.start();

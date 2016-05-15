@@ -30,7 +30,7 @@ public:
     return s == 1 ? square : s == 2 ? plasma : ticker; 
   }
   void update(unsigned long now) {
-    if (now > lastTime + period) {
+    if (lastTime == 0 || now > lastTime + period) {
       lastTime = now;
       
       int s = (index + 1) % 3;
