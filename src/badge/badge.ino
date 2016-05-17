@@ -41,9 +41,6 @@ Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(8, 8, PIN,
   NEO_MATRIX_TOP + NEO_MATRIX_LEFT + NEO_MATRIX_ROWS + NEO_MATRIX_PROGRESSIVE,
   NEO_GRB + NEO_KHZ400);
 
-uint32_t textBackgroundColor;
-uint32_t textColor;
-
 TickerAnimation ticker(matrix);
 StackAnimation stack(matrix);
 PlasmaAnimation plasma(matrix);
@@ -65,8 +62,6 @@ void setup() {
   face.start();
     
   matrix.begin();
-  matrix.setTextColor(textColor);
-  matrix.setTextWrap(false);
 
 #ifdef WEBCONTROLLER
 //  WiFi.mode(WIFI_STA);

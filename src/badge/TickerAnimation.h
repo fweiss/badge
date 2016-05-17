@@ -33,6 +33,7 @@ public:
 void TickerAnimation::draw() {
   matrix.fillScreen(textBackgroundColor);
   matrix.setTextColor(textColor);
+  matrix.setTextWrap(false);
   matrix.setCursor(pixelsPerChar - scrollOffset, 0); // dwell to scroll in first char
   matrix.print(text);
   matrix.show();     
