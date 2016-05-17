@@ -20,6 +20,8 @@
 #include "PlasmaAnimation.h"
 #include "PixelAnimation.h"
 #include "BitmapAnimation.h"
+#include "FaceAnimation.h"
+#include "AumAnimation.h"
 #include "UberAnimation.h"
 
 #include "WebPage.h"
@@ -46,7 +48,8 @@ TickerAnimation ticker(matrix);
 StackAnimation stack(matrix);
 PlasmaAnimation plasma(matrix);
 PixelAnimation pixel(matrix);
-BitmapAnimation bitmap(matrix);
+//BitmapAnimation bitmap(matrix);
+AumAnimation face(matrix);
 UberAnimation uberAnimation(26000);
 
 void setup() {
@@ -54,13 +57,12 @@ void setup() {
   ticker.textBackgroundColor = matrix.Color(0, 0, 0);
   ticker.textColor = matrix.Color(0, 60, 0);
 
-  uberAnimation.add(&ticker, &plasma, &bitmap);
-//  uberAnimation.setCurrent(&bitmap);
+  uberAnimation.add(&ticker, &plasma, &face);
   ticker.start();
   stack.start();
   plasma.start();
   pixel.start();
-  bitmap.start();
+  face.start();
     
   matrix.begin();
   matrix.setTextColor(textColor);
