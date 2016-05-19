@@ -8,13 +8,10 @@ private:
   unsigned long lastTime;
   unsigned long period;
   bool running = false;
-  Animation *__ticker;
-  Animation *mplasma;
-  Animation *square;
-  Animation *current;
   int index;
   static Animation *animations[];
   int animationsSize;
+  Animation *current;
 protected:
   unsigned int segment;
 public:
@@ -29,28 +26,25 @@ public:
       }
     }
   }
-  void add(Animation *_ticker, Animation *_plasma, Animation *_square) {
-    __ticker = _ticker;
-    mplasma = _plasma;
-    square = _square;
-  }
-  Animation* getByIndex(int s) {
-//    return s == 1 ? square : s == 2 ? mplasma : __ticker;
-    return animations[s]; 
+  int findNextRunningIndex() {
+    int s = (index + 1) % animationsSize;
+    for (int i=0; i<animationsSize; i++) {
+      int candIndex = (s + i) % animationsSize;
+      Animation* cand = animations[candIndex];
+      if (cand->isRunning()) {
+        return candIndex;
+      }
+    }
+    return -1;
   }
   void update(unsigned long now) {
     if (lastTime == 0 || now > lastTime + period) {
       lastTime = now;
-      
-      int s = (index + 1) % animationsSize;
-      for (int i=0; i<animationsSize; i++) {
-        int candIndex = (s + i) % animationsSize;
-        Animation* cand = getByIndex(candIndex);
-        if (cand->isRunning()) {
-          setCurrent(cand);
-          index = candIndex;
-          break;
-        }
+
+      int nextIndex = findNextRunningIndex();
+      if (nextIndex > -1) {
+        setCurrent(animations[nextIndex]);
+        index = nextIndex;
       }
     }
     current->update(now);

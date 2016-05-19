@@ -56,7 +56,7 @@ void setup() {
   ticker.textBackgroundColor = matrix.Color(0, 0, 0);
   ticker.textColor = matrix.Color(0, 60, 0);
 
-  uberAnimation.add(&ticker, &plasma, &face);
+  // comment out any to skip on startup
   ticker.start();
   stack.start();
   plasma.start();
