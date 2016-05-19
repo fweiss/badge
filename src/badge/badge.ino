@@ -45,9 +45,11 @@ TickerAnimation ticker(matrix);
 StackAnimation stack(matrix);
 PlasmaAnimation plasma(matrix);
 PixelAnimation pixel(matrix);
-//BitmapAnimation bitmap(matrix);
-AumAnimation face(matrix);
-UberAnimation uberAnimation(26000);
+FaceAnimation face(matrix);
+AumAnimation sacred(matrix);
+//UberAnimation uberAnimation(26000);
+UberAnimation uberAnimation(5000);
+
 
 void setup() {
   ticker.setText("Once upon a time, in a galaxy far, far away");
@@ -60,6 +62,7 @@ void setup() {
   plasma.start();
   pixel.start();
   face.start();
+  sacred.start();
     
   matrix.begin();
 
@@ -109,11 +112,19 @@ void handleMessage() {
   if (newColor.equals("green")) {
       ticker.setTextColor(matrix.Color(0, 120, 0));
   }
-  String tickerCheck = server.arg("ticker");
-  if (tickerCheck.equals("on")) {
-    uberAnimation.setCurrent(&ticker);
-  }
+  animationStartStop(ticker, server.arg("ticker").equals("on"));
+  animationStartStop(pixel, server.arg("square").equals("on"));
+  animationStartStop(face, server.arg("plasma").equals("on"));
   server.send(200, "text/html", page);
+}
+
+void animationStartStop(Animation& animation, boolean start) {
+  if (start) {
+    animation.start();
+  } else {
+    animation.stop();
+  }
+  
 }
 
 void handleRoot() {

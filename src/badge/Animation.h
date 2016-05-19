@@ -31,6 +31,21 @@ public:
       draw();
     }
   }
+  uint32_t hsv(byte h, byte s, byte v) {
+    if (s == 0) {
+      return matrix.Color(v, v, v);
+    }
+    if (h < 64) {
+      return matrix.Color(20, 20, 20);
+    }
+    if (h < 128) {
+      return matrix.Color(20, 20, 20);
+    }
+    if (h < 192) {
+      return matrix.Color(20, 20, 20);
+    }
+    return matrix.Color(20, 20, 20);
+  }
 };
 
 Animation::Animation(Adafruit_NeoMatrix &m) : matrix(m) {

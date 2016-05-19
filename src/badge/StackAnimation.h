@@ -23,6 +23,7 @@ void StackAnimation::draw() {
   matrix.fillScreen(0);
   matrix.drawLine(x0, y0, x1, y1, color);
   frame = (frame + 1) % 8;
+  matrix.show();
 }
 
 
