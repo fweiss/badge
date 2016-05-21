@@ -4,7 +4,7 @@
 // options for remote controller
 // NOCONTROLLER - no remote
 // WEBCONTROLLER - esp8266
-#define NOCONTROLLER
+#define WEBCONTROLLER
 
 #include <Adafruit_GFX.h>
 #include <Adafruit_NeoMatrix.h>
@@ -113,8 +113,12 @@ void handleMessage() {
       ticker.setTextColor(matrix.Color(0, 120, 0));
   }
   animationStartStop(ticker, server.arg("ticker").equals("on"));
-  animationStartStop(pixel, server.arg("square").equals("on"));
-  animationStartStop(face, server.arg("plasma").equals("on"));
+  animationStartStop(stack, server.arg("stack").equals("on"));
+  animationStartStop(plasma, server.arg("plasma").equals("on"));
+  animationStartStop(pixel, server.arg("pixel").equals("on"));
+  animationStartStop(face, server.arg("face").equals("on"));
+  animationStartStop(sacred, server.arg("om").equals("on"));
+
   server.send(200, "text/html", page);
 }
 

@@ -4,8 +4,9 @@ String page = "<! DOCTYPE html>\
     <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\
     <style>\
       body { font-size: 200%; }\
-      div { width: auto; padding: 1em 0; }\
+      div { width: auto; padding: 0.1em 0; }\
       a { display: block; }\
+      input, select { height: 100%, width: 100%; }\
       button { width: 100%; height: 10%; margin: 1em 0; font-size: 100%; font-weight: bold; }\
     </style>\
   </head>\
@@ -20,16 +21,28 @@ String page = "<! DOCTYPE html>\
           <option value=\"blue\">Blue</option>\
         </select>\
         <div class=\"selection\">\
-          <input name=\"ticker\" type=\"checkbox\"/>\
+          <input name=\"ticker\" type=\"checkbox\" checked=\"checked\"/>\
           <span>Ticker</span>\
         </div>\
         <div class=\"selection\">\
-          <input name=\"squares\" type=\"checkbox\"/>\
+          <input name=\"stack\" type=\"checkbox\" checked=\"checked\"/>\
+          <span>Stack</span>\
+        </div>\
+        <div class=\"selection\">\
+          <input name=\"plasma\" type=\"checkbox\" checked=\"checked\"/>\
+          <span>Plasma</span>\
+        </div>\
+        <div class=\"selection\">\
+          <input name=\"squares\" type=\"checkbox\" checked=\"checked\"/>\
           <span>Squares</span>\
         </div>\
         <div class=\"selection\">\
-          <input name=\"plasma\" type=\"checkbox\"/>\
-          <span>Plasma</span>\
+          <input name=\"face\" type=\"checkbox\" checked=\"checked\"/>\
+          <span>Face</span>\
+        </div>\
+        <div class=\"selection\">\
+          <input name=\"om\" type=\"checkbox\" checked=\"checked\"/>\
+          <span>Om</span>\
         </div>\
         <button id=\"submit\">Set Message</button>\
       </form>\
