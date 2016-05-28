@@ -4,16 +4,11 @@
 // options for remote controller
 // NOCONTROLLER - no remote
 // WEBCONTROLLER - esp8266
-#define NOCONTROLLER
+#define WEBCONTROLLER
 
 #include <Adafruit_GFX.h>
 #include <Adafruit_NeoMatrix.h>
 #include <Adafruit_NeoPixel.h>
-
-#ifdef WEBCONTROLLER
-#include <ESP8266WiFi.h>
-#include <ESP8266WebServer.h>
-#endif
 
 #include "TickerAnimation.h"
 #include "StackAnimation.h"
@@ -24,22 +19,19 @@
 #include "AumAnimation.h"
 #include "UberAnimation.h"
 
-#include "WebPage.h"
-
 const char* ssid = "Thing";
 const char* password = "sparkfun";
-
-#include "WebController.h"
 
 const int PIN = 5;
 const int NUMPIXELS = 64;
 const int DELAY = 100;
 
-//Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(8, 8, PIN, 
-//  NEO_MATRIX_TOP + NEO_MATRIX_LEFT + NEO_MATRIX_ROWS + NEO_MATRIX_PROGRESSIVE,
-//  NEO_GRB + NEO_KHZ400);
+// to accomodate packaging of the LED matrix with different locations of the connector
+const int rotationZero = NEO_MATRIX_TOP + NEO_MATRIX_LEFT + NEO_MATRIX_ROWS;
+const int rotationNinety = NEO_MATRIX_TOP + NEO_MATRIX_RIGHT + NEO_MATRIX_COLUMNS;
+
 Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(8, 8, PIN, 
-  NEO_MATRIX_TOP + NEO_MATRIX_RIGHT + NEO_MATRIX_COLUMNS + NEO_MATRIX_PROGRESSIVE,
+  rotationZero + NEO_MATRIX_PROGRESSIVE,
   NEO_GRB + NEO_KHZ400);
 
 TickerAnimation ticker(matrix);
@@ -48,10 +40,15 @@ PlasmaAnimation plasma(matrix);
 PixelAnimation pixel(matrix);
 FaceAnimation face(matrix);
 AumAnimation sacred(matrix);
-//UberAnimation uberAnimation(26000);
-//UberAnimation uberAnimation(5000);
-WebController uberAnimation(5000);
 
+const unsigned long controllerPeriod = 5000; //26000
+
+#ifdef WEBCONTROLLER
+#include "WebController.h"
+WebController uberAnimation(controllerPeriod);
+#else // NOCONTROLLER
+UberAnimation uberAnimation(controllerPeriod);
+#endif
 
 void setup() {
   ticker.setText("Once upon a time, in a galaxy far, far away");
@@ -70,12 +67,7 @@ void setup() {
 }
 
 void loop() {
-  #ifdef WEBCONTROLLER
-  server.handleClient();
-  #endif
-
   uberAnimation.update(millis());
-
   delay(1);
 }
 
