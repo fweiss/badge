@@ -23,6 +23,9 @@ public:
   void setTextColor(uint32_t color) {
     textColor = color;
   }
+  void setTextColor(byte r, byte g, byte b) {
+    setTextColor(matrix.Color(r, g, b));
+  }
   TickerAnimation(Adafruit_NeoMatrix &m) : Animation(m) {
     setText("strong");
     textBackgroundColor = matrix.Color(0, 0, 0);

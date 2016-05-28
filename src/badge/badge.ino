@@ -4,7 +4,7 @@
 // options for remote controller
 // NOCONTROLLER - no remote
 // WEBCONTROLLER - esp8266
-#define WEBCONTROLLER
+#define NOCONTROLLER
 
 #include <Adafruit_GFX.h>
 #include <Adafruit_NeoMatrix.h>
@@ -29,16 +29,17 @@
 const char* ssid = "Thing";
 const char* password = "sparkfun";
 
-#ifdef WEBCONTROLLER
-ESP8266WebServer server(80);
-#endif
+#include "WebController.h"
 
 const int PIN = 5;
 const int NUMPIXELS = 64;
 const int DELAY = 100;
 
+//Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(8, 8, PIN, 
+//  NEO_MATRIX_TOP + NEO_MATRIX_LEFT + NEO_MATRIX_ROWS + NEO_MATRIX_PROGRESSIVE,
+//  NEO_GRB + NEO_KHZ400);
 Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(8, 8, PIN, 
-  NEO_MATRIX_TOP + NEO_MATRIX_LEFT + NEO_MATRIX_ROWS + NEO_MATRIX_PROGRESSIVE,
+  NEO_MATRIX_TOP + NEO_MATRIX_RIGHT + NEO_MATRIX_COLUMNS + NEO_MATRIX_PROGRESSIVE,
   NEO_GRB + NEO_KHZ400);
 
 TickerAnimation ticker(matrix);
@@ -48,7 +49,8 @@ PixelAnimation pixel(matrix);
 FaceAnimation face(matrix);
 AumAnimation sacred(matrix);
 //UberAnimation uberAnimation(26000);
-UberAnimation uberAnimation(5000);
+//UberAnimation uberAnimation(5000);
+WebController uberAnimation(5000);
 
 
 void setup() {
@@ -65,20 +67,6 @@ void setup() {
   sacred.start();
     
   matrix.begin();
-
-#ifdef WEBCONTROLLER
-//  WiFi.mode(WIFI_STA);
-//  WiFi.begin(wifi_ssid, wifi_pass);
-//  while ( WiFi.status() != WL_CONNECTED ) {
-//    delay ( 500 );
-//  }
-
-  server.on("/message", HTTP_GET, handleMessage);
-  server.on("/", HTTP_GET, handleRoot);
-  server.onNotFound(handleNotFound);
-  server.begin();
-#endif
-
 }
 
 void loop() {
@@ -90,51 +78,4 @@ void loop() {
 
   delay(1);
 }
-
-#ifdef WEBCONTROLLER
-void handleNotFound() {
-  server.send(404, "text/plain", "nothing at this URI");
-}
-
-void handleMessage() {
-  String newText = server.arg("text");
-  ticker.setText(newText);
-  String newColor = server.arg("color");
-  if (newColor.equals("white")) {
-    ticker.setTextColor(matrix.Color(40, 40, 40));
-  }
-  if (newColor.equals("red")) {
-    ticker.setTextColor(matrix.Color(120, 0, 0));
-  }
-  if (newColor.equals("blue")) {
-      ticker.setTextColor(matrix.Color(0, 0, 120));
-  }
-  if (newColor.equals("green")) {
-      ticker.setTextColor(matrix.Color(0, 120, 0));
-  }
-  animationStartStop(ticker, server.arg("ticker").equals("on"));
-  animationStartStop(stack, server.arg("stack").equals("on"));
-  animationStartStop(plasma, server.arg("plasma").equals("on"));
-  animationStartStop(pixel, server.arg("pixel").equals("on"));
-  animationStartStop(face, server.arg("face").equals("on"));
-  animationStartStop(sacred, server.arg("om").equals("on"));
-
-  server.send(200, "text/html", page);
-}
-
-void animationStartStop(Animation& animation, boolean start) {
-  if (start) {
-    animation.start();
-  } else {
-    animation.stop();
-  }
-  
-}
-
-void handleRoot() {
-  server.send(200, "text/html", page);
-}
-#endif
-
-
 
