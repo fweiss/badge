@@ -9,8 +9,11 @@
 #include "Adafruit_BluefruitLE_UART.h"
 
 #include "BluefruitConfig.h"
+// CS 8
+// IRQ 7
+// RST 4
 
-static const int PIN = 5;
+static const int PIN = 13;
 
 Adafruit_BluefruitLE_SPI ble(BLUEFRUIT_SPI_CS, BLUEFRUIT_SPI_IRQ, BLUEFRUIT_SPI_RST);
 
@@ -23,7 +26,7 @@ void setup() {
     delay(500);
   }
   ble.setMode(BLUEFRUIT_MODE_DATA);
-  digitalWrite(PIN, HIGH);
+  digitalWrite(PIN, LOW);
 }
 
 // note that Bluefruit LE client adds NL when SEND button is pressed
