@@ -37,6 +37,8 @@ project the following packages were evaluated.
 
 For evaluating Bluetooth connectivity.
 
+https://learn.adafruit.com/adafruit-feather-m0-bluefruit-le?view=all
+
 ## Tools
 
 ### Arduino IDE 1.6.8
@@ -105,3 +107,17 @@ On ESP8266, binary files can be uploaded to the flash and read from the program.
 Handles routing of web requests. Example show use of SPIFFS to serve static content.
 
 [https://github.com/esp8266/Arduino/tree/master/libraries/ESP8266WebServer]
+
+## Deployment
+
+Use the Arduino IDE 1.6.8.
+
+Under Tools, select the correct board.
+
+- Adafruit Feather M0 (Natice USB port)
+- etc
+
+## Tips
+
+If the Feather M0 gets stuck and the Native USB Port is not accessible from the Arduino IDE, put it into manual bootloader mode.
+Press the reset button twice (like a double click) and the red LED will pulse, showing that it's in bootloader mode.

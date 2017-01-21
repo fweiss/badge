@@ -4,7 +4,8 @@
 // options for remote controller
 // NOCONTROLLER - no remote
 // WEBCONTROLLER - esp8266
-#define WEBCONTROLLER
+// BTCONTROLLER - Feather BLE
+#define BTCONTROLLER
 
 #include <Adafruit_GFX.h>
 #include <Adafruit_NeoMatrix.h>
@@ -31,7 +32,7 @@ const int rotationZero = NEO_MATRIX_TOP + NEO_MATRIX_LEFT + NEO_MATRIX_ROWS;
 const int rotationNinety = NEO_MATRIX_TOP + NEO_MATRIX_RIGHT + NEO_MATRIX_COLUMNS;
 
 Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(8, 8, PIN, 
-  rotationZero + NEO_MATRIX_PROGRESSIVE,
+  rotationNinety + NEO_MATRIX_PROGRESSIVE,
   NEO_GRB + NEO_KHZ400);
 
 TickerAnimation ticker(matrix);
@@ -43,9 +44,12 @@ AumAnimation sacred(matrix);
 
 const unsigned long controllerPeriod = 5000; //26000
 
-#ifdef WEBCONTROLLER
+#if defined WEBCONTROLLER
 #include "WebController.h"
 WebController uberAnimation(controllerPeriod);
+#elif defined BTCONTROLLER
+#include "BTController.h"
+BTController uberAnimation(controllerPeriod);
 #else // NOCONTROLLER
 UberAnimation uberAnimation(controllerPeriod);
 #endif
@@ -64,6 +68,7 @@ void setup() {
   sacred.start();
     
   matrix.begin();
+  uberAnimation.setup();
 }
 
 void loop() {
