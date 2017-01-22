@@ -17,7 +17,9 @@ class BTController : public UberAnimation {
 private:
     Adafruit_BluefruitLE_SPI ble;
     boolean connected = false;
-    void handleClient();
+    boolean bannerWasSent = false;
+    void handleClient(unsigned long now);
+    void handleClientData();
 protected:
 public:
     BTController(unsigned long period) : UberAnimation(period), ble(BLUEFRUIT_SPI_CS, BLUEFRUIT_SPI_IRQ, BLUEFRUIT_SPI_RST) {
@@ -38,24 +40,33 @@ public:
         sacred.stop();
     }
     void update(unsigned long now) {
-        handleClient();
+        handleClient(now);
         UberAnimation::update(now);
     }
 };
 
-void BTController::handleClient() {
+void BTController::handleClient(unsigned long now) {
     if (connected) {
+        // this cannot be done in setup
+        if (! bannerWasSent) {
+            ble.print("badge v0.0.1");
+            bannerWasSent = true;
+        }
         if (ble.available()) {
-            int c = ble.read();
-            ticker.setTextColor(120, 0, 0);
-            ble.print("hello");
+            handleClientData();
         }
     } else {
         if (ble.isConnected()) {
+            delay(500); // some delay needed to make banner print at next event
             connected = true;
-//                ble.print("badge v0.0.1\n");
         }
-    }
+   }
+}
+
+void BTController::handleClientData() {
+    int c = ble.read();
+    ticker.setTextColor(120, 0, 0);
+    ble.print("hello");
 }
 
 #endif BT_CONTROLLER
