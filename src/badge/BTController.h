@@ -20,8 +20,10 @@ private:
     boolean bannerWasSent = false;
     void handleClient(unsigned long now);
     void handleClientData();
+    void handleClientCommandLine();
     void handleClientCommand();
     String commandLine;
+    static String helpText;
 protected:
 public:
     BTController(unsigned long period) : UberAnimation(period), ble(BLUEFRUIT_SPI_CS, BLUEFRUIT_SPI_IRQ, BLUEFRUIT_SPI_RST) {
@@ -61,30 +63,68 @@ void BTController::handleClient(unsigned long now) {
             connected = true;
             commandLine = String("");
         }
-   }
+    }
 }
 
 void BTController::handleClientData() {
     while (ble.available()) {
         int c = ble.read();
         if (c == 0x0A || c == 0x0D) {
-            handleClientCommand();
+            handleClientCommandLine();
             commandLine = String("");
         } else {
             commandLine += String((char)c);
         }
     }
-//    ticker.setTextColor(120, 0, 0);
-//    ble.print("hello");
 }
 
-void BTController::handleClientCommand() {
+void BTController::handleClientCommandLine() {
+    if (commandLine.length() == 0) {
+        return;
+    }
     int controlCommand = commandLine[0];
     if (controlCommand == '!') {
-        ticker.setTextColor(120, 0, 0);
+        handleClientCommand();
+    } else if (controlCommand == '?') {
+        ble.print(helpText);
     } else {
         ticker.setText(commandLine);
     }
 }
+
+void BTController::handleClientCommand() {
+    int featureCode = commandLine[1];
+    int subCommand = commandLine[2];
+    if (featureCode == '0') {
+        if (subCommand == '+') {
+            ticker.start();
+        }
+        if (subCommand == '-') {
+            ticker.stop();
+        }
+        if (subCommand == '#') {
+            ticker.setTextColor(120, 0, 0);
+        }
+    }
+    if (featureCode == '1') {
+        if (subCommand == '+') {
+            plasma.start();
+        }
+        if (subCommand == '-') {
+            plasma.stop();
+        }
+    }
+}
+
+String BTController::helpText = "\
+enter a text line or a command line\n\
+command line starts with \"!\"\n\
+!n+ turn on feature \"n\"\n\
+!n- turn off feature \"n\"\n\
+!n#hhhhhh change color\n\
+features:\n\
+ 0 text\n\
+ 1 plasma\n\
+";
 
 #endif BT_CONTROLLER
