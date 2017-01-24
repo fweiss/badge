@@ -5,55 +5,54 @@
 
 class UberAnimation {
 private:
-  unsigned long lastTime;
-  unsigned long period;
-  bool running = false;
-  int index;
-  static Animation *animations[];
-  int animationsSize;
-  Animation *current;
+    unsigned long lastTime;
+    unsigned long period;
+    bool running = false;
+    int index;
+    static Animation *animations[];
+    int animationsSize;
+    Animation *current;
 protected:
-  unsigned int segment;
+    unsigned int segment;
 public:
-  UberAnimation(unsigned long _period) {
-    lastTime = 0;
-    period = _period;
-    index = 0;
-    for (int i=0; i<100; i++) {
-      if (animations[i] == 0) {
-        animationsSize = i;
-        break;
-      }
+    UberAnimation(unsigned long _period) {
+        lastTime = 0;
+        period = _period;
+        index = 0;
+        for (int i=0; i<100; i++) {
+            if (animations[i] == 0) {
+                animationsSize = i;
+                break;
+            }
+        }
     }
-  }
-  int findNextRunningIndex() {
-    int s = (index + 1) % animationsSize;
-    for (int i=0; i<animationsSize; i++) {
-      int candIndex = (s + i) % animationsSize;
-      Animation* cand = animations[candIndex];
-      if (cand->isRunning()) {
-        return candIndex;
-      }
+    int findNextRunningIndex() {
+        int s = (index + 1) % animationsSize;
+        for (int i=0; i<animationsSize; i++) {
+            int candIndex = (s + i) % animationsSize;
+                Animation* cand = animations[candIndex];
+                if (cand->isRunning()) {
+                return candIndex;
+            }
+        }
+        return -1;
     }
-    return -1;
-  }
-  void update(unsigned long now) {
-    if (lastTime == 0 || now > lastTime + period) {
-      lastTime = now;
+    void update(unsigned long now) {
+        if (lastTime == 0 || now > lastTime + period) {
+            lastTime = now;
 
-      int nextIndex = findNextRunningIndex();
-      if (nextIndex > -1) {
-        setCurrent(animations[nextIndex]);
-        index = nextIndex;
-      }
+            int nextIndex = findNextRunningIndex();
+            if (nextIndex > -1) {
+                setCurrent(animations[nextIndex]);
+                index = nextIndex;
+            }
+        }
+        current->update(now);
     }
-    current->update(now);
-  }
-  void setCurrent(Animation *select) {
-//    current->stop();
-    current = select;
-    current->start();
-  }
+    void setCurrent(Animation *select) {
+        current = select;
+        current->start();
+    }
 };
 
 extern TickerAnimation ticker;
@@ -64,7 +63,7 @@ extern FaceAnimation face;
 extern AumAnimation sacred;
 
 Animation* UberAnimation::animations[] {
-  &ticker, &stack, &plasma, &pixel, &face, &sacred, NULL
+    &ticker, &stack, &plasma, &pixel, &face, &sacred, NULL
 };
 
 #endif UBERANIMATION_H

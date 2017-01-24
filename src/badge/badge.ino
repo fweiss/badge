@@ -32,8 +32,8 @@ const int rotationZero = NEO_MATRIX_TOP + NEO_MATRIX_LEFT + NEO_MATRIX_ROWS;
 const int rotationNinety = NEO_MATRIX_TOP + NEO_MATRIX_RIGHT + NEO_MATRIX_COLUMNS;
 
 Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(8, 8, PIN, 
-  rotationNinety + NEO_MATRIX_PROGRESSIVE,
-  NEO_GRB + NEO_KHZ400);
+    rotationNinety + NEO_MATRIX_PROGRESSIVE,
+    NEO_GRB + NEO_KHZ400);
 
 TickerAnimation ticker(matrix);
 StackAnimation stack(matrix);
@@ -55,24 +55,24 @@ UberAnimation uberAnimation(controllerPeriod);
 #endif
 
 void setup() {
-  ticker.setText("Once upon a time, in a galaxy far, far away");
-  ticker.textBackgroundColor = matrix.Color(0, 0, 0);
-  ticker.textColor = matrix.Color(0, 60, 0);
+    ticker.setText("Once upon a time, in a galaxy far, far away");
+    ticker.textBackgroundColor = matrix.Color(0, 0, 0);
+    ticker.textColor = matrix.Color(0, 60, 0);
 
-  // comment out any to skip on startup
-  ticker.start();
-  stack.start();
-  plasma.start();
-  pixel.start();
-  face.start();
-  sacred.start();
-    
-  matrix.begin();
-  uberAnimation.setup();
+    // comment out any to skip on startup
+    ticker.start();
+    stack.start();
+    plasma.start();
+    pixel.start();
+    face.start();
+    sacred.start();
+
+    matrix.begin();
+    uberAnimation.setup();
 }
 
 void loop() {
-  uberAnimation.update(millis());
-  delay(1);
+    uberAnimation.update(millis());
+    delay(1);
 }
 
