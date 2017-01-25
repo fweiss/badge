@@ -10,6 +10,7 @@ private:
     unsigned long lastTime;
     unsigned long period;
     bool running = false;
+    uint32_t backgroundColor = 0;
 protected:
     Adafruit_NeoMatrix &matrix;
     virtual void draw() {
@@ -21,6 +22,8 @@ public:
     }
     void stop() {
         running = false;
+        matrix.fillScreen(backgroundColor);
+        matrix.show();
     }
     boolean isRunning() {
         return running;
