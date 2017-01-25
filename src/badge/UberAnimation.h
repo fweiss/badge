@@ -38,7 +38,8 @@ public:
         return -1;
     }
     void update(unsigned long now) {
-        if (lastTime == 0 || now > lastTime + period) {
+        //  also quit if current has been stopped
+        if (lastTime == 0 || now > lastTime + period || ! current->isRunning()) {
             lastTime = now;
 
             int nextIndex = findNextRunningIndex();
