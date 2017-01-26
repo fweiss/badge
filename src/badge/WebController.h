@@ -8,66 +8,66 @@
 
 class WebController : public UberAnimation {
 private:
-  static String page;
+    static String page;
 protected:
-  ESP8266WebServer server;
-  void handleMessage();
-  void handleRoot();
-  void handleNotFound();
+    ESP8266WebServer server;
+    void handleMessage();
+    void handleRoot();
+    void handleNotFound();
 public:
-  WebController(unsigned long period) : UberAnimation(period), server(80) {
-    // FIXME this is kinda hokey, do we really need methods?
-    server.on("/message", HTTP_GET, [this]() { this->handleMessage(); });
-    server.on("/", HTTP_GET,[this]() { this->handleRoot(); });
-    server.onNotFound([this]() { this->handleNotFound(); });
-    server.begin();
-  }
-  void update(unsigned long now) {
-    server.handleClient();
-    UberAnimation::update(now);
-  }
+    WebController(unsigned long period) : UberAnimation(period), server(80) {
+        // FIXME this is kinda hokey, do we really need methods?
+        server.on("/message", HTTP_GET, [this]() { this->handleMessage(); });
+        server.on("/", HTTP_GET,[this]() { this->handleRoot(); });
+        server.onNotFound([this]() { this->handleNotFound(); });
+        server.begin();
+    }
+    void update(unsigned long now) {
+        server.handleClient();
+        UberAnimation::update(now);
+    }
 };
 
 void animationStartStop(Animation& animation, boolean start) {
-  if (start) {
-    animation.start();
-  } else {
-    animation.stop();
-  }  
+    if (start) {
+        animation.start();
+    } else {
+        animation.stop();
+    }
 }
 
 void WebController::handleMessage() {
-  String newText = server.arg("text");
-  ticker.setText(newText);
-  String newColor = server.arg("color");
-  if (newColor.equals("white")) {
-    ticker.setTextColor(40, 40, 40);
-  }
-  if (newColor.equals("red")) {
-    ticker.setTextColor(120, 0, 0);
-  }
-  if (newColor.equals("blue")) {
-      ticker.setTextColor(0, 0, 120);
-  }
-  if (newColor.equals("green")) {
-      ticker.setTextColor(0, 120, 0);
-  }
-  animationStartStop(ticker, server.arg("ticker").equals("on"));
-  animationStartStop(stack, server.arg("stack").equals("on"));
-  animationStartStop(plasma, server.arg("plasma").equals("on"));
-  animationStartStop(pixel, server.arg("pixel").equals("on"));
-  animationStartStop(face, server.arg("face").equals("on"));
-  animationStartStop(sacred, server.arg("om").equals("on"));
+    String newText = server.arg("text");
+    ticker.setText(newText);
+    String newColor = server.arg("color");
+    if (newColor.equals("white")) {
+        ticker.setTextColor(40, 40, 40);
+    }
+    if (newColor.equals("red")) {
+        ticker.setTextColor(120, 0, 0);
+    }
+    if (newColor.equals("blue")) {
+        ticker.setTextColor(0, 0, 120);
+    }
+    if (newColor.equals("green")) {
+        ticker.setTextColor(0, 120, 0);
+    }
+    animationStartStop(ticker, server.arg("ticker").equals("on"));
+    animationStartStop(stack, server.arg("stack").equals("on"));
+    animationStartStop(plasma, server.arg("plasma").equals("on"));
+    animationStartStop(pixel, server.arg("pixel").equals("on"));
+    animationStartStop(face, server.arg("face").equals("on"));
+    animationStartStop(sacred, server.arg("om").equals("on"));
 
-  server.send(200, "text/html", page);  
+    server.send(200, "text/html", page);
 }
 
 void WebController::handleRoot() {
-  server.send(200, "text/html", page);
+    server.send(200, "text/html", page);
 }
 
 void WebController::handleNotFound() {
-  server.send(404, "text/plain", "nothing at this URI");
+    server.send(404, "text/plain", "nothing at this URI");
 }
 
 String WebController::page = "<! DOCTYPE html>\
