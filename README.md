@@ -39,7 +39,7 @@ For evaluating Bluetooth connectivity.
 
 https://learn.adafruit.com/adafruit-feather-m0-bluefruit-le?view=all
 
-## Tools
+## Development Tools
 
 ### Arduino IDE 1.6.8
 
@@ -116,6 +116,41 @@ Under Tools, select the correct board.
 
 - Adafruit Feather M0 (Natice USB port)
 - etc
+
+## Client Tools
+
+For bluetooth, you'll need a client that can connect and send/receive text.
+
+The preferred client is Adafruit Bluefruit LE.
+
+### Adafruit Bluefruit LE
+
+Multiple connect modes (use UART). Has multiple options.
+
+### nRF UART v2 (Android, iOS)
+
+Work pretty well with the Adafruit Feather M0 Bluetooth. Couldn't configure EOL.
+
+### BlueTerm 1.1
+
+Doesn't connect.
+
+## Bluetooth Serial Port Terminal
+
+Does not pair in SPP.
+
+### Bluetooth Terminal
+
+Does not connect.
+
+### Bluetooth Superterminal
+
+Crashed.
+
+### BT SPP
+
+Requires mac address to connect. No scan.
+
 
 ## Tips
 
