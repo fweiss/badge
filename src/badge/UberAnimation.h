@@ -26,16 +26,7 @@ public:
             }
         }
     }
-    int findNextRunningIndex() {
-        int s = (index + 1) % animationsSize;
-        for (int i=0; i<animationsSize; i++) {
-            int candIndex = (s + i) % animationsSize;
-                Animation* cand = animations[candIndex];
-                if (cand->isRunning()) {
-                return candIndex;
-            }
-        }
-        return -1;
+    void setup() {
     }
     void update(unsigned long now) {
         //  also quit if current has been stopped
@@ -53,6 +44,17 @@ public:
     void setCurrent(Animation *select) {
         current = select;
         current->start();
+    }
+    int findNextRunningIndex() {
+        int s = (index + 1) % animationsSize;
+        for (int i=0; i<animationsSize; i++) {
+            int candIndex = (s + i) % animationsSize;
+                Animation* cand = animations[candIndex];
+                if (cand->isRunning()) {
+                return candIndex;
+            }
+        }
+        return -1;
     }
 };
 
