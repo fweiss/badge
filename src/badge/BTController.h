@@ -53,7 +53,7 @@ void BTController::handleClient(unsigned long now) {
     if (connected) {
         // this cannot be done in setup
         if (! bannerWasSent) {
-            ble.print("badge v0.0.1\n");
+            ble.print("badge v0.0.1\nenter \"?\" for help\n");
             bannerWasSent = true;
         }
         handleClientData();
@@ -93,6 +93,12 @@ void BTController::handleClientCommandLine() {
 }
 
 void BTController::handleClientCommand() {
+    int featureIndex = isDigit(commandLine[1]) ? commandLine.substring(1).toInt() : -1;
+    if (featureIndex < 0 || featureIndex >= animationsSize) {
+        ble.print("syntax error\nenter \"?\" for help");
+        return;
+    }
+    Animation *animation = animations[featureIndex];
     int featureCode = commandLine[1];
     int subCommand = commandLine[2];
     if (featureCode == '0') {
@@ -105,13 +111,12 @@ void BTController::handleClientCommand() {
         if (subCommand == '#') {
             ticker.setTextColor(120, 0, 0);
         }
-    }
-    if (featureCode == '1') {
+    } else {
         if (subCommand == '+') {
-            plasma.start();
+            animation->start();
         }
         if (subCommand == '-') {
-            plasma.stop();
+            animation->stop();
         }
     }
 }
@@ -124,7 +129,11 @@ command line starts with \"!\"\n\
 !n#hhhhhh change color\n\
 features:\n\
  0 text\n\
- 1 plasma\n\
+ 1 stack\n\
+ 2 plasma\n\
+ 3 pixel\n\
+ 4 face\n\
+ 5 sacred\n\
 ";
 
 #endif BT_CONTROLLER

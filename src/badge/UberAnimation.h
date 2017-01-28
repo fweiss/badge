@@ -9,10 +9,10 @@ private:
     unsigned long period;
     bool running = false;
     int index;
-    static Animation *animations[];
-    int animationsSize;
     Animation *current;
 protected:
+    static Animation *animations[];
+    int animationsSize;
     unsigned int segment;
 public:
     UberAnimation(unsigned long _period) {
