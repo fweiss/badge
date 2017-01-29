@@ -20,12 +20,12 @@
 #include "AumAnimation.h"
 #include "UberAnimation.h"
 
-const char* ssid = "Thing";
-const char* password = "sparkfun";
+//const char* ssid = "Thing";
+//const char* password = "sparkfun";
 
 const int PIN = 5;
 const int NUMPIXELS = 64;
-const int DELAY = 100;
+//const int DELAY = 100;
 
 // to accomodate packaging of the LED matrix with different locations of the connector
 const int rotationZero = NEO_MATRIX_TOP + NEO_MATRIX_LEFT + NEO_MATRIX_ROWS;

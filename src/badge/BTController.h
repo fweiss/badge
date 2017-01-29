@@ -23,8 +23,11 @@ private:
     void handleClientCommandLine();
     void handleClientCommand();
     String commandLine;
+    static String bannerText;
     static String helpText;
+    static String errorText;
 protected:
+    boolean parseColor(uint8_t*, uint8_t*, uint8_t*);
 public:
     BTController(unsigned long period) : UberAnimation(period), ble(BLUEFRUIT_SPI_CS, BLUEFRUIT_SPI_IRQ, BLUEFRUIT_SPI_RST) {
     }
@@ -53,7 +56,7 @@ void BTController::handleClient(unsigned long now) {
     if (connected) {
         // this cannot be done in setup
         if (! bannerWasSent) {
-            ble.print("badge v0.0.1\nenter \"?\" for help\n");
+            ble.print(bannerText);
             bannerWasSent = true;
         }
         handleClientData();
@@ -95,7 +98,7 @@ void BTController::handleClientCommandLine() {
 void BTController::handleClientCommand() {
     int featureIndex = isDigit(commandLine[1]) ? commandLine.substring(1).toInt() : -1;
     if (featureIndex < 0 || featureIndex >= animationsSize) {
-        ble.print("syntax error\nenter \"?\" for help");
+        ble.print(errorText);
         return;
     }
     Animation *animation = animations[featureIndex];
@@ -109,7 +112,14 @@ void BTController::handleClientCommand() {
             ticker.stop();
         }
         if (subCommand == '#') {
-            ticker.setTextColor(120, 0, 0);
+            uint8_t r;
+            uint8_t g;
+            uint8_t b;
+            if (parseColor(&r, &g, &b)) {
+                ticker.setTextColor(r, g, b);
+            } else {
+                ble.print(errorText);
+            }
         }
     } else {
         if (subCommand == '+') {
@@ -121,12 +131,51 @@ void BTController::handleClientCommand() {
     }
 }
 
+boolean BTController::parseColor(uint8_t* r, uint8_t* g, uint8_t* b) {
+    char colorCode = commandLine[3];
+    if (colorCode == 'r') {
+        *r = 120;
+        *g = 0;
+        *b = 0;
+        return true;
+    }
+    if (colorCode == 'g') {
+        *r = 0;
+        *g = 120;
+        *b = 0;
+        return true;
+    }
+    if (colorCode == 'b') {
+        *r = 0;
+        *g = 0;
+        *b = 120;
+        return true;
+    }
+    if (colorCode == 'y') {
+        *r = 60;
+        *g = 60;
+        *b = 0;
+        return true;
+    }
+    if (colorCode == 'w') {
+        *r = 40;
+        *g = 40;
+        *b = 40;
+        return true;
+    }
+    return false;
+}
+
+String BTController::bannerText = "badge v0.1.0\nenter \"?\" for help\n";
+
+String BTController::errorText = "syntax error\nenter \"?\" for help\n";
+
 String BTController::helpText = "\
 enter a text line or a command line\n\
 command line starts with \"!\"\n\
 !n+ turn on feature \"n\"\n\
 !n- turn off feature \"n\"\n\
-!n#hhhhhh change color\n\
+!n#color change color\n\
 features:\n\
  0 text\n\
  1 stack\n\
