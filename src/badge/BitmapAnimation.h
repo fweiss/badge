@@ -1,5 +1,5 @@
-#ifndef BITMAPANIMATION_H
-#define BITMAPANIMATION_H
+#ifndef BITMAP_ANIMATION_H
+#define BITMAP_ANIMATION_H
 
 #include "Animation.h"
 
@@ -27,4 +27,4 @@ public:
   }
 };
 
-#endif BITMAPANIMATION_H
+#endif BITMAP_ANIMATION_H

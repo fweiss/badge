@@ -1,5 +1,5 @@
-#ifndef PIXELANIMATION_H
-#define PIXELANIMATION_H
+#ifndef PIXEL_ANIMATION_H
+#define PIXEL_ANIMATION_H
 
 #include "Animation.h"
 
@@ -51,5 +51,5 @@ void PixelAnimation::drawPixels(const int* pixels, uint32_t color) {
     matrix.show();
 }
 
-#endif PIXELANIMATION_H
+#endif PIXEL_ANIMATION_H
 

@@ -1,5 +1,5 @@
-#ifndef WEBCONTROLLER_H
-#define WEBCONTROLLER_H
+#ifndef WEB_CONTROLLER_H
+#define WEB_CONTROLLER_H
 
 #include "UberAnimation.h"
 
@@ -123,5 +123,4 @@ String WebController::page = "<! DOCTYPE html>\
   </body>\
 </html>";
 
-#endif WEBCONTROLLER_H
-
+#endif WEB_CONTROLLER_H

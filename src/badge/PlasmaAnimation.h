@@ -1,5 +1,5 @@
-#ifndef PLASMAANIMATION_H
-#define PLASMAANIMATION_H
+#ifndef PLASMA_ANIMATION_H
+#define PLASMA_ANIMATION_H
 
 #include "Animation.h"
 
@@ -75,5 +75,4 @@ void PlasmaAnimation::draw() {
   matrix.show();
 }
 
-#endif PLASMAANIMATION_H
-
+#endif PLASMA_ANIMATION_H

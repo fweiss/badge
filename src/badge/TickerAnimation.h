@@ -1,5 +1,5 @@
-#ifndef TICKERANIMATION_H
-#define TICKERANIMATION_H
+#ifndef TICKER_ANIMATION_H
+#define TICKER_ANIMATION_H
 
 #include "Animation.h"
 
@@ -42,7 +42,4 @@ void TickerAnimation::draw() {
     scrollOffset = (scrollOffset + 1) % scrollLength;
 }
 
-#endif TICKERANIMATION_H
-
-
-
+#endif TICKER_ANIMATION_H

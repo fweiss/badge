@@ -1,5 +1,5 @@
-#ifndef UBERANIMATION_H
-#define UBERANIMATION_H
+#ifndef UBER_ANIMATION_H
+#define UBER_ANIMATION_H
 
 #include "Animation.h"
 
@@ -69,5 +69,4 @@ Animation* UberAnimation::animations[] {
     &ticker, &stack, &plasma, &pixel, &face, &sacred, NULL
 };
 
-#endif UBERANIMATION_H
-
+#endif UBER_ANIMATION_H

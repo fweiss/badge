@@ -1,5 +1,5 @@
-#ifndef STACKANIMATION_H
-#define STACKANIMATION_H
+#ifndef STACK_ANIMATION_H
+#define STACK_ANIMATION_H
 
 class StackAnimation : public Animation {
 private:
@@ -27,5 +27,4 @@ void StackAnimation::draw() {
 }
 
 
-#endif STACKANIMATION_H
-
+#endif STACK_ANIMATION_H

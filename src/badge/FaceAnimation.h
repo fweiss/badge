@@ -1,5 +1,5 @@
-#ifndef FACEANIMATION_H
-#define FACEANIMATION_H
+#ifndef FACE_ANIMATION_H
+#define FACE_ANIMATION_H
 
 #include "BitmapAnimation.h"
 
@@ -53,5 +53,4 @@ void FaceAnimation::draw() {
   frame++;
 }
 
-#endif FACEANIMATION_H
-
+#endif FACE_ANIMATION_H

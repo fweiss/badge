@@ -1,5 +1,5 @@
-#ifndef BT_BTController
-#define BT_CONTROLLER
+#ifndef BT_CONTROLLER_H
+#define BT_CONTROLLER_H
 
 #include "UberAnimation.h"
 #include <SPI.h>
@@ -136,4 +136,4 @@ features:\n\
  5 sacred\n\
 ";
 
-#endif BT_CONTROLLER
+#endif BT_CONTROLLER_H

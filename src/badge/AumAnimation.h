@@ -1,5 +1,5 @@
-#ifndef AUMANIMATION_H
-#define AUMANIMATION_H
+#ifndef AUM_ANIMATION_H
+#define AUM_ANIMATION_H
 
 #include "BitmapAnimation.h"
 
@@ -32,5 +32,4 @@ void AumAnimation::draw() {
   matrix.show();
 }
 
-#endif AUMANIMATION_H
-
+#endif AUM_ANIMATION_H
