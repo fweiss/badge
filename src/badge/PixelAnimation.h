@@ -19,7 +19,8 @@ protected:
     void draw() override;
 public:
     PixelAnimation(Adafruit_NeoMatrix &matrix) : Animation(matrix) {
-        color = matrix.Color(10, 10, 10);
+        setPeriod(200);
+        color = Adafruit_NeoPixel::Color(60, 0, 0);
     }
 };
 

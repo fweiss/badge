@@ -17,6 +17,9 @@ protected:
     }
 public:
     Animation(Adafruit_NeoMatrix &matrix);
+    void setPeriod(unsigned long p) {
+        period = p;
+    }
     void start() {
         running = true;
     }
