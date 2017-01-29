@@ -13,14 +13,17 @@ private:
     static const int* frames[];
     int frameIndex = 0;
     int frameCount = 4;
-    uint32_t color;
-    void drawPixels(const int*);
+    uint32_t colors[4];
+    void drawPixels(const int*, uint32_t);
 protected:
     void draw() override;
 public:
     PixelAnimation(Adafruit_NeoMatrix &matrix) : Animation(matrix) {
-        setPeriod(200);
-        color = Adafruit_NeoPixel::Color(60, 0, 0);
+        setPeriod(40);
+        colors[0] = Adafruit_NeoPixel::Color(60, 0, 0);
+        colors[1] = Adafruit_NeoPixel::Color(60, 40, 0);
+        colors[2] = Adafruit_NeoPixel::Color(0, 60, 0);
+        colors[3] = Adafruit_NeoPixel::Color(0, 0, 60);
     }
 };
 
@@ -33,12 +36,15 @@ const int* PixelAnimation::frames[] = { p1, p2, p3, p4, p3, p2 };
 void PixelAnimation::draw() {
     matrix.fillScreen(0);
     frameIndex = frameIndex % frameCount;
-    const int *frame = frames[frameIndex];
-    drawPixels(frame);
+//    const int *frame = frames[frameIndex];
+    drawPixels(frames[(frameIndex + 0) % frameCount], colors[0]);
+    drawPixels(frames[(frameIndex + 1) % frameCount], colors[1]);
+    drawPixels(frames[(frameIndex + 2) % frameCount], colors[2]);
+    drawPixels(frames[(frameIndex + 3) % frameCount], colors[3]);
     frameIndex = (frameIndex + 1) % frameCount;
 }
 
-void PixelAnimation::drawPixels(const int* pixels) {
+void PixelAnimation::drawPixels(const int* pixels, uint32_t color) {
     for (int i=0; i<pixels[0]; i++) {
         matrix.setPixelColor(pixels[i + 1], color);
     }
