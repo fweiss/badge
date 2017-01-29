@@ -131,7 +131,7 @@ features:\n\
  0 text\n\
  1 stack\n\
  2 plasma\n\
- 3 pixel\n\
+ 3 squares\n\
  4 face\n\
  5 sacred\n\
 ";
