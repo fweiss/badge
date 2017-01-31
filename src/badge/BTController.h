@@ -53,7 +53,10 @@ public:
 };
 
 void BTController::handleClient(unsigned long now) {
-    if (connected) {
+    if (! ble.isConnected()) {
+        ble.end();
+        connected = false;
+    } else if (connected) {
         // this cannot be done in setup
         if (! bannerWasSent) {
             ble.print(bannerText);
@@ -65,6 +68,7 @@ void BTController::handleClient(unsigned long now) {
             delay(500); // some delay needed to make banner print at next event
             connected = true;
             commandLine = String("");
+            bannerWasSent = false;
         }
     }
 }
@@ -96,6 +100,15 @@ void BTController::handleClientCommandLine() {
 }
 
 void BTController::handleClientCommand() {
+    if (commandLine[1] == '$') {
+        float measuredvbat = analogRead(9);
+        measuredvbat *= 2;    // we divided by 2, so multiply back
+        measuredvbat *= 3.3;  // Multiply by 3.3V, our reference voltage
+        measuredvbat /= 1024; // convert to voltage
+        ble.print(measuredvbat);
+        ble.print(" V\n");
+        return;
+    }
     int featureIndex = isDigit(commandLine[1]) ? commandLine.substring(1).toInt() : -1;
     if (featureIndex < 0 || featureIndex >= animationsSize) {
         ble.print(errorText);
@@ -166,7 +179,7 @@ boolean BTController::parseColor(uint8_t* r, uint8_t* g, uint8_t* b) {
     return false;
 }
 
-String BTController::bannerText = "badge v0.1.0\nenter \"?\" for help\n";
+String BTController::bannerText = "badge v0.2.0\nenter \"?\" for help\n";
 
 String BTController::errorText = "syntax error\nenter \"?\" for help\n";
 
@@ -176,6 +189,7 @@ command line starts with \"!\"\n\
 !n+ turn on feature \"n\"\n\
 !n- turn off feature \"n\"\n\
 !n#color change color\n\
+!$ battery voltage\n\
 features:\n\
  0 text\n\
  1 stack\n\
