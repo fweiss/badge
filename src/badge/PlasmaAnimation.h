@@ -12,11 +12,14 @@ class PlasmaAnimation : public Animation {
 private:
 protected:
   void draw() override;
+  void drawFrame(unsigned long) override;
   float phase;
 public: 
   const byte rows = 8;
   const byte cols = 8;
   PlasmaAnimation(Adafruit_NeoMatrix &matrix) : Animation(matrix) {
+    setFrameCount(200);
+    setRepeatCount(1);
   }
   // map -1 .. +1 to 0 .. +s
   Point lissajous(float a, float b, float c) {
@@ -46,19 +49,19 @@ public:
   }
 };
 
-void PlasmaAnimation::draw() {
+void PlasmaAnimation::drawFrame(unsigned long frameIndex) {
 
   Point p1 = lissajous(1, 1.2, 0);
   Point p2 = lissajous(3, 4.2, 0);
   Point p3 = lissajous(5, 3.2, 0);
   matrix.fillScreen(0);
-  phase += 0.2; //0.02;
+  phase = (float)frameIndex * 0.2;
 
   // this makes a nice "bug" that wanders across the screen, mostly at the edges, like
   // it's trying to escape, pausing every so often, especially in the corners
 //  matrix.drawPixel(p2.x, p1.y, matrix.Color(20, 50, 40));
 
-  
+
   byte row;
   byte col;
   for (row = 0; row < rows; row++) {
@@ -73,6 +76,35 @@ void PlasmaAnimation::draw() {
     }
   }
   matrix.show();
+}
+
+void PlasmaAnimation::draw() {
+//
+//  Point p1 = lissajous(1, 1.2, 0);
+//  Point p2 = lissajous(3, 4.2, 0);
+//  Point p3 = lissajous(5, 3.2, 0);
+//  matrix.fillScreen(0);
+//  phase += 0.2; //0.02;
+//
+//  // this makes a nice "bug" that wanders across the screen, mostly at the edges, like
+//  // it's trying to escape, pausing every so often, especially in the corners
+////  matrix.drawPixel(p2.x, p1.y, matrix.Color(20, 50, 40));
+//
+//
+//  byte row;
+//  byte col;
+//  for (row = 0; row < rows; row++) {
+//    for (col = 0; col < cols; col++) {
+//      Point rc = { row, col };
+//      // max = ~ 12
+//      float d1 = distance(p1, rc);
+//      float d2 = distance(p2, rc);
+//      float d3 = distance(p3, rc);
+//      uint32_t color = warp(d1, d2, d3);
+//      matrix.drawPixel(row, col, color);
+//    }
+//  }
+//  matrix.show();
 }
 
 #endif PLASMA_ANIMATION_H
