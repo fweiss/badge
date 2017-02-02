@@ -42,7 +42,7 @@ PixelAnimation pixel(matrix);
 FaceAnimation face(matrix);
 AumAnimation sacred(matrix);
 
-const unsigned long controllerPeriod = 5000; //26000
+const unsigned long controllerPeriod = 50000; //26000
 
 #if defined WEBCONTROLLER
 #include "WebController.h"

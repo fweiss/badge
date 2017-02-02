@@ -15,6 +15,7 @@ private:
     int frameCount = 4;
     uint32_t colors[4];
     void drawPixels(const int*, uint32_t);
+    void drawFrame(unsigned long) override;
 protected:
     void draw() override;
 public:
@@ -24,6 +25,8 @@ public:
         colors[1] = Adafruit_NeoPixel::Color(60, 40, 0);
         colors[2] = Adafruit_NeoPixel::Color(0, 60, 0);
         colors[3] = Adafruit_NeoPixel::Color(0, 0, 60);
+        setFrameCount(4);
+        setRepeatCount(20);
     }
 };
 
@@ -33,15 +36,22 @@ const int PixelAnimation::p3[] = { 20, 9, 10, 11, 12, 13, 14, 17, 22, 25, 30, 33
 const int PixelAnimation::p4[] = { 28, 0, 1, 2, 3, 4, 5, 6, 7, 8, 15, 16, 23, 24, 31, 32, 39, 40, 47, 48, 55, 56, 57, 58, 59, 60, 61, 62, 63 };
 const int* PixelAnimation::frames[] = { p1, p2, p3, p4, p3, p2 };
 
-void PixelAnimation::draw() {
-    matrix.fillScreen(0);
-    frameIndex = frameIndex % frameCount;
-//    const int *frame = frames[frameIndex];
+void PixelAnimation::drawFrame(unsigned long frameIndex) {
     drawPixels(frames[(frameIndex + 0) % frameCount], colors[0]);
     drawPixels(frames[(frameIndex + 1) % frameCount], colors[1]);
     drawPixels(frames[(frameIndex + 2) % frameCount], colors[2]);
     drawPixels(frames[(frameIndex + 3) % frameCount], colors[3]);
-    frameIndex = (frameIndex + 1) % frameCount;
+}
+
+void PixelAnimation::draw() {
+//    matrix.fillScreen(0);
+//    frameIndex = frameIndex % frameCount;
+////    const int *frame = frames[frameIndex];
+//    drawPixels(frames[(frameIndex + 0) % frameCount], colors[0]);
+//    drawPixels(frames[(frameIndex + 1) % frameCount], colors[1]);
+//    drawPixels(frames[(frameIndex + 2) % frameCount], colors[2]);
+//    drawPixels(frames[(frameIndex + 3) % frameCount], colors[3]);
+//    frameIndex = (frameIndex + 1) % frameCount;
 }
 
 void PixelAnimation::drawPixels(const int* pixels, uint32_t color) {

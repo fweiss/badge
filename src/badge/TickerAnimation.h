@@ -10,6 +10,7 @@ private:
 protected:
     String text;
     void draw() override;
+    void drawFrame(unsigned long) override;
     const int pixelsPerChar = 6;
 public:
     uint32_t textBackgroundColor;
@@ -18,6 +19,8 @@ public:
         text = newText;
         scrollOffset = 0;
         scrollLength = (text.length() + 2) * pixelsPerChar;
+        setFrameCount(scrollLength);
+        start();
     }
     void setTextColor(uint32_t color) {
         textColor = color;
@@ -31,15 +34,23 @@ public:
         textColor = matrix.Color(0, 60, 0);
     }
 };
-
-void TickerAnimation::draw() {
+void TickerAnimation::drawFrame(unsigned long frameIndex) {
     matrix.fillScreen(textBackgroundColor);
     matrix.setTextColor(textColor);
     matrix.setTextWrap(false);
-    matrix.setCursor(pixelsPerChar - scrollOffset, 0); // dwell to scroll in first char
+    matrix.setCursor(pixelsPerChar - frameIndex, 0); // dwell to scroll in first char
     matrix.print(text);
     matrix.show();
-    scrollOffset = (scrollOffset + 1) % scrollLength;
+ }
+
+void TickerAnimation::draw() {
+//    matrix.fillScreen(textBackgroundColor);
+//    matrix.setTextColor(textColor);
+//    matrix.setTextWrap(false);
+//    matrix.setCursor(pixelsPerChar - scrollOffset, 0); // dwell to scroll in first char
+//    matrix.print(text);
+//    matrix.show();
+//    scrollOffset = (scrollOffset + 1) % scrollLength;
 }
 
 #endif TICKER_ANIMATION_H

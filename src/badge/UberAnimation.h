@@ -50,7 +50,8 @@ public:
         for (int i=0; i<animationsSize; i++) {
             int candIndex = (s + i) % animationsSize;
                 Animation* cand = animations[candIndex];
-                if (cand->isRunning()) {
+//                if (cand->isRunning()) {
+                if (cand->isEnabled()) {
                 return candIndex;
             }
         }
@@ -70,3 +71,4 @@ Animation* UberAnimation::animations[] {
 };
 
 #endif UBER_ANIMATION_H
+
