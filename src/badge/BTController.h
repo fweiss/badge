@@ -179,7 +179,7 @@ boolean BTController::parseColor(uint8_t* r, uint8_t* g, uint8_t* b) {
     return false;
 }
 
-String BTController::bannerText = "badge v0.2.0\nenter \"?\" for help\n";
+String BTController::bannerText = "badge v0.3.0\nenter \"?\" for help\n";
 
 String BTController::errorText = "syntax error\nenter \"?\" for help\n";
 

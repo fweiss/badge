@@ -10,9 +10,12 @@ private:
   static const byte eyes[];
 protected:
   void draw() override;
+  void drawFrame(unsigned long) override;
 public:
   FaceAnimation(Adafruit_NeoMatrix &matrix) : BitmapAnimation(matrix) {
-    faceColor = matrix.Color(71, 41, 30);      
+    faceColor = matrix.Color(71, 41, 30);
+     setFrameCount(25);
+     setRepeatCount(10);
   }
 };
 
@@ -37,20 +40,35 @@ const byte FaceAnimation::eyes[] {
   0b00000000,  
 };
 
-void FaceAnimation::draw() {
+void FaceAnimation::drawFrame(unsigned long frameIndex) {
   matrix.fillScreen(0);
   uint32_t eyeColor = matrix.Color(0, 0, 40);
   uint32_t mouthColor = matrix.Color(40, 0, 0);
   // actually x, y
   drawBitmap(face, faceColor);
-  if (frame % 25 != 0) {
+  if (frameIndex % 25 != 0) {
     matrix.drawPixel(2, 3, eyeColor);
     matrix.drawPixel(5, 3, eyeColor);
   }
   matrix.drawPixel(3, 6, mouthColor);
   matrix.drawPixel(4, 6, mouthColor);
   matrix.show();
-  frame++;
+}
+
+void FaceAnimation::draw() {
+//  matrix.fillScreen(0);
+//  uint32_t eyeColor = matrix.Color(0, 0, 40);
+//  uint32_t mouthColor = matrix.Color(40, 0, 0);
+//  // actually x, y
+//  drawBitmap(face, faceColor);
+//  if (frame % 25 != 0) {
+//    matrix.drawPixel(2, 3, eyeColor);
+//    matrix.drawPixel(5, 3, eyeColor);
+//  }
+//  matrix.drawPixel(3, 6, mouthColor);
+//  matrix.drawPixel(4, 6, mouthColor);
+//  matrix.show();
+//  frame++;
 }
 
 #endif FACE_ANIMATION_H
