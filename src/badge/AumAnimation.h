@@ -7,7 +7,6 @@ class AumAnimation : public BitmapAnimation {
 private:
     static const byte bits[];
 protected:
-    void draw() override;
     void drawFrame(unsigned long frameIndex) override;
 public:
     AumAnimation(Adafruit_NeoMatrix &matrix) : BitmapAnimation(matrix) {
@@ -31,12 +30,6 @@ void AumAnimation::drawFrame(unsigned long frameIndex) {
     matrix.clear();
     drawBitmap(bits, color);
     matrix.show();
-}
-void AumAnimation::draw() {
-//  uint32_t color = matrix.Color(20, 20, 40);
-//  matrix.clear();
-//  drawBitmap(bits, color);
-//  matrix.show();
 }
 
 #endif AUM_ANIMATION_H

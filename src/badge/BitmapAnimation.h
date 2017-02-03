@@ -7,7 +7,6 @@ class BitmapAnimation : public Animation {
 private:
 protected:
     uint32_t frame;
-    virtual void draw() = 0;
     boolean isSet(const byte* bits, int x, int y) {
     byte b = bits[y];
         return b & (1 << (7 - x));
