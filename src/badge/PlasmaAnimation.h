@@ -11,7 +11,6 @@ struct Point {
 class PlasmaAnimation : public Animation {
 private:
 protected:
-    void draw() override;
     void drawFrame(unsigned long) override;
     float phase;
 public: 
@@ -78,7 +77,6 @@ void PlasmaAnimation::drawFrame(unsigned long frameIndex) {
     matrix.show();
 }
 
-void PlasmaAnimation::draw() {
 //
 //  Point p1 = lissajous(1, 1.2, 0);
 //  Point p2 = lissajous(3, 4.2, 0);
@@ -105,6 +103,5 @@ void PlasmaAnimation::draw() {
 //    }
 //  }
 //  matrix.show();
-}
 
 #endif PLASMA_ANIMATION_H

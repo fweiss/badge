@@ -6,7 +6,6 @@ private:
 //  int frame;
     uint32_t color;
 protected:
-    void draw() override;
     void drawFrame(unsigned long) override;
 public:
     StackAnimation(Adafruit_NeoMatrix &matrix) : Animation(matrix) {
@@ -27,17 +26,5 @@ void StackAnimation::drawFrame(unsigned long frameIndex) {
     matrix.drawLine(x0, y0, x1, y1, color);
     matrix.show();
 }
-void StackAnimation::draw() {
-//  uint16_t x0 = 0;
-//  uint16_t y0 = frame;
-//  uint16_t x1 = 7;
-//  uint16_t y1 = frame;
-//
-//  matrix.fillScreen(0);
-//  matrix.drawLine(x0, y0, x1, y1, color);
-//  frame = (frame + 1) % 8;
-//  matrix.show();
-}
-
 
 #endif STACK_ANIMATION_H

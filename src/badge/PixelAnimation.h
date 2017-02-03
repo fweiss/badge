@@ -15,9 +15,8 @@ private:
     int frameCount = 4;
     uint32_t colors[4];
     void drawPixels(const int*, uint32_t);
-    void drawFrame(unsigned long) override;
 protected:
-    void draw() override;
+    void drawFrame(unsigned long) override;
 public:
     PixelAnimation(Adafruit_NeoMatrix &matrix) : Animation(matrix) {
         setPeriod(40);
@@ -41,17 +40,6 @@ void PixelAnimation::drawFrame(unsigned long frameIndex) {
     drawPixels(frames[(frameIndex + 1) % frameCount], colors[1]);
     drawPixels(frames[(frameIndex + 2) % frameCount], colors[2]);
     drawPixels(frames[(frameIndex + 3) % frameCount], colors[3]);
-}
-
-void PixelAnimation::draw() {
-//    matrix.fillScreen(0);
-//    frameIndex = frameIndex % frameCount;
-////    const int *frame = frames[frameIndex];
-//    drawPixels(frames[(frameIndex + 0) % frameCount], colors[0]);
-//    drawPixels(frames[(frameIndex + 1) % frameCount], colors[1]);
-//    drawPixels(frames[(frameIndex + 2) % frameCount], colors[2]);
-//    drawPixels(frames[(frameIndex + 3) % frameCount], colors[3]);
-//    frameIndex = (frameIndex + 1) % frameCount;
 }
 
 void PixelAnimation::drawPixels(const int* pixels, uint32_t color) {

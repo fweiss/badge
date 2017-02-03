@@ -9,7 +9,6 @@ private:
     unsigned long scrollLength;
 protected:
     String text;
-    void draw() override;
     void drawFrame(unsigned long) override;
     const int pixelsPerChar = 6;
 public:
@@ -43,14 +42,5 @@ void TickerAnimation::drawFrame(unsigned long frameIndex) {
     matrix.show();
  }
 
-void TickerAnimation::draw() {
-//    matrix.fillScreen(textBackgroundColor);
-//    matrix.setTextColor(textColor);
-//    matrix.setTextWrap(false);
-//    matrix.setCursor(pixelsPerChar - scrollOffset, 0); // dwell to scroll in first char
-//    matrix.print(text);
-//    matrix.show();
-//    scrollOffset = (scrollOffset + 1) % scrollLength;
-}
 
 #endif TICKER_ANIMATION_H
