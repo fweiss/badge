@@ -30,9 +30,10 @@ const int NUMPIXELS = 64;
 // to accomodate packaging of the LED matrix with different locations of the connector
 const int rotationZero = NEO_MATRIX_TOP + NEO_MATRIX_LEFT + NEO_MATRIX_ROWS;
 const int rotationNinety = NEO_MATRIX_TOP + NEO_MATRIX_RIGHT + NEO_MATRIX_COLUMNS;
+const int rotationOneEighty = NEO_MATRIX_BOTTOM + NEO_MATRIX_LEFT + NEO_MATRIX_COLUMNS;
 
 Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(8, 8, PIN, 
-    rotationNinety + NEO_MATRIX_PROGRESSIVE,
+    rotationOneEighty + NEO_MATRIX_PROGRESSIVE,
     NEO_GRB + NEO_KHZ400);
 
 TickerAnimation ticker(matrix);
