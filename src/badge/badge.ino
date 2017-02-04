@@ -54,8 +54,11 @@ BTController uberAnimation(controllerPeriod);
 UberAnimation uberAnimation(controllerPeriod);
 #endif
 
+const String testCp437 = "\xC2\x80\xC2\x81\xC2\x82\xC2\x83\xC3\xBB";
+
 void setup() {
-    ticker.setText("Once upon a time, in a galaxy far, far away");
+//    ticker.setText("Once upon a time, in a galaxy far, far away");
+    ticker.setText(testCp437);
     ticker.textBackgroundColor = matrix.Color(0, 0, 0);
     ticker.textColor = matrix.Color(0, 60, 0);
 

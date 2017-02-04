@@ -3,6 +3,36 @@
 
 #include "Animation.h"
 
+// experimental UTF-8 conversion, still needs CP437 conversion
+static byte blast;
+byte utf8ascii(byte src) {
+    if (src < 128) {
+        return src;
+    }
+    byte last = blast;
+    blast = src;
+    switch (last) {
+        case 0xC2:
+            return src;
+        case 0xC3:
+            return 0xC0 | src;
+        case 0x82:
+            if (src == 0xAC) return 0xEE; // euro symbol
+    }
+    return 0;
+}
+
+String utf8ascii(String src) {
+    String dst = "";
+    char c;
+    for (int i=0; i< src.length(); i++) {
+        c = utf8ascii(src.charAt(i));
+        if (c != 0)
+            dst += c;
+    }
+    return dst;
+}
+
 class TickerAnimation : public Animation {
 private:
     unsigned long scrollOffset;
@@ -15,7 +45,7 @@ public:
     uint32_t textBackgroundColor;
     uint32_t textColor;
     void setText(String newText) {
-        text = newText;
+        text = utf8ascii(newText);
         scrollOffset = 0;
         scrollLength = (text.length() + 2) * pixelsPerChar;
         setFrameCount(scrollLength);
@@ -31,8 +61,10 @@ public:
         setText("strong");
         textBackgroundColor = matrix.Color(0, 0, 0);
         textColor = matrix.Color(0, 60, 0);
+        matrix.cp437(true); // to get around legacy bug in gfx
     }
 };
+
 void TickerAnimation::drawFrame(unsigned long frameIndex) {
     matrix.fillScreen(textBackgroundColor);
     matrix.setTextColor(textColor);

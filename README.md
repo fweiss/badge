@@ -96,6 +96,19 @@ plus matrix, gfx
 
 https://learn.adafruit.com/adafruit-gfx-graphics-library/overview
 
+#### CP437
+
+The GFX library evidently uses Code Page 437 (CP437). However, the BlueFruit LE client uses UNICODE with UTF-8 encoding.
+Without some help, special characters from the Arduino keyboard, such as "ñ" or "®" appear as two or three odd symbols
+on the LED matrix. Two transformations are needed.
+
+- UTF-8 to ISO-8859-1/latin1
+- ISO-8859-1/latin1 to CP437
+
+It may also be possible to create a custom GFX font that use the ISO-8859-1/latin1 character set.
+
+Another option is to encode CP437 in the client. It's unknown presently if the Arduino keyboard does CP437.
+
 ### SPIFFS
 
 On ESP8266, binary files can be uploaded to the flash and read from the program.
