@@ -19,7 +19,7 @@
 #include "BitmapAnimation.h"
 #include "FaceAnimation.h"
 #include "AumAnimation.h"
-#include "UberAnimation.h"
+#include "AnimationSequence.h"
 
 //const char* ssid = "Thing";
 //const char* password = "sparkfun";
@@ -54,7 +54,7 @@ WebController uberAnimation(controllerPeriod);
 #include "BTController.h"
 BTController uberAnimation(controllerPeriod);
 #else // NOCONTROLLER
-UberAnimation uberAnimation(controllerPeriod);
+AnimationSequence uberAnimation(controllerPeriod);
 #endif
 
 const String testCp437 = "\xC2\x80\xC2\x81\xC2\x82\xC2\x83\xC3\xBB";

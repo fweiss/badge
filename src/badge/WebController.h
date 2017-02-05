@@ -1,12 +1,12 @@
 #ifndef WEB_CONTROLLER_H
 #define WEB_CONTROLLER_H
 
-#include "UberAnimation.h"
+#include "AnimationSequence.h"
 
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
 
-class WebController : public UberAnimation {
+class WebController : public AnimationSequence {
 private:
     static String page;
 protected:
@@ -15,7 +15,7 @@ protected:
     void handleRoot();
     void handleNotFound();
 public:
-    WebController(unsigned long period) : UberAnimation(period), server(80) {
+    WebController(unsigned long period) : AnimationSequence(period), server(80) {
         // FIXME this is kinda hokey, do we really need methods?
         server.on("/message", HTTP_GET, [this]() { this->handleMessage(); });
         server.on("/", HTTP_GET,[this]() { this->handleRoot(); });
@@ -24,7 +24,7 @@ public:
     }
     void update(unsigned long now) {
         server.handleClient();
-        UberAnimation::update(now);
+        AnimationSequence::update(now);
     }
 };
 

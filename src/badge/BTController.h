@@ -1,7 +1,7 @@
 #ifndef BT_CONTROLLER_H
 #define BT_CONTROLLER_H
 
-#include "UberAnimation.h"
+#include "AnimationSequence.h"
 #include "SplashAnimation.h"
 #include <SPI.h>
 #include "Adafruit_BLE.h"
@@ -16,7 +16,7 @@ extern SplashAnimation splash;
 
 #define VERBOSE_MODE        false
 
-class BTController : public UberAnimation {
+class BTController : public AnimationSequence {
 private:
     Adafruit_BluefruitLE_SPI ble;
     boolean connected = false;
@@ -32,7 +32,7 @@ private:
 protected:
     boolean parseColor(uint8_t*, uint8_t*, uint8_t*);
 public:
-    BTController(unsigned long period) : UberAnimation(period), ble(BLUEFRUIT_SPI_CS, BLUEFRUIT_SPI_IRQ, BLUEFRUIT_SPI_RST) {
+    BTController(unsigned long period) : AnimationSequence(period), ble(BLUEFRUIT_SPI_CS, BLUEFRUIT_SPI_IRQ, BLUEFRUIT_SPI_RST) {
     }
     void setup() {
         ble.begin(VERBOSE_MODE);
@@ -54,7 +54,7 @@ public:
     void update(unsigned long now) {
         handleClient(now);
         if (connected) {
-            UberAnimation::update(now);
+            AnimationSequence::update(now);
         } else {
             splash.update(now);
         }

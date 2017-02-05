@@ -1,9 +1,9 @@
-#ifndef UBER_ANIMATION_H
-#define UBER_ANIMATION_H
+#ifndef ANIMATION_SEQUENCE_H
+#define ANIMATION_SEQUENCE_H
 
 #include "Animation.h"
 
-class UberAnimation {
+class AnimationSequence {
 private:
     unsigned long lastTime;
     unsigned long period;
@@ -15,7 +15,7 @@ protected:
     int animationsSize;
     unsigned int segment;
 public:
-    UberAnimation(unsigned long _period) {
+    AnimationSequence(unsigned long _period) {
         lastTime = 0;
         period = _period;
         index = 0;
@@ -66,9 +66,8 @@ extern PixelAnimation pixel;
 extern FaceAnimation face;
 extern AumAnimation sacred;
 
-Animation* UberAnimation::animations[] {
+Animation* AnimationSequence::animations[] {
     &ticker, &stack, &plasma, &pixel, &face, &sacred, NULL
 };
 
-#endif UBER_ANIMATION_H
-
+#endif ANIMATION_SEQUENCE_H
