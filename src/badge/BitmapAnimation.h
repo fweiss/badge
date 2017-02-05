@@ -8,7 +8,7 @@ private:
 protected:
     uint32_t frame;
     boolean isSet(const byte* bits, int x, int y) {
-    byte b = bits[y];
+        byte b = bits[y];
         return b & (1 << (7 - x));
     }
     void drawBitmap(const byte* bits, uint32_t color) {
