@@ -91,6 +91,12 @@ public:
         }
         return matrix.Color(20, 20, 20);
     }
+    static uint32_t createColor32(uint8_t r, uint8_t g, uint8_t b) {
+        return Adafruit_NeoPixel::Color(r, g, b);
+    }
+    static uint16_t createColor16(uint8_t r, uint8_t g, uint8_t b) {
+        return Adafruit_NeoMatrix::Color(r, g, b);
+    }
 };
 
 Animation::Animation(Adafruit_NeoMatrix &m) : matrix(m) {

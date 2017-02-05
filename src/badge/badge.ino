@@ -11,6 +11,7 @@
 #include <Adafruit_NeoMatrix.h>
 #include <Adafruit_NeoPixel.h>
 
+#include "SplashAnimation.h"
 #include "TickerAnimation.h"
 #include "StackAnimation.h"
 #include "PlasmaAnimation.h"
@@ -36,6 +37,7 @@ Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(8, 8, PIN,
     rotationOneEighty + NEO_MATRIX_PROGRESSIVE,
     NEO_GRB + NEO_KHZ400);
 
+SplashAnimation splash(matrix);
 TickerAnimation ticker(matrix);
 StackAnimation stack(matrix);
 PlasmaAnimation plasma(matrix);

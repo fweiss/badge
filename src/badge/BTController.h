@@ -2,10 +2,13 @@
 #define BT_CONTROLLER_H
 
 #include "UberAnimation.h"
+#include "SplashAnimation.h"
 #include <SPI.h>
 #include "Adafruit_BLE.h"
 #include <Adafruit_BluefruitLE_SPI.h>
 #include "Adafruit_BluefruitLE_UART.h"
+
+extern SplashAnimation splash;
 
 #define BLUEFRUIT_SPI_CS    8
 #define BLUEFRUIT_SPI_IRQ   7
@@ -45,10 +48,16 @@ public:
         pixel.stop();
         face.stop();
         sacred.stop();
+
+        splash.start();
     }
     void update(unsigned long now) {
         handleClient(now);
-        UberAnimation::update(now);
+        if (connected) {
+            UberAnimation::update(now);
+        } else {
+            splash.update(now);
+        }
     }
 };
 
