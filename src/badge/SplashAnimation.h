@@ -10,6 +10,7 @@ protected:
     void drawFrame(unsigned long frameIndex) override;
 public:
     SplashAnimation(Adafruit_NeoMatrix &matrix) : BitmapAnimation(matrix) {
+        setFrameCount(10);
         setRepeatCount(80);
     }
 };
@@ -26,7 +27,11 @@ const byte SplashAnimation::bits[] = {
 };
 
 void SplashAnimation::drawFrame(unsigned long frameIndex) {
-    uint16_t color = createColor16(5, 5, 30);
+    unsigned long sawtooth = abs((signed long)frameIndex - 5);
+    uint8_t r = map(sawtooth, 0, 5, 5, 10);
+    uint8_t g = map(sawtooth, 0, 5, 5, 10);
+    uint8_t b = map(sawtooth, 0, 5, 5, 35);
+    uint16_t color = createColor16(0, 0, b);
     matrix.clear();
     drawBitmap(bits, color);
     matrix.show();

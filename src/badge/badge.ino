@@ -49,12 +49,12 @@ const unsigned long controllerPeriod = 50000; //26000
 
 #if defined WEBCONTROLLER
 #include "WebController.h"
-WebController uberAnimation(controllerPeriod);
+WebController controller(controllerPeriod);
 #elif defined BTCONTROLLER
 #include "BTController.h"
-BTController uberAnimation(controllerPeriod);
+BTController controller(controllerPeriod);
 #else // NOCONTROLLER
-AnimationSequence uberAnimation(controllerPeriod);
+AnimationSequence controller(controllerPeriod);
 #endif
 
 const String testCp437 = "\xC2\x80\xC2\x81\xC2\x82\xC2\x83\xC3\xBB";
@@ -74,11 +74,13 @@ void setup() {
     sacred.start();
 
     matrix.begin();
-    uberAnimation.setup();
+    matrix.clear();
+    matrix.show();
+    controller.setup();
 }
 
 void loop() {
-    uberAnimation.update(millis());
+    controller.update(millis());
     delay(1);
 }
 
