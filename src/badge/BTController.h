@@ -65,6 +65,7 @@ void BTController::handleClient(unsigned long now) {
     if (! ble.isConnected()) {
         ble.end();
         connected = false;
+        splash.start();
     } else if (connected) {
         // this cannot be done in setup
         if (! bannerWasSent) {
@@ -188,7 +189,7 @@ boolean BTController::parseColor(uint8_t* r, uint8_t* g, uint8_t* b) {
     return false;
 }
 
-String BTController::bannerText = "badge v0.4.0\nenter \"?\" for help\n";
+String BTController::bannerText = "badge v0.4.1\nenter \"?\" for help\n";
 
 String BTController::errorText = "syntax error\nenter \"?\" for help\n";
 
