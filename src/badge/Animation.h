@@ -5,15 +5,6 @@
 #include <Adafruit_NeoMatrix.h>
 #include <Adafruit_NeoPixel.h>
 
-// AumAnimation draw override, no frames
-// BitmapAnimation adds drawBitmap, not draw oveerride, adds frame, but no counter
-// FaceAnimation : BitmapAnimation, draw override, frame count, simple frame select (% 25)
-// PixelAnimation draw override, frame count, frame index
-// PlasmaAnimation draw override, phase instead of frame index, no frame count
-// StackAnimation draw override, frame index, no frame count (%)
-// TickerAnimation draw override, scroll offset and scroll length instead of frame, %
-
-
 class Animation {
 private:
     unsigned long lastTime;
