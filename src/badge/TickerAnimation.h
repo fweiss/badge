@@ -2,6 +2,7 @@
 #define TICKER_ANIMATION_H
 
 #include "Animation.h"
+#include "CP437.h"
 
 String utf8tocp437(String utf8);
 
@@ -17,7 +18,7 @@ public:
     uint32_t textBackgroundColor;
     uint32_t textColor;
     void setText(String newText) {
-        text = utf8tocp437(newText);
+        text = CP437::utf8tocp437(newText);
         scrollOffset = 0;
         scrollLength = (text.length() + 2) * pixelsPerChar;
         setFrameCount(scrollLength);
