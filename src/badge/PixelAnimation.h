@@ -14,9 +14,9 @@ private:
     int frameIndex = 0;
     int frameCount = 4;
     uint32_t colors[4];
-    void drawPixels(const int*, uint32_t);
 protected:
     void drawFrame(unsigned long) override;
+    void drawPixels(const int*, uint32_t);
 public:
     PixelAnimation(Adafruit_NeoMatrix &matrix) : Animation(matrix) {
         setPeriod(40);

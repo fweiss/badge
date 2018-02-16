@@ -50,6 +50,9 @@ public:
     boolean isEnabled() {
         return enabled;
     }
+    void enable(boolean enabled) {
+    	this->enabled = enabled;
+    }
     void update(unsigned long now) {
         if (lastTime == 0 || running &&  now >= lastTime + period) {
             lastTime = now;

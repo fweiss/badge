@@ -27,6 +27,11 @@ public:
         }
     }
     void setup() {
+    	for (int i=0; i<animationsSize; i++) {
+            Animation* animation = animations[i];
+    		animation->enable(false);
+    	}
+    	setCurrent(animations[6]);
     }
     void update(unsigned long now) {
         //  also quit if current has been stopped
@@ -65,9 +70,10 @@ extern PlasmaAnimation plasma;
 extern PixelAnimation pixel;
 extern FaceAnimation face;
 extern AumAnimation sacred;
+extern SpiralAnimation spiral;
 
 Animation* AnimationSequence::animations[] {
-    &ticker, &stack, &plasma, &pixel, &face, &sacred, NULL
+    &ticker, &stack, &plasma, &pixel, &face, &sacred, &spiral, NULL
 };
 
 #endif ANIMATION_SEQUENCE_H

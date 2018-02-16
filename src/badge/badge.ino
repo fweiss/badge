@@ -19,6 +19,7 @@
 #include "BitmapAnimation.h"
 #include "FaceAnimation.h"
 #include "AumAnimation.h"
+#include "SpiralAnimation.h"
 #include "AnimationSequence.h"
 
 //const char* ssid = "Thing";
@@ -44,6 +45,7 @@ PlasmaAnimation plasma(matrix);
 PixelAnimation pixel(matrix);
 FaceAnimation face(matrix);
 AumAnimation sacred(matrix);
+SpiralAnimation spiral(matrix);
 
 const unsigned long controllerPeriod = 50000; //26000
 
@@ -72,6 +74,7 @@ void setup() {
     pixel.start();
     face.start();
     sacred.start();
+    spiral.start();
 
     matrix.begin();
     matrix.clear();
