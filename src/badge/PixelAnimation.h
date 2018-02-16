@@ -24,6 +24,7 @@ public:
         colors[1] = Adafruit_NeoPixel::Color(60, 40, 0);
         colors[2] = Adafruit_NeoPixel::Color(0, 60, 0);
         colors[3] = Adafruit_NeoPixel::Color(0, 0, 60);
+        setPeriod(200);
         setFrameCount(4);
         setRepeatCount(20);
     }
