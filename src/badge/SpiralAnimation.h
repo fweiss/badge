@@ -13,6 +13,7 @@ private:
     uint8_t r;
     uint8_t g;
     uint8_t b;
+    bool reverse;
     std::deque<uint32_t> *colors;
 protected:
 public:
@@ -24,6 +25,7 @@ public:
     	for (int i=0; i<16; i++) {
     		this->colors->push_front(nextColor());
     	}
+    	this->reverse = false;
     }
     uint32_t nextColor() {
     	r += 15;
@@ -33,8 +35,13 @@ public:
     }
     void roll() {
     	uint32_t nc = nextColor();
-    	colors->pop_back();
-    	colors->push_front(nc);
+    	if (reverse) {
+    		colors->pop_front();
+        	colors->push_back(nc);
+    	} else {
+			colors->pop_back();
+			colors->push_front(nc);
+    	}
     }
     uint32_t get(uint32_t i) {
     	return this->colors->at(i);
@@ -56,8 +63,9 @@ protected:
 public:
     SpiralAnimation(Adafruit_NeoMatrix &matrix) : PixelAnimation(matrix) {
         setRepeatCount(80);
+        setPeriod(40);
         currentColor = Adafruit_NeoPixel::Color(60, 0, 0);
-        generator0 = new Generator(10, 0, 0);
+        generator0 = new Generator(255, 0, 0);
         generator1 = new Generator(0, 10, 0);
         generator2 = new Generator(0, 0, 10);
         generator3 = new Generator(10, 10, 0);
