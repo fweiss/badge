@@ -14,6 +14,7 @@ private:
     uint8_t r;
     uint8_t g;
     uint8_t b;
+    uint8_t attenuation;
     bool reverse;
     std::deque<uint32_t> *colors;
 protected:
@@ -28,6 +29,7 @@ ChaseGenerator::ChaseGenerator(uint8_t r, uint8_t g, uint8_t b) {
 	this->r = r;
 	this->g = g;
 	this->b = b;
+	this->attenuation = 1;
 	this->colors = new std::deque<uint32_t>();
 	for (int i=0; i<16; i++) {
 		this->colors->push_front(nextColor());
@@ -38,7 +40,7 @@ uint32_t ChaseGenerator::nextColor() {
 	r += 15;
 	g += 35;
 	b -= 25;
-    return Adafruit_NeoPixel::Color(r/5, g/5, b/5);
+    return Adafruit_NeoPixel::Color(r/attenuation, g/attenuation, b/attenuation);
 }
 void ChaseGenerator::roll() {
 	uint32_t nc = nextColor();
