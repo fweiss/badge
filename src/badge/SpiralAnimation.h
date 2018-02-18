@@ -11,7 +11,7 @@
 class SpiralAnimation : public PixelAnimation {
 private:
     static const byte bits[];
-    void drawPixels2(std::vector<int> pixels, ChaseGenerator *generator);
+    void drawPath(std::vector<int> pixels, ChaseGenerator *generator);
     uint32_t currentColor;
     uint32_t nextColor();
     ChaseGenerator* generator0;
@@ -57,24 +57,19 @@ void SpiralAnimation::drawFrame(unsigned long frameIndex) {
 	static const std::vector<int> spiral2 = {63, 62, 61, 60, 59, 58, 57, 49, 41, 33, 25, 17, 18, 19, 20, 28};
 	static const std::vector<int> spiral3 = {56, 48, 40, 32, 24, 16, 8, 9, 10, 11, 12, 13, 21, 29, 37, 36};
 
-	static const uint32_t color0 = Adafruit_NeoPixel::Color(60, 0, 0);
-	static const uint32_t color1 = Adafruit_NeoPixel::Color(60, 40, 0);
-	static const uint32_t color2 = Adafruit_NeoPixel::Color(0, 60, 0);
-	static const uint32_t color3 = Adafruit_NeoPixel::Color(0, 0, 60);
-
-	drawPixels2(spiral0, generator0);
-	drawPixels2(spiral1, generator1);
-	drawPixels2(spiral2, generator2);
-	drawPixels2(spiral3, generator3);
+	drawPath(spiral0, generator0);
+	drawPath(spiral1, generator1);
+	drawPath(spiral2, generator2);
+	drawPath(spiral3, generator3);
     matrix.show();
 }
 
-void SpiralAnimation::drawPixels2(std::vector<int> spiral, ChaseGenerator *generator) {
+void SpiralAnimation::drawPath(std::vector<int> spiral, ChaseGenerator *generator) {
 	generator->roll();
 	int i = 0;
-	for(int n : spiral) {
-		uint32_t nc = generator->get(i++);
-		matrix.setPixelColor(n, nc);
+	for(int pixelIndex : spiral) {
+		uint32_t pixelColor = generator->get(i++);
+		matrix.setPixelColor(pixelIndex, pixelColor);
 	}
 }
 
