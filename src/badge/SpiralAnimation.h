@@ -24,11 +24,11 @@ public:
     SpiralAnimation(Adafruit_NeoMatrix &matrix) : PixelAnimation(matrix) {
         setRepeatCount(80);
         setPeriod(40);
-        currentColor = Adafruit_NeoPixel::Color(60, 0, 0);
-        generator0 = new ChaseGenerator(255, 0, 0);
-        generator1 = new ChaseGenerator(0, 10, 0);
-        generator2 = new ChaseGenerator(0, 0, 10);
-        generator3 = new ChaseGenerator(10, 10, 0);
+//        currentColor = Adafruit_NeoPixel::Color(60, 0, 0);
+        generator0 = new ChaseGenerator(0, 0, 0);
+        generator1 = new ChaseGenerator(60, 10, 0);
+        generator2 = new ChaseGenerator(120, 0, 10);
+        generator3 = new ChaseGenerator(180, 10, 0);
     }
 };
 
