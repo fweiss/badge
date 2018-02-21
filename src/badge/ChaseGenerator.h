@@ -49,9 +49,10 @@ void ChaseGenerator::preroll(uint8_t amount) {
 uint32_t ChaseGenerator::nextColor() {
 	// 15, 35, -25
 	// 13, 37, -23
-	r += 3;
-	g += 7;
-	b += -5;
+	// 3, 7, -5
+	r += 73;
+	g += 97;
+	b += -85;
     return Adafruit_NeoPixel::Color(r/attenuation, g/attenuation, b/attenuation);
 }
 void ChaseGenerator::roll() {

@@ -31,7 +31,7 @@ public:
             Animation* animation = animations[i];
     		animation->enable(false);
     	}
-    	setCurrent(animations[6]);
+    	setCurrent(animations[7]);
     }
     void update(unsigned long now) {
         //  also quit if current has been stopped
@@ -71,9 +71,10 @@ extern PixelAnimation pixel;
 extern FaceAnimation face;
 extern AumAnimation sacred;
 extern SpiralAnimation spiral;
+extern WormholeAnimation wormhole;
 
 Animation* AnimationSequence::animations[] {
-    &ticker, &stack, &plasma, &pixel, &face, &sacred, &spiral, NULL
+    &ticker, &stack, &plasma, &pixel, &face, &sacred, &spiral, &wormhole, NULL
 };
 
 #endif ANIMATION_SEQUENCE_H
