@@ -31,7 +31,9 @@ ChaseGenerator::ChaseGenerator(uint8_t r, uint8_t g, uint8_t b) {
 	this->r = r;
 	this->g = g;
 	this->b = b;
-	this->attenuation = 5;
+	static const uint8_t BRIGHTEST = 1;
+	static const uint8_t INDOOR = 15;
+	this->attenuation = INDOOR;
 	this->colors = new std::deque<uint32_t>();
 	preroll(r);
 	for (int i=0; i<16; i++) {
