@@ -3,10 +3,13 @@
 
 #include "BitmapAnimation.h"
 #include "ChaseGenerator.h"
+#include "RainbowChaser.h"
 // following to fix Arduino.h when using stdlib
 #undef max
 #undef min
 #include <vector>
+#include <led_sysdefs.h>
+#include <pixeltypes.h>
 
 class WormholeAnimation : public PixelAnimation {
 private:
@@ -15,12 +18,14 @@ private:
     ChaseGenerator* generator1;
     ChaseGenerator* generator2;
     ChaseGenerator* generator3;
+    RainbowChaser rainbowChaser;
 protected:
     void drawFrame(unsigned long frameIndex) override;
 public:
-    WormholeAnimation(Adafruit_NeoMatrix &matrix) : PixelAnimation(matrix) {
-        setRepeatCount(80);
-        setPeriod(440);
+    WormholeAnimation(Adafruit_NeoMatrix &matrix) : PixelAnimation(matrix), rainbowChaser(4) {
+        setRepeatCount(1);
+        setPeriod(240);
+        setFrameCount(1024);
         generator0 = new ChaseGenerator(0, 0, 0);
         generator1 = new ChaseGenerator(60, 10, 0);
         generator2 = new ChaseGenerator(120, 0, 10);
@@ -34,11 +39,21 @@ void WormholeAnimation::drawFrame(unsigned long frameIndex) {
 	static const std::vector<int> spiral2 = {18, 19, 20, 21, 29, 37, 45, 44, 43, 42, 34, 26 };
 	static const std::vector<int> spiral3 = { 27, 28, 36, 35 };
 
+	CHSV hsv(frameIndex, 255, 120);
+	CRGB rgb;
+	hsv2rgb_rainbow(hsv, rgb);
+	uint32_t nextColor = Adafruit_NeoPixel::Color(rgb.r, rgb.g, rgb.b);
+
 	generator0->roll();
-	drawPath(spiral0, generator0->get(3));
-	drawPath(spiral1, generator0->get(2));
-	drawPath(spiral2, generator0->get(1));
-	drawPath(spiral3, generator0->get(0));
+
+	rainbowChaser.roll();
+	drawPath(spiral0, rainbowChaser.get(3));
+	rainbowChaser.roll();
+	drawPath(spiral1, rainbowChaser.get(2));
+	rainbowChaser.roll();
+	drawPath(spiral2, rainbowChaser.get(1));
+	rainbowChaser.roll();
+	drawPath(spiral3, rainbowChaser.get(0));
     matrix.show();
 }
 

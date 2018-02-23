@@ -18,7 +18,7 @@ private:
     uint32_t backgroundColor = 0;
 protected:
     Adafruit_NeoMatrix &matrix;
-    void setFrameCount(unsigned frameCount) {
+    void setFrameCount(unsigned long frameCount) {
         this->frameCount = frameCount;
     }
     void setRepeatCount(unsigned long repeatCount) {
