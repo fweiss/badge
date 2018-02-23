@@ -31,7 +31,7 @@ public:
             Animation* animation = animations[i];
     		animation->enable(false);
     	}
-    	setCurrent(animations[7]);
+    	setCurrent(animations[6]);
     }
     void update(unsigned long now) {
         //  also quit if current has been stopped
