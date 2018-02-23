@@ -23,7 +23,7 @@ RainbowChaser::RainbowChaser(uint8_t size) {
 	}
 }
 uint32_t RainbowChaser::nextColor() {
-	hue += 3;
+	hue += 12;
 	CHSV hsv(hue, 255, 120);
 	CRGB rgb;
 	hsv2rgb_rainbow(hsv, rgb);

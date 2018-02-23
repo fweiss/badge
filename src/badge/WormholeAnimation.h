@@ -14,10 +14,6 @@
 class WormholeAnimation : public PixelAnimation {
 private:
     void drawPath(std::vector<int> pixels, uint32_t pixelColor);
-    ChaseGenerator* generator0;
-    ChaseGenerator* generator1;
-    ChaseGenerator* generator2;
-    ChaseGenerator* generator3;
     RainbowChaser rainbowChaser;
 protected:
     void drawFrame(unsigned long frameIndex) override;
@@ -26,10 +22,6 @@ public:
         setRepeatCount(1);
         setPeriod(240);
         setFrameCount(1024);
-        generator0 = new ChaseGenerator(0, 0, 0);
-        generator1 = new ChaseGenerator(60, 10, 0);
-        generator2 = new ChaseGenerator(120, 0, 10);
-        generator3 = new ChaseGenerator(180, 10, 0);
     }
 };
 
@@ -39,20 +31,10 @@ void WormholeAnimation::drawFrame(unsigned long frameIndex) {
 	static const std::vector<int> spiral2 = {18, 19, 20, 21, 29, 37, 45, 44, 43, 42, 34, 26 };
 	static const std::vector<int> spiral3 = { 27, 28, 36, 35 };
 
-	CHSV hsv(frameIndex, 255, 120);
-	CRGB rgb;
-	hsv2rgb_rainbow(hsv, rgb);
-	uint32_t nextColor = Adafruit_NeoPixel::Color(rgb.r, rgb.g, rgb.b);
-
-	generator0->roll();
-
 	rainbowChaser.roll();
 	drawPath(spiral0, rainbowChaser.get(3));
-	rainbowChaser.roll();
 	drawPath(spiral1, rainbowChaser.get(2));
-	rainbowChaser.roll();
 	drawPath(spiral2, rainbowChaser.get(1));
-	rainbowChaser.roll();
 	drawPath(spiral3, rainbowChaser.get(0));
     matrix.show();
 }
