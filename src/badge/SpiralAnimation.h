@@ -3,17 +3,14 @@
 
 #include "BitmapAnimation.h"
 #include "ChaseGenerator.h"
-// folowing to fix Arduino.h when usinf stdlib
+// following to fix Arduino.h when using stdlib
 #undef max
 #undef min
 #include <vector>
 
 class SpiralAnimation : public PixelAnimation {
 private:
-    static const byte bits[];
     void drawPath(std::vector<uint16_t> pixels, ChaseGenerator *generator);
-    uint32_t currentColor;
-    uint32_t nextColor();
     ChaseGenerator* generator0;
     ChaseGenerator* generator1;
     ChaseGenerator* generator2;
@@ -24,7 +21,6 @@ public:
     SpiralAnimation(Adafruit_NeoMatrix &matrix) : PixelAnimation(matrix) {
         setRepeatCount(80);
         setPeriod(40);
-//        currentColor = Adafruit_NeoPixel::Color(60, 0, 0);
         generator0 = new ChaseGenerator(0, 0, 0);
         generator1 = new ChaseGenerator(60, 10, 0);
         generator2 = new ChaseGenerator(120, 0, 10);
