@@ -4,9 +4,10 @@
 #include "BitmapAnimation.h"
 #include "ChaseGenerator.h"
 // following to fix Arduino.h when using stdlib
-#undef max
-#undef min
+//#undef max
+//#undef min
 #include <vector>
+#include "StdThrowHandlers.h"
 
 class SpiralAnimation : public PixelAnimation {
 private:
@@ -27,25 +28,6 @@ public:
         generator3 = new ChaseGenerator(180, 10, 0);
     }
 };
-
-// see https://forum.pjrc.com/threads/23467-Using-std-vector?p=69787&viewfull=1#post69787
-namespace std {
-  void __throw_bad_alloc()
-  {
-    Serial.println("Unable to allocate memory");
-  }
-
-  void __throw_length_error( char const*e )
-  {
-    Serial.print("Length Error :");
-    Serial.println(e);
-  }
-  void __throw_out_of_range( char const*e )
-  {
-    Serial.print("Out of range Error :");
-    Serial.println(e);
-  }
-}
 
 void SpiralAnimation::drawFrame(unsigned long frameIndex) {
 	static const std::vector<uint16_t> spiral0 = {0, 1, 2, 3, 4, 5, 6, 14, 22, 30, 38, 46, 45, 44, 43, 35};
