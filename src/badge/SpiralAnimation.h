@@ -11,7 +11,7 @@
 class SpiralAnimation : public PixelAnimation {
 private:
     static const byte bits[];
-    void drawPath(std::vector<int> pixels, ChaseGenerator *generator);
+    void drawPath(std::vector<uint16_t> pixels, ChaseGenerator *generator);
     uint32_t currentColor;
     uint32_t nextColor();
     ChaseGenerator* generator0;
@@ -52,10 +52,10 @@ namespace std {
 }
 
 void SpiralAnimation::drawFrame(unsigned long frameIndex) {
-	static const std::vector<int> spiral0 = {0, 1, 2, 3, 4, 5, 6, 14, 22, 30, 38, 46, 45, 44, 43, 35};
-	static const std::vector<int> spiral1 = {7, 15, 23, 31, 39, 47, 55, 54, 53, 52, 51, 50, 42, 34, 26, 27};
-	static const std::vector<int> spiral2 = {63, 62, 61, 60, 59, 58, 57, 49, 41, 33, 25, 17, 18, 19, 20, 28};
-	static const std::vector<int> spiral3 = {56, 48, 40, 32, 24, 16, 8, 9, 10, 11, 12, 13, 21, 29, 37, 36};
+	static const std::vector<uint16_t> spiral0 = {0, 1, 2, 3, 4, 5, 6, 14, 22, 30, 38, 46, 45, 44, 43, 35};
+	static const std::vector<uint16_t> spiral1 = {7, 15, 23, 31, 39, 47, 55, 54, 53, 52, 51, 50, 42, 34, 26, 27};
+	static const std::vector<uint16_t> spiral2 = {63, 62, 61, 60, 59, 58, 57, 49, 41, 33, 25, 17, 18, 19, 20, 28};
+	static const std::vector<uint16_t> spiral3 = {56, 48, 40, 32, 24, 16, 8, 9, 10, 11, 12, 13, 21, 29, 37, 36};
 
 	drawPath(spiral0, generator0);
 	drawPath(spiral1, generator1);
@@ -64,9 +64,9 @@ void SpiralAnimation::drawFrame(unsigned long frameIndex) {
     matrix.show();
 }
 
-void SpiralAnimation::drawPath(std::vector<int> spiral, ChaseGenerator *generator) {
+void SpiralAnimation::drawPath(std::vector<uint16_t> spiral, ChaseGenerator *generator) {
 	generator->roll();
-	int i = 0;
+	uint16_t i = 0;
 	for(int pixelIndex : spiral) {
 		uint32_t pixelColor = generator->get(i++);
 		matrix.setPixelColor(pixelIndex, pixelColor);

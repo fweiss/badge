@@ -13,7 +13,7 @@
 
 class WormholeAnimation : public PixelAnimation {
 private:
-    void drawPath(std::vector<int> pixels, uint32_t pixelColor);
+    void drawPath(std::vector<uint16_t> pixels, uint32_t pixelColor);
     RainbowChaser rainbowChaser;
 protected:
     void drawFrame(unsigned long frameIndex) override;
@@ -26,10 +26,10 @@ public:
 };
 
 void WormholeAnimation::drawFrame(unsigned long frameIndex) {
-	static const std::vector<int> spiral0 = {0, 1, 2, 3, 4, 5, 6, 7, 15, 23, 31, 39, 47, 55, 63, 62, 61, 60, 59, 58, 57, 56, 48, 40, 32, 24, 16, 8};
-	static const std::vector<int> spiral1 = {9, 10, 11, 12, 13, 14, 22, 30, 38, 46, 54, 53, 52, 51, 50, 49, 41, 33, 25, 17 };
-	static const std::vector<int> spiral2 = {18, 19, 20, 21, 29, 37, 45, 44, 43, 42, 34, 26 };
-	static const std::vector<int> spiral3 = { 27, 28, 36, 35 };
+	static const std::vector<uint16_t> spiral0 = {0, 1, 2, 3, 4, 5, 6, 7, 15, 23, 31, 39, 47, 55, 63, 62, 61, 60, 59, 58, 57, 56, 48, 40, 32, 24, 16, 8};
+	static const std::vector<uint16_t> spiral1 = {9, 10, 11, 12, 13, 14, 22, 30, 38, 46, 54, 53, 52, 51, 50, 49, 41, 33, 25, 17 };
+	static const std::vector<uint16_t> spiral2 = {18, 19, 20, 21, 29, 37, 45, 44, 43, 42, 34, 26 };
+	static const std::vector<uint16_t> spiral3 = { 27, 28, 36, 35 };
 
 	rainbowChaser.roll();
 	drawPath(spiral0, rainbowChaser.get(3));
@@ -39,7 +39,7 @@ void WormholeAnimation::drawFrame(unsigned long frameIndex) {
     matrix.show();
 }
 
-void WormholeAnimation::drawPath(std::vector<int> spiral, uint32_t pixelColor) {
+void WormholeAnimation::drawPath(std::vector<uint16_t> spiral, uint32_t pixelColor) {
 	for(int pixelIndex : spiral) {
 		matrix.setPixelColor(pixelIndex, pixelColor);
 	}
