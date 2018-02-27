@@ -3,6 +3,15 @@
 
 #include "Animation.h"
 
+extern TickerAnimation ticker;
+extern StackAnimation stack;
+extern PlasmaAnimation plasma;
+extern PixelAnimation pixel;
+extern FaceAnimation face;
+extern AumAnimation sacred;
+extern SpiralAnimation spiral;
+extern WormholeAnimation wormhole;
+
 class AnimationSequence {
 private:
     unsigned long lastTime;
@@ -31,7 +40,7 @@ public:
             Animation* animation = animations[i];
     		animation->enable(false);
     	}
-    	setCurrent(animations[6]);
+    	setCurrent(&wormhole);
     }
     void update(unsigned long now) {
         //  also quit if current has been stopped
@@ -63,15 +72,6 @@ public:
         return -1;
     }
 };
-
-extern TickerAnimation ticker;
-extern StackAnimation stack;
-extern PlasmaAnimation plasma;
-extern PixelAnimation pixel;
-extern FaceAnimation face;
-extern AumAnimation sacred;
-extern SpiralAnimation spiral;
-extern WormholeAnimation wormhole;
 
 Animation* AnimationSequence::animations[] {
     &ticker, &stack, &plasma, &pixel, &face, &sacred, &spiral, &wormhole, NULL
