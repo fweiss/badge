@@ -1,5 +1,5 @@
-#ifndef CHASE_GENERATOR_H
-#define CHASE_GENERATOR_H
+#ifndef CANDY_CHASER_H
+#define CANDY_CHASER_H
 
 #include <Adafruit_GFX.h>
 #include <Adafruit_NeoMatrix.h>
@@ -9,7 +9,7 @@
 #undef min
 #include <deque>
 
-class ChaseGenerator {
+class CandyChaser {
 private:
     uint8_t r;
     uint8_t g;
@@ -20,14 +20,14 @@ private:
     void preroll(uint8_t amount);
 protected:
 public:
-    ChaseGenerator(uint8_t r, uint8_t g, uint8_t b);
+    CandyChaser(uint8_t r, uint8_t g, uint8_t b);
     uint32_t nextColor();
     void roll();
     uint32_t get(uint32_t i);
     void setReverse(bool reverse);
 };
 
-ChaseGenerator::ChaseGenerator(uint8_t r, uint8_t g, uint8_t b) {
+CandyChaser::CandyChaser(uint8_t r, uint8_t g, uint8_t b) {
 	this->r = r;
 	this->g = g;
 	this->b = b;
@@ -41,12 +41,12 @@ ChaseGenerator::ChaseGenerator(uint8_t r, uint8_t g, uint8_t b) {
 	}
 	this->reverse = false;
 }
-void ChaseGenerator::preroll(uint8_t amount) {
+void CandyChaser::preroll(uint8_t amount) {
 	for (int i=0; i<amount; i++) {
 		nextColor();
 	}
 }
-uint32_t ChaseGenerator::nextColor() {
+uint32_t CandyChaser::nextColor() {
 	// 15, 35, -25
 	// 13, 37, -23
 	// 3, 7, -5
@@ -55,7 +55,7 @@ uint32_t ChaseGenerator::nextColor() {
 	b += -5;
     return Adafruit_NeoPixel::Color(r/attenuation, g/attenuation, b/attenuation);
 }
-void ChaseGenerator::roll() {
+void CandyChaser::roll() {
 	uint32_t nc = nextColor();
 	if (reverse) {
 		colors->pop_front();
@@ -65,12 +65,12 @@ void ChaseGenerator::roll() {
 		colors->push_front(nc);
 	}
 }
-uint32_t ChaseGenerator::get(uint32_t i) {
+uint32_t CandyChaser::get(uint32_t i) {
 	return this->colors->at(i);
 }
-void ChaseGenerator::setReverse(bool reverse) {
+void CandyChaser::setReverse(bool reverse) {
 	this->reverse = reverse;
 }
 
 
-#endif CHASE_GENERATOR_H
+#endif CANDY_CHASER_H

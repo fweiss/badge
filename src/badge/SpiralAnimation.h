@@ -2,7 +2,7 @@
 #define SPIRAL_ANIMATION_H
 
 #include "BitmapAnimation.h"
-#include "ChaseGenerator.h"
+#include "CandyChaser.h"
 // following to fix Arduino.h when using stdlib
 //#undef max
 //#undef min
@@ -11,21 +11,21 @@
 
 class SpiralAnimation : public PixelAnimation {
 private:
-    void drawPath(std::vector<uint16_t> pixels, ChaseGenerator *generator);
-    ChaseGenerator* generator0;
-    ChaseGenerator* generator1;
-    ChaseGenerator* generator2;
-    ChaseGenerator* generator3;
+    void drawPath(std::vector<uint16_t> pixels, CandyChaser *generator);
+    CandyChaser* generator0;
+    CandyChaser* generator1;
+    CandyChaser* generator2;
+    CandyChaser* generator3;
 protected:
     void drawFrame(unsigned long frameIndex) override;
 public:
     SpiralAnimation(Adafruit_NeoMatrix &matrix) : PixelAnimation(matrix) {
         setRepeatCount(80);
         setPeriod(40);
-        generator0 = new ChaseGenerator(0, 0, 0);
-        generator1 = new ChaseGenerator(60, 10, 0);
-        generator2 = new ChaseGenerator(120, 0, 10);
-        generator3 = new ChaseGenerator(180, 10, 0);
+        generator0 = new CandyChaser(0, 0, 0);
+        generator1 = new CandyChaser(60, 10, 0);
+        generator2 = new CandyChaser(120, 0, 10);
+        generator3 = new CandyChaser(180, 10, 0);
     }
 };
 
@@ -42,7 +42,7 @@ void SpiralAnimation::drawFrame(unsigned long frameIndex) {
     matrix.show();
 }
 
-void SpiralAnimation::drawPath(std::vector<uint16_t> spiral, ChaseGenerator *generator) {
+void SpiralAnimation::drawPath(std::vector<uint16_t> spiral, CandyChaser *generator) {
 	generator->roll();
 	uint16_t i = 0;
 	for(int pixelIndex : spiral) {
