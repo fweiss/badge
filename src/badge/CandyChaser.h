@@ -14,6 +14,9 @@ private:
     uint8_t r;
     uint8_t g;
     uint8_t b;
+    uint8_t dr;
+    uint8_t dg;
+    uint8_t db;
     uint8_t attenuation;
     bool reverse;
     std::deque<uint32_t> *colors;
@@ -31,6 +34,9 @@ CandyChaser::CandyChaser(uint8_t r, uint8_t g, uint8_t b) {
 	this->r = r;
 	this->g = g;
 	this->b = b;
+	this->dr = 3;
+	this->dg = 7;
+	this->db = -5;
 	static const uint8_t BRIGHTEST = 1;
 	static const uint8_t INDOOR = 15;
 	this->attenuation = INDOOR;
@@ -50,9 +56,9 @@ uint32_t CandyChaser::nextColor() {
 	// 15, 35, -25
 	// 13, 37, -23
 	// 3, 7, -5
-	r += 3;
-	g += 7;
-	b += -5;
+	r += dr;
+	g += dg;
+	b += db;
     return Adafruit_NeoPixel::Color(r/attenuation, g/attenuation, b/attenuation);
 }
 void CandyChaser::roll() {
