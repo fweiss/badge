@@ -3,8 +3,6 @@
 
 #include <deque>
 #include <algorithm>
-//#include <led_sysdefs.h>
-//#include <pixeltypes.h>
 
 class RainbowChaser {
 public:
@@ -29,10 +27,8 @@ uint32_t RainbowChaser::nextColor() {
 	int r = std::max(0, std::abs(256 + 128 - 3 * hue) - 128);
 	int g = std::max(0, 256 - std::abs(256 - 3 * hue));
 	int b = std::max(0, 256 - std::abs(256 + 256 - 3 * hue));
-//	CHSV hsv(hue, 255, 120);
-//	CRGB rgb;
-//	hsv2rgb_rainbow(hsv, rgb);
 	uint8_t attenuate = 15;
+	// note blue value bump
 	return Adafruit_NeoPixel::Color(r/attenuate, g/attenuate, b/7);
 }
 uint32_t RainbowChaser::get(uint8_t index) {
