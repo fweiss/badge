@@ -2,6 +2,7 @@
 #define RAINBOW_CHASER_H
 
 #include <deque>
+#include <algorithm>
 #include <led_sysdefs.h>
 #include <pixeltypes.h>
 
@@ -24,10 +25,15 @@ RainbowChaser::RainbowChaser(uint8_t size) {
 }
 uint32_t RainbowChaser::nextColor() {
 	hue += 12;
+	// triangular wave
+	int r = std::max(0, std::abs(256 + 128 - 3 * hue) - 128);
+	int g = std::max(0, 256 - std::abs(256 - 3 * hue));
+	int b = std::max(0, 256 - std::abs(256 + 256 - 3 * hue));
 	CHSV hsv(hue, 255, 120);
 	CRGB rgb;
 	hsv2rgb_rainbow(hsv, rgb);
-	return Adafruit_NeoPixel::Color(rgb.r, rgb.g, rgb.b);
+	uint8_t attenuate = 15;
+	return Adafruit_NeoPixel::Color(r/attenuate, g/attenuate, b/7);
 }
 uint32_t RainbowChaser::get(uint8_t index) {
 	return channels.at(index);
