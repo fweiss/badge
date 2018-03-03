@@ -22,7 +22,7 @@ public:
 
 WormholeAnimation::WormholeAnimation(Adafruit_NeoMatrix &matrix)  : PixelAnimation(matrix), rainbowChaser(4) {
     setRepeatCount(1);
-    setPeriod(240);
+    setPeriod(40);
     setFrameCount(1024);
 }
 
@@ -33,10 +33,10 @@ void WormholeAnimation::drawFrame(unsigned long frameIndex) {
 	static const std::vector<uint16_t> spiral3 = { 27, 28, 36, 35 };
 
 	rainbowChaser.roll();
-	drawPath(spiral0, rainbowChaser.get(0));
-	drawPath(spiral1, rainbowChaser.get(1));
-	drawPath(spiral2, rainbowChaser.get(2));
-	drawPath(spiral3, rainbowChaser.get(3));
+	drawPath(spiral0, rainbowChaser.get(3));
+	drawPath(spiral1, rainbowChaser.get(2));
+	drawPath(spiral2, rainbowChaser.get(1));
+	drawPath(spiral3, rainbowChaser.get(0));
     matrix.show();
 }
 
