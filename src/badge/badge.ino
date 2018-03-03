@@ -1,3 +1,5 @@
+#ifndef BADGE_INO
+#define BADGE_INO
 
 //#include "config.h"
 
@@ -90,3 +92,4 @@ void loop() {
     delay(1);
 }
 
+#endif BADGE_INO

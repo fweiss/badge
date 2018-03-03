@@ -7,8 +7,6 @@
 #undef max
 #undef min
 #include <vector>
-#include <led_sysdefs.h>
-#include <pixeltypes.h>
 
 class WormholeAnimation : public PixelAnimation {
 private:
