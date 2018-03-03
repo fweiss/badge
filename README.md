@@ -64,6 +64,11 @@ This plugin allows you upload data files to the ESP8266 flash from the Arduino I
 
 This will not work with the Sparkfun Thing, which has only 512 kB flash.
 
+#### Adafruit Feather M0
+This is another popular development board. Add the following URL to the Arduino board manager:
+
+``https://adafruit.github.io/arduino-board-index/package_adafruit_index.json``
+
 #### C++11
 
 A number of examples in this project use array initializers. You need to enable C++11 in your Arduino toolchain.
