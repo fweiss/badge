@@ -1,5 +1,4 @@
-#ifndef ANIMATION_H
-#define ANIMATION_H
+#pragma once
 
 #include <Adafruit_GFX.h>
 #include <Adafruit_NeoMatrix.h>
@@ -26,9 +25,10 @@ protected:
     }
     virtual void draw() {
     }
-    virtual void drawFrame(unsigned long frameIndex) {}
+    virtual void drawFrame(unsigned long frameIndex) { (void)frameIndex; }
 public:
     Animation(Adafruit_NeoMatrix &matrix);
+    virtual ~Animation() {};
     void setPeriod(unsigned long p) {
         period = p;
     }
@@ -54,7 +54,7 @@ public:
     	this->enabled = enabled;
     }
     void update(unsigned long now) {
-        if (lastTime == 0 || running &&  now >= lastTime + period) {
+        if (lastTime == 0 || (running &&  now >= lastTime + period)) {
             lastTime = now;
             updateFrame();
             draw();
@@ -97,5 +97,3 @@ Animation::Animation(Adafruit_NeoMatrix &m) : matrix(m) {
     lastTime = 0;
     period = 100;
 }
-
-#endif ANIMATION_H
