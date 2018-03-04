@@ -40,7 +40,7 @@ public:
             Animation* animation = animations[i];
     		animation->enable(false);
     	}
-    	setCurrent(&wormhole);
+    	setCurrent(&spiral);
     }
     void update(unsigned long now) {
         //  also quit if current has been stopped

@@ -1,5 +1,4 @@
-#ifndef CANDY_CHASER_H
-#define CANDY_CHASER_H
+#pragma once
 
 #include <Adafruit_GFX.h>
 #include <Adafruit_NeoMatrix.h>
@@ -9,7 +8,9 @@
 #undef min
 #include <deque>
 
-class CandyChaser {
+#include "Chaser.h"
+
+class CandyChaser : public Chaser {
 private:
     uint8_t r;
     uint8_t g;
@@ -18,19 +19,14 @@ private:
     uint8_t dg;
     uint8_t db;
     uint8_t attenuation;
-    bool reverse;
-    std::deque<uint32_t> *colors;
     void preroll(uint8_t amount);
 protected:
 public:
     CandyChaser(uint8_t r, uint8_t g, uint8_t b);
-    uint32_t nextColor();
-    void roll();
-    uint32_t get(uint32_t i);
-    void setReverse(bool reverse);
+    virtual uint32_t nextColor() override;
 };
 
-CandyChaser::CandyChaser(uint8_t r, uint8_t g, uint8_t b) {
+CandyChaser::CandyChaser(uint8_t r, uint8_t g, uint8_t b) : Chaser(16) {
 	this->r = r;
 	this->g = g;
 	this->b = b;
@@ -45,7 +41,7 @@ CandyChaser::CandyChaser(uint8_t r, uint8_t g, uint8_t b) {
 	for (int i=0; i<16; i++) {
 		this->colors->push_front(nextColor());
 	}
-	this->reverse = false;
+	this->setReverse(true);
 }
 void CandyChaser::preroll(uint8_t amount) {
 	for (int i=0; i<amount; i++) {
@@ -61,22 +57,3 @@ uint32_t CandyChaser::nextColor() {
 	b += db;
     return Adafruit_NeoPixel::Color(r/attenuation, g/attenuation, b/attenuation);
 }
-void CandyChaser::roll() {
-	uint32_t nc = nextColor();
-	if (reverse) {
-		colors->pop_front();
-    	colors->push_back(nc);
-	} else {
-		colors->pop_back();
-		colors->push_front(nc);
-	}
-}
-uint32_t CandyChaser::get(uint32_t i) {
-	return this->colors->at(i);
-}
-void CandyChaser::setReverse(bool reverse) {
-	this->reverse = reverse;
-}
-
-
-#endif CANDY_CHASER_H
