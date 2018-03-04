@@ -1,5 +1,11 @@
 #pragma once
 
+// folowing to fix Arduino.h when usinf stdlib
+#undef max
+#undef min
+
+#include <deque>
+
 #include <deque>
 #include <Adafruit_NeoPixel.h>
 #include <Adafruit_NeoMatrix.h>
