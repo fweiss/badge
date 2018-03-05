@@ -14,7 +14,7 @@ public:
 	virtual void drawPath(std::vector<uint16_t> path, Chaser *chaser);
 protected:
 private:
-	CandyChaser *chaser;
+	CandyChaser chaser;
 };
 
 std::vector<std::vector<uint16_t>> BigSpiralAnimation::paths = {
@@ -24,19 +24,18 @@ std::vector<std::vector<uint16_t>> BigSpiralAnimation::paths = {
 		27, 28, 36, 35 }
 };
 
-BigSpiralAnimation::BigSpiralAnimation(Adafruit_NeoMatrix &matrix) : PixelAnimation(matrix) {
+BigSpiralAnimation::BigSpiralAnimation(Adafruit_NeoMatrix &matrix) : PixelAnimation(matrix), chaser(64) {
 	setPeriod(40);
 	setRepeatCount(1024);
-	this->chaser = new CandyChaser(64);
-	this->chaser->setReverse(false);
+	this->chaser.setReverse(false);
 }
 
 void BigSpiralAnimation::drawFrame(unsigned long frameIndex) {
 	(void)frameIndex;
 
-	chaser->roll();
+	chaser.roll();
 	for (std::vector<uint16_t> path :paths) {
-		drawPath(path, chaser);
+		drawPath(path, &chaser);
 	}
     matrix.show();
 }
