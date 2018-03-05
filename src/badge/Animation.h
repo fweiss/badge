@@ -17,12 +17,8 @@ private:
     uint32_t backgroundColor = 0;
 protected:
     Adafruit_NeoMatrix &matrix;
-    void setFrameCount(unsigned long frameCount) {
-        this->frameCount = frameCount;
-    }
-    void setRepeatCount(unsigned long repeatCount) {
-        this->repeatCount = repeatCount;
-    }
+    void setFrameCount(unsigned long frameCount);
+    void setRepeatCount(unsigned long repeatCount);
     virtual void draw() {}
     virtual void drawFrame(unsigned long frameIndex) { (void)frameIndex; }
 public:
@@ -76,7 +72,7 @@ void Animation::update(unsigned long now) {
 void Animation::updateFrame() {
     drawFrame(frameIndex);
     frameIndex = (frameIndex + 1) % frameCount;
-    if (frameIndex ==0) {
+    if (frameIndex == 0) {
         repeatIndex = (repeatIndex + 1) % repeatCount;
         if (repeatIndex == 0) {
         running = false;
@@ -107,5 +103,12 @@ boolean Animation::isEnabled() {
 void Animation::enable(boolean enabled) {
 	this->enabled = enabled;
 }
+void Animation::setFrameCount(unsigned long frameCount) {
+    this->frameCount = frameCount;
+}
+void Animation::setRepeatCount(unsigned long repeatCount) {
+    this->repeatCount = repeatCount;
+}
+
 
 
