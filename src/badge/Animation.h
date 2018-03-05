@@ -23,38 +23,20 @@ protected:
     void setRepeatCount(unsigned long repeatCount) {
         this->repeatCount = repeatCount;
     }
-    virtual void draw() {
-    }
+    virtual void draw() {}
     virtual void drawFrame(unsigned long frameIndex) { (void)frameIndex; }
 public:
     Animation(Adafruit_NeoMatrix &matrix);
     virtual ~Animation() {};
-    void setPeriod(unsigned long p) {
-        period = p;
-    }
-    void start() {
-        running = true;
-        enabled = true;
-        frameIndex = 0;
-        repeatIndex = 0;
-    }
-    void stop() {
-        running = false;
-        enabled = false;
-        matrix.fillScreen(backgroundColor);
-        matrix.show();
-    }
-    boolean isRunning() {
-        return running;
-    }
-    boolean isEnabled() {
-        return enabled;
-    }
-    void enable(boolean enabled) {
-    	this->enabled = enabled;
-    }
+    void setPeriod(unsigned long p);
+    void start();
+    void stop();
+    boolean isRunning();
+    boolean isEnabled();
+    void enable(boolean enabled);
     void update(unsigned long now);
     void updateFrame();
+
     uint32_t hsv(byte h, byte s, byte v) {
         if (s == 0) {
             return matrix.Color(v, v, v);
@@ -101,4 +83,29 @@ void Animation::updateFrame() {
         }
     }
 }
+void Animation::setPeriod(unsigned long p) {
+    period = p;
+}
+void Animation::start() {
+    running = true;
+    enabled = true;
+    frameIndex = 0;
+    repeatIndex = 0;
+}
+void Animation::stop() {
+    running = false;
+    enabled = false;
+    matrix.fillScreen(backgroundColor);
+    matrix.show();
+}
+boolean Animation::isRunning() {
+    return running;
+}
+boolean Animation::isEnabled() {
+    return enabled;
+}
+void Animation::enable(boolean enabled) {
+	this->enabled = enabled;
+}
+
 
