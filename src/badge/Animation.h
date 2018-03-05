@@ -53,23 +53,8 @@ public:
     void enable(boolean enabled) {
     	this->enabled = enabled;
     }
-    void update(unsigned long now) {
-        if (lastTime == 0 || (running &&  now >= lastTime + period)) {
-            lastTime = now;
-            updateFrame();
-            draw();
-        }
-    }
-    void updateFrame() {
-        drawFrame(frameIndex);
-        frameIndex = (frameIndex + 1) % frameCount;
-        if (frameIndex ==0) {
-            repeatIndex = (repeatIndex + 1) % repeatCount;
-            if (repeatIndex == 0) {
-            running = false;
-            }
-        }
-    }
+    void update(unsigned long now);
+    void updateFrame();
     uint32_t hsv(byte h, byte s, byte v) {
         if (s == 0) {
             return matrix.Color(v, v, v);
@@ -97,3 +82,23 @@ Animation::Animation(Adafruit_NeoMatrix &m) : matrix(m) {
     lastTime = 0;
     period = 100;
 }
+
+void Animation::update(unsigned long now) {
+    if (lastTime == 0 || (running &&  now >= lastTime + period)) {
+        lastTime = now;
+        updateFrame();
+        draw();
+    }
+}
+
+void Animation::updateFrame() {
+    drawFrame(frameIndex);
+    frameIndex = (frameIndex + 1) % frameCount;
+    if (frameIndex ==0) {
+        repeatIndex = (repeatIndex + 1) % repeatCount;
+        if (repeatIndex == 0) {
+        running = false;
+        }
+    }
+}
+
