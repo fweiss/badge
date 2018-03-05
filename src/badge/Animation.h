@@ -33,21 +33,6 @@ public:
     void update(unsigned long now);
     void updateFrame();
 
-    uint32_t hsv(byte h, byte s, byte v) {
-        if (s == 0) {
-            return matrix.Color(v, v, v);
-        }
-        if (h < 64) {
-            return matrix.Color(20, 20, 20);
-        }
-        if (h < 128) {
-            return matrix.Color(20, 20, 20);
-        }
-        if (h < 192) {
-            return matrix.Color(20, 20, 20);
-        }
-        return matrix.Color(20, 20, 20);
-    }
     static uint32_t createColor32(uint8_t r, uint8_t g, uint8_t b) {
         return Adafruit_NeoPixel::Color(r, g, b);
     }
@@ -75,7 +60,7 @@ void Animation::updateFrame() {
     if (frameIndex == 0) {
         repeatIndex = (repeatIndex + 1) % repeatCount;
         if (repeatIndex == 0) {
-        running = false;
+        	running = false;
         }
     }
 }
