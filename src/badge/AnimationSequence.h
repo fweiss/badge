@@ -11,6 +11,7 @@ extern FaceAnimation face;
 extern AumAnimation sacred;
 extern SpiralAnimation spiral;
 extern WormholeAnimation wormhole;
+extern BigSpiralAnimation bigSpiral;
 
 class AnimationSequence {
 private:
@@ -40,7 +41,7 @@ public:
             Animation* animation = animations[i];
     		animation->enable(false);
     	}
-    	setCurrent(&wormhole);
+    	setCurrent(&bigSpiral);
     }
     void update(unsigned long now) {
         //  also quit if current has been stopped

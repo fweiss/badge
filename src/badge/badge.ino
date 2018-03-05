@@ -23,6 +23,7 @@
 #include "AumAnimation.h"
 #include "SpiralAnimation.h"
 #include "WormholeAnimation.h"
+#include "BigSpiralAnimation.h";
 #include "AnimationSequence.h"
 
 //const char* ssid = "Thing";
@@ -50,6 +51,7 @@ FaceAnimation face(matrix);
 AumAnimation sacred(matrix);
 SpiralAnimation spiral(matrix);
 WormholeAnimation wormhole(matrix);
+BigSpiralAnimation bigSpiral(matrix);
 
 const unsigned long controllerPeriod = 50000; //26000
 
