@@ -3,7 +3,7 @@
 #include <vector>
 
 #include "Chaser.h"*
-#include "CandyChaser.h"
+#include "RainbowChaser.h"
 #include "PixelAnimation.h"
 
 class BigSpiralAnimation : public PixelAnimation {
@@ -14,7 +14,7 @@ public:
 	virtual void drawPath(std::vector<uint16_t> path, Chaser *chaser);
 protected:
 private:
-	CandyChaser chaser;
+	RainbowChaser chaser;
 };
 
 std::vector<std::vector<uint16_t>> BigSpiralAnimation::paths = {
@@ -26,8 +26,8 @@ std::vector<std::vector<uint16_t>> BigSpiralAnimation::paths = {
 
 BigSpiralAnimation::BigSpiralAnimation(Adafruit_NeoMatrix &matrix) : PixelAnimation(matrix), chaser(64) {
 	setPeriod(40);
-	setRepeatCount(1024);
-	this->chaser.setReverse(false);
+	setRepeatCount(20000);
+	this->chaser.setReverse(true);
 }
 
 void BigSpiralAnimation::drawFrame(unsigned long frameIndex) {

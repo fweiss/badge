@@ -18,7 +18,7 @@ RainbowChaser::RainbowChaser(uint8_t size) : Chaser(size) {
 }
 
 uint32_t RainbowChaser::nextColor() {
-	hue += 25;
+	hue += 5;
 	int hue3 = hue * 3;
 	// triangular wave
 	int r = std::max(0, std::abs(256 + 128 - hue3) - 128);
