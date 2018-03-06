@@ -23,7 +23,7 @@
 #include "AumAnimation.h"
 #include "SpiralAnimation.h"
 #include "WormholeAnimation.h"
-#include "BigSpiralAnimation.h";
+#include "BigSpiralAnimation.h"
 #include "AnimationSequence.h"
 
 //const char* ssid = "Thing";
@@ -40,7 +40,7 @@ const int rotationOneEighty = NEO_MATRIX_BOTTOM + NEO_MATRIX_LEFT + NEO_MATRIX_C
 
 Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(8, 8, PIN, 
     rotationOneEighty + NEO_MATRIX_PROGRESSIVE,
-    NEO_GRB + NEO_KHZ400);
+    NEO_GRB + NEO_KHZ800);
 
 SplashAnimation splash(matrix);
 TickerAnimation ticker(matrix);
