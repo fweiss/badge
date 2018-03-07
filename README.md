@@ -78,6 +78,36 @@ compiler.cpp.flags
 
 Additional info about initializers in C++11: http://www.informit.com/articles/article.aspx?p=1852519
 
+#### Sloeber
+This is an excellent Eclipse plugin that extends the CDT with the Arduino toolchain.
+Follow the instructions on the Sloeber web site to setup the toolchain.
+The following will cover setting up and configuring the badge project.
+
+Create a new Arduino project called badge.
+In the project root directory initialize git and point to the remote github repo.
+
+```
+git init
+git remote add origin https://github.com/fweiss/badge.git
+git pull origin master
+```
+
+In the badge.cpp file, replace the lines following the #include "badge.cpp" with:
+
+``#include "src/badge/badge.ino"``
+
+Verify that the following libraries are included in the project:
+
+- Adafruit_GFX_Library
+- Adafruit_NeoMatrix
+- Adafruit_NeoPixel
+
+Run Arduino > Verify to check if the configuration works.
+
+Attach the device.
+
+Run Arduino > Upload Sketch and verify that it runs.
+
 ### glediator
 
 This is a graphical LED array composer and mixer. Is has several built-in patterns and effects. It can fade between
