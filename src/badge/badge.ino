@@ -24,6 +24,7 @@
 #include "SpiralAnimation.h"
 #include "WormholeAnimation.h"
 #include "BigSpiralAnimation.h"
+#include "StarburstAnimation.h"
 #include "AnimationSequence.h"
 
 //const char* ssid = "Thing";
@@ -52,6 +53,7 @@ AumAnimation sacred(matrix);
 SpiralAnimation spiral(matrix);
 WormholeAnimation wormhole(matrix);
 BigSpiralAnimation bigSpiral(matrix);
+StarburstAnimation starburst(matrix);
 
 const unsigned long controllerPeriod = 50000; //26000
 
@@ -82,6 +84,7 @@ void setup() {
     sacred.start();
     spiral.start();
     wormhole.start();
+    starburst.start();
 
     matrix.begin();
     matrix.clear();

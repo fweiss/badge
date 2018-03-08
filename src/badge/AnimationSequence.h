@@ -12,6 +12,7 @@ extern AumAnimation sacred;
 extern SpiralAnimation spiral;
 extern WormholeAnimation wormhole;
 extern BigSpiralAnimation bigSpiral;
+extern StarburstAnimation starburst;
 
 class AnimationSequence {
 private:
@@ -41,7 +42,7 @@ public:
             Animation* animation = animations[i];
     		animation->enable(false);
     	}
-    	setCurrent(&bigSpiral);
+    	setCurrent(&starburst);
     }
     void update(unsigned long now) {
         //  also quit if current has been stopped
@@ -75,7 +76,7 @@ public:
 };
 
 Animation* AnimationSequence::animations[] {
-    &ticker, &stack, &plasma, &pixel, &face, &sacred, &spiral, &wormhole, NULL
+    &ticker, &stack, &plasma, &pixel, &face, &sacred, &spiral, &wormhole, &starburst, NULL
 };
 
 #endif ANIMATION_SEQUENCE_H

@@ -1,7 +1,13 @@
-#ifndef PIXEL_ANIMATION_H
-#define PIXEL_ANIMATION_H
+#pragma once
+
+// following to fix Arduino.h when using stdlib
+#undef max
+#undef min
+
+#include <vector>
 
 #include "Animation.h"
+#include "Chaser.h"
 
 class PixelAnimation : public Animation {
 private:
@@ -17,6 +23,7 @@ private:
 protected:
     void drawFrame(unsigned long) override;
     void drawPixels(const int*, uint32_t);
+    void drawPath(std::vector<uint16_t> pixels, Chaser *generator);
 public:
     PixelAnimation(Adafruit_NeoMatrix &matrix) : Animation(matrix) {
         setPeriod(40);
@@ -50,5 +57,11 @@ void PixelAnimation::drawPixels(const int* pixels, uint32_t color) {
     matrix.show();
 }
 
-#endif PIXEL_ANIMATION_H
-
+void PixelAnimation::drawPath(std::vector<uint16_t> spiral, Chaser *chaser) {
+	chaser->roll();
+	uint16_t i = 0;
+	for(int pixelIndex : spiral) {
+		uint32_t pixelColor = chaser->get(i++);
+		matrix.setPixelColor(pixelIndex, pixelColor);
+	}
+}

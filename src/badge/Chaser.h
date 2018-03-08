@@ -33,11 +33,11 @@ Chaser::Chaser(uint16_t size) {
 void Chaser::roll() {
 	uint32_t nc = nextColor();
 	if (reverse) {
-		colors->pop_front();
-    		colors->push_back(nc);
-	} else {
 		colors->pop_back();
 		colors->push_front(nc);
+	} else {
+		colors->pop_front();
+    		colors->push_back(nc);
 	}
 }
 

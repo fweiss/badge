@@ -3,15 +3,11 @@
 
 #include "BitmapAnimation.h"
 #include "CandyChaser.h"
-// following to fix Arduino.h when using stdlib
-//#undef max
-//#undef min
 #include <vector>
 #include "StdThrowHandlers.h"
 
 class SpiralAnimation : public PixelAnimation {
 private:
-    void drawPath(std::vector<uint16_t> pixels, CandyChaser *generator);
     CandyChaser* generator0;
     CandyChaser* generator1;
     CandyChaser* generator2;
@@ -40,15 +36,6 @@ void SpiralAnimation::drawFrame(unsigned long frameIndex) {
 	drawPath(spiral2, generator2);
 	drawPath(spiral3, generator3);
     matrix.show();
-}
-
-void SpiralAnimation::drawPath(std::vector<uint16_t> spiral, CandyChaser *generator) {
-	generator->roll();
-	uint16_t i = 0;
-	for(int pixelIndex : spiral) {
-		uint32_t pixelColor = generator->get(i++);
-		matrix.setPixelColor(pixelIndex, pixelColor);
-	}
 }
 
 #endif SPIRAL_ANIMATION_H
