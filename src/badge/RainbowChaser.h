@@ -17,7 +17,7 @@ private:
 
 RainbowChaser::RainbowChaser(uint8_t size) : Chaser(size) {
 	this->hue = 0;
-	speed = 13;
+	this->speed = 13;
 }
 
 uint32_t RainbowChaser::nextColor() {
