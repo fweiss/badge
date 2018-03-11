@@ -32,3 +32,6 @@ Does this work with arduino-esp32?
 
 ## Links and references
 https://www.youtube.com/watch?v=bYh2w0HzS7s&t=65s
+
+https://esp-idf.readthedocs.io/en/v2.0/eclipse-setup.html
+
