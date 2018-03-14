@@ -38,6 +38,17 @@ Although The Adafruit library reportedly works with the ESP platform, other libr
 
 - Makuna NeopixelBus
 
+## Status vs ESP8266 toolchain
+This might go into a separate badge hardware platform section.
+
+This chart focusses on the ESP8266 to ESP32 migration.
+
+Platform | ArduinoIDE | ESP-IDF | Eclipse | Sloeber | Neopixel
+|--------|------------|---------|---------|---------|--------|
+ESP8266 | Y | N? | Y? | Y | Y
+ESP32 | Y | Y | Y? | N? | ?
+
+
 ## Links and references
 https://www.youtube.com/watch?v=bYh2w0HzS7s&t=65s
 

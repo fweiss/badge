@@ -18,6 +18,7 @@ public:
     SpiralAnimation(Adafruit_NeoMatrix &matrix) : PixelAnimation(matrix) {
         setRepeatCount(80);
         setPeriod(40);
+        setFrameCount(200);
         generator0 = new CandyChaser(0, 0, 0);
         generator1 = new CandyChaser(60, 10, 0);
         generator2 = new CandyChaser(120, 0, 10);
