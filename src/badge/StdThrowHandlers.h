@@ -9,6 +9,7 @@
  * see https://forum.pjrc.com/threads/23467-Using-std-vector?p=69787&viewfull=1#post69787
  */
 
+#ifndef ARDUINO_ARCH_ESP32
 namespace std {
   void __throw_bad_alloc()  {
     Serial.println("Unable to allocate memory");
@@ -23,5 +24,6 @@ namespace std {
     Serial.println(e);
   }
 }
+#endif ARDUINO_ARCH_ESP32
 
 #endif STD_THROW_HANDLERS

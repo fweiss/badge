@@ -42,7 +42,7 @@ public:
             Animation* animation = animations[i];
     		animation->enable(false);
     	}
-    	setCurrent(&spiral);
+    	setCurrent(&pixel);
     }
     void update(unsigned long now) {
         //  also quit if current has been stopped
