@@ -1,8 +1,8 @@
 # ESP32 notes
 There are currently two ESP32 toolchains:
 
-- ESP-IDF from Espressif
-- Arduino-ESP
+- ESP-IDF from Espressif https://github.com/espressif/esp-idf
+- Arduino-ESP also from Espressif https://github.com/espressif/arduino-esp32
 
 In addition, there is the Eclipse CDT and Sloeber.
 
@@ -12,7 +12,7 @@ I also hope to use the Adafruit Neopixel libraries.
 ## Options for developing for ESP32
 The quesions boils down to:
 - Arduino or ESP-IDF? Neopixel support?
-- Arduino IDE/ESP-IDF or Eclipse? Well, Eclipse for sure!
+- Arduino IDE, ESP-IDF or Eclipse? Well, Eclipse for sure!
 - Sloeber or just CDT? Sloeber supports all Arduino
 - Dual toolchain? I'm happy not using ArduinoIDE at all, but can I convince collaborators?
 
@@ -29,6 +29,14 @@ This is pretty easy to do. See youtube link below.
 
 ### Ecplise + Sloeber
 Does this work with arduino-esp32?
+
+## Neopixel libraries
+In addition to the toolchains is the question of libraries.
+The original POC used FastLEDS and Adafruit Neopixels.
+The software development was continued on the Adafruit library for better compatibility with another project.
+Although The Adafruit library reportedly works with the ESP platform, other libraries are under consideration.
+
+- Makuna NeopixelBus
 
 ## Links and references
 https://www.youtube.com/watch?v=bYh2w0HzS7s&t=65s
