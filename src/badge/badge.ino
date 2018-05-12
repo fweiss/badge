@@ -7,7 +7,7 @@
 // NOCONTROLLER - no remote
 // WEBCONTROLLER - esp8266
 // BTCONTROLLER - Feather BLE
-#define NOCONTROLLER
+#define BTCONTROLLER
 
 #include <Adafruit_GFX.h>
 #include <Adafruit_NeoMatrix.h>

@@ -43,11 +43,14 @@ This might go into a separate badge hardware platform section.
 
 This chart focusses on the ESP8266 to ESP32 migration.
 
-Platform | ArduinoIDE | ESP-IDF | Eclipse | Sloeber | Neopixel
-|--------|------------|---------|---------|---------|--------|
-ESP8266 | Y | N? | Y? | Y | Y
-ESP32 | Y | Y | Y? | N? | ?
+Platform | ArduinoIDE | ESP-IDF | Eclipse | Sloeber | Neopixel | Makuna | LED_STRIP[3] |
+|--------|------------|---------|---------|---------|--------|----------|--------------|
+ESP8266  | Y          | N?      | Y?      | Y       | Y      | Y?       | N            |
+ESP32    | Y          | Y       | Y?      | N?      | Y[1]   | Y[2]     | Y            |
 
+[1] pixel 0 flickers green and other artifacts
+[2] in Cylon, pixel flickering (but not pixel 0) even with cap and resistor
+[3] Uses RMT. Integrated as an ESP-IDF component 
 
 ## Links and references
 https://www.youtube.com/watch?v=bYh2w0HzS7s&t=65s
