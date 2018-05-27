@@ -1,3 +1,2 @@
-/.idea
-/Release
-src/badge/config.h
+.DS_Store
+build/
