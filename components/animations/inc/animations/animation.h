@@ -3,6 +3,8 @@
 #include "esp_system.h"
 #include "led_strip/led_strip.h"
 
+#include "CandyChaser.h"
+
 #include "display.h"
 
 class Animation {
