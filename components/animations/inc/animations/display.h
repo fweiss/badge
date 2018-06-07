@@ -1,8 +1,12 @@
+#pragma once
+
 #include "freertos/FreeRTOS.h"
 #include "led_strip/led_strip.h"
 
 class Display {
 private:
+	struct led_color_t led_strip_buf_1[64];
+	struct led_color_t led_strip_buf_2[64];
 	struct led_strip_t *ledStrip;
 	uint8_t brightness;
 protected:

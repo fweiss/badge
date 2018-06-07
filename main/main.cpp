@@ -15,7 +15,8 @@
 #include "nvs_flash.h"
 #include "driver/gpio.h"
 #include "led_strip/led_strip.h"
-#include "animations/animationz.h"
+#include "animations/SmearAnimation.h"
+#include "animations/display.h"
 
 #include <stdio.h>
 
@@ -41,7 +42,10 @@ static struct led_color_t led_strip_buf_2[LED_STRIP_LENGTH];
 //};
 static struct led_strip_t ledStrip = { RGB_LED_TYPE_WS2812, LED_STRIP_LENGTH };
 
-static Animation animation(&ledStrip);
+//static SmearAnimation animation(&ledStrip);
+
+Display display(&ledStrip);
+static SmearAnimation animation(&display);
 
 #include "soc/timer_group_struct.h"
 #include "driver/timer.h"
@@ -60,9 +64,9 @@ static void drawFrame() {
 //	led_strip_set_pixel_rgb(&ledStrip, 1, 20, r, 20);
 //	led_strip_show(&ledStrip);
 //	animation.ledStrip = &ledStrip;
-	led_strip_set_pixel_rgb(animation.ledStrip, 0, r, 20, 20);
-	led_strip_set_pixel_rgb(animation.ledStrip, 1, 20, r, 20);
-	led_strip_show(animation.ledStrip);
+//	led_strip_set_pixel_rgb(animation.ledStrip, 0, r, 20, 20);
+//	led_strip_set_pixel_rgb(animation.ledStrip, 1, 20, r, 20);
+//	led_strip_show(animation.ledStrip);
 	r = (r + 3) % 256;
 }
 
@@ -183,7 +187,7 @@ void app_main(void)
 	ledStrip.access_semaphore = xSemaphoreCreateBinary();
 	bool ok = led_strip_init(&ledStrip);
     ESP_LOGI(LED_STRIP_TAG, "init status %d\n", ok);
-    	animation.ledStrip = &ledStrip;
+//    	animation.ledStrip = &ledStrip;
 
 //	led_strip_set_pixel_rgb(&ledStrip, 0, 0, 210, 0);
 //	led_strip_show(&ledStrip);
