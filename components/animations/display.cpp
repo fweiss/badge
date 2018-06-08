@@ -10,12 +10,12 @@ Display::Display() {
 	ledStrip = new led_strip_t{RGB_LED_TYPE_WS2812, 64, rmt_channel, rmt_interrupt_num, gpio, showing_buf_1, led_strip_buf_1, led_strip_buf_2};
 	ledStrip->access_semaphore = xSemaphoreCreateBinary();
 	bool ok = led_strip_init(ledStrip);
-	this->brightness = 1;
+	this->brightness = 25;
 }
 
 Display::Display(led_strip_t *ledStrip) {
 	this->ledStrip = ledStrip;
-	this->brightness = 10;
+	this->brightness = 50;
 }
 
 void Display::clear() {
@@ -23,7 +23,10 @@ void Display::clear() {
 }
 
 void Display::setPixelRgb(uint16_t p, uint8_t r, uint8_t g, uint8_t b) {
-	led_strip_set_pixel_rgb(ledStrip, p, (brightness*r)/100, (brightness*g)/100, (brightness*b)/100);
+	uint8_t scaledRed = (r * brightness) / 100;
+	uint8_t scaledGreen = (g * brightness) / 100;
+	uint8_t scaledBlue = (b * brightness) / 100;
+	led_strip_set_pixel_rgb(ledStrip, p, scaledRed, scaledGreen, scaledBlue);
 }
 
 void Display::update() {
