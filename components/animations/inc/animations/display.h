@@ -7,6 +7,8 @@ class Display {
 private:
 	struct led_color_t led_strip_buf_1[64];
 	struct led_color_t led_strip_buf_2[64];
+//	struct led_color_t *led_strip_buf_1;
+//	struct led_color_t *led_strip_buf_2;
 	struct led_strip_t *ledStrip;
 	uint8_t brightness;
 protected:

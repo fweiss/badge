@@ -44,7 +44,8 @@ static struct led_strip_t ledStrip = { RGB_LED_TYPE_WS2812, LED_STRIP_LENGTH };
 
 //static SmearAnimation animation(&ledStrip);
 
-Display display(&ledStrip);
+//Display display(&ledStrip);
+Display display;
 static SmearAnimation animation(&display);
 
 #include "soc/timer_group_struct.h"
@@ -185,8 +186,8 @@ void app_main(void)
     ledStrip.led_strip_buf_1 = led_strip_buf_1;
     ledStrip.led_strip_buf_2 = led_strip_buf_2;
 	ledStrip.access_semaphore = xSemaphoreCreateBinary();
-	bool ok = led_strip_init(&ledStrip);
-    ESP_LOGI(LED_STRIP_TAG, "init status %d\n", ok);
+//	bool ok = led_strip_init(&ledStrip);
+//    ESP_LOGI(LED_STRIP_TAG, "init status %d\n", ok);
 //    	animation.ledStrip = &ledStrip;
 
 //	led_strip_set_pixel_rgb(&ledStrip, 0, 0, 210, 0);
@@ -194,16 +195,16 @@ void app_main(void)
 
     example_tg0_timer_init(TIMER_0, TEST_WITHOUT_RELOAD, TIMER_INTERVAL0_SEC);
 
-	TaskHandle_t main_task_handle;
-    BaseType_t task_created = xTaskCreate(main_led_task,
-                                            "main_led_task",
-                                            ESP_TASK_MAIN_STACK,
-                                            NULL,
-                                            ESP_TASK_MAIN_PRIO,
-                                            &main_task_handle);
-
-    (void)task_created;
-    vTaskDelete(NULL);
+//	TaskHandle_t main_task_handle;
+//    BaseType_t task_created = xTaskCreate(main_led_task,
+//                                            "main_led_task",
+//                                            ESP_TASK_MAIN_STACK,
+//                                            NULL,
+//                                            ESP_TASK_MAIN_PRIO,
+//                                            &main_task_handle);
+//
+//    (void)task_created;
+//    vTaskDelete(NULL);
 
 }
 
