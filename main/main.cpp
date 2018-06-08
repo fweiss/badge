@@ -15,9 +15,9 @@
 #include "nvs_flash.h"
 #include "driver/gpio.h"
 #include "led_strip/led_strip.h"
-#include "animations/SmearAnimation.h"
 #include "animations/display.h"
-
+#include "animations/SmearAnimation.h"
+#include "animations/SpiralAnimation.h"
 #include <stdio.h>
 
 extern "C" {
@@ -31,7 +31,7 @@ extern "C" {
 
 //Display display(&ledStrip);
 Display display;
-static SmearAnimation animation(&display);
+static SpiralAnimation animation(display);
 
 #include "soc/timer_group_struct.h"
 #include "driver/timer.h"

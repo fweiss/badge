@@ -15,5 +15,8 @@ public:
 	Display(led_strip_t *ledString);
 	void clear();
 	void update();
+	void show();
 	void setPixelRgb(uint16_t p, uint8_t r, uint8_t g, uint8_t b);
+	void setPixel(uint16_t p, uint8_t r, uint8_t g, uint8_t b);
+	void setPixel(uint16_t p, uint32_t color);
 };
