@@ -44,10 +44,10 @@ static SmearAnimation animation(&display);
 #define TEST_WITHOUT_RELOAD   0        // testing will be done without auto reload
 #define TEST_WITH_RELOAD      1        // testing will be done with auto reload
 
-static void drawFrame() {
-	static uint8_t r = 0;
-	r = (r + 3) % 256;
-}
+//static void drawFrame() {
+//	static uint8_t r = 0;
+//	r = (r + 3) % 256;
+//}
 
 /*
  * Timer group0 ISR handler
