@@ -23,13 +23,3 @@ void SpiralAnimation::drawFrame() {
 	drawPath(spiral3, generator3);
     display.show();
 }
-
-void SpiralAnimation::drawPath(std::vector<uint16_t> spiral, Chaser *chaser) {
-	chaser->roll();
-	uint16_t i = 0;
-	for (int pixelIndex : spiral) {
-		uint32_t pixelColor = chaser->get(i++);
-		display.setPixel(pixelIndex, pixelColor);
-	}
-}
-
