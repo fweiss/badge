@@ -1,6 +1,6 @@
 #include "SpiralAnimation.h"
 
-SpiralAnimation::SpiralAnimation(Display &display) : Animation(display) {
+SpiralAnimation::SpiralAnimation(Display &display) : PathAnimation(display) {
 //        setRepeatCount(80);
 //        setPeriod(40);
 //        setFrameCount(200);

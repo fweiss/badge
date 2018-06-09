@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Animation.h"
+#include "PathAnimation.h"
 #include "CandyChaser.h"
 #include <vector>
 
-class SpiralAnimation : Animation {
+class SpiralAnimation : PathAnimation {
 private:
     CandyChaser* generator0;
     CandyChaser* generator1;
