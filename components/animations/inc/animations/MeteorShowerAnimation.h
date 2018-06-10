@@ -8,5 +8,4 @@ private:
 protected:
 public:
 	MeteorShowerAnimation(Display &display);
-	void drawFrame();
 };

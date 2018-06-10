@@ -8,4 +8,6 @@ protected:
 	Display display;
 public:
 	Animation(Display &display);
+    virtual ~Animation() {};
+	virtual void drawFrame() = 0;
 };

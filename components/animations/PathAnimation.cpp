@@ -4,6 +4,13 @@ PathAnimation::PathAnimation(Display &display) : Animation(display) {
 
 }
 
+void PathAnimation::drawFrame() {
+	for (ChaserPath cp : chaserPaths) {
+		drawPath(cp.path, cp.chaser);
+	}
+    display.show();
+}
+
 void PathAnimation::drawPath(std::vector<uint16_t> spiral, Chaser *chaser) {
 	chaser->roll();
 	uint16_t i = 0;

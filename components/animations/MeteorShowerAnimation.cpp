@@ -19,15 +19,3 @@ MeteorShowerAnimation::MeteorShowerAnimation(Display &display) : PathAnimation(d
 			ChaserPath(new CandyChaser(0, 20, 70), { 63 })
 	};
 }
-
-void MeteorShowerAnimation::drawFrame() {
-//	drawPath(spiral0, generator0);
-//	drawPath(spiral1, generator1);
-//	drawPath(spiral2, generator2);
-//	drawPath(spiral3, generator3);
-	for (ChaserPath cp : chaserPaths) {
-		drawPath(cp.path, cp.chaser);
-	}
-    display.show();
-}
-

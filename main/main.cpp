@@ -32,7 +32,7 @@ extern "C" {
 
 //Display display(&ledStrip);
 Display display;
-static MeteorShowerAnimation animation(display);
+static SpiralAnimation animation(display);
 
 #include "soc/timer_group_struct.h"
 #include "driver/timer.h"
@@ -98,7 +98,8 @@ void IRAM_ATTR timer_group0_isr(void *para)
 
     /* Now just send the event data back to the main program task */
 //    xQueueSendFromISR(timer_queue, &evt, NULL);
-    animation.drawFrame();
+    Animation *a = &animation;
+    a->drawFrame();
 }
 
 /*

@@ -3,7 +3,7 @@
 #include "PathAnimation.h"
 #include "CandyChaser.h"
 
-class SpiralAnimation : PathAnimation {
+class SpiralAnimation : public PathAnimation {
 private:
     CandyChaser* generator0;
     CandyChaser* generator1;
@@ -16,5 +16,4 @@ private:
 protected:
 public:
     SpiralAnimation(Display &display);
-    void drawFrame(); // todo move to base class
 };
