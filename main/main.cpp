@@ -18,6 +18,7 @@
 #include "animations/display.h"
 #include "animations/SmearAnimation.h"
 #include "animations/SpiralAnimation.h"
+#include "animations/MeteorShowerAnimation.h"
 #include <stdio.h>
 
 extern "C" {
@@ -31,7 +32,7 @@ extern "C" {
 
 //Display display(&ledStrip);
 Display display;
-static SpiralAnimation animation(display);
+static MeteorShowerAnimation animation(display);
 
 #include "soc/timer_group_struct.h"
 #include "driver/timer.h"
