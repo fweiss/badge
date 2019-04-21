@@ -1,10 +1,9 @@
 #include "display.h"
 #include "led_strip/led_strip.h"
 
-Display::Display() {
+Display::Display(gpio_num_t gpio) {
     rmt_channel_t rmt_channel = RMT_CHANNEL_1;
     int rmt_interrupt_num = 19U;
-    gpio_num_t gpio = GPIO_NUM_21;
     bool showing_buf_1 = false;
 
 	ledStrip = new led_strip_t{RGB_LED_TYPE_WS2812, 64, rmt_channel, rmt_interrupt_num, gpio, showing_buf_1, led_strip_buf_1, led_strip_buf_2};

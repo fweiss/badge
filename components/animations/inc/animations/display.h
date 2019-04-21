@@ -11,7 +11,7 @@ private:
 	uint8_t brightness;
 protected:
 public:
-	Display();
+	Display(gpio_num_t gpio);
 	Display(led_strip_t *ledString);
 	void clear();
 	void update();

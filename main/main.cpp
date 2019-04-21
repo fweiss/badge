@@ -31,7 +31,7 @@ extern "C" {
 #define LED_STRIP_RMT_INTR_NUM 19U
 
 //Display display(&ledStrip);
-Display display;
+Display display( GPIO_NUM_14);
 static SpiralAnimation animation(display);
 
 #include "soc/timer_group_struct.h"
