@@ -11,4 +11,8 @@ SpiralAnimation::SpiralAnimation(Display &display) : PathAnimation(display) {
 		ChaserPath(new CandyChaser(120, 0, 10), {63, 62, 61, 60, 59, 58, 57, 49, 41, 33, 25, 17, 18, 19, 20, 28} ),
 		ChaserPath(new CandyChaser(180, 10, 0), {56, 48, 40, 32, 24, 16, 8, 9, 10, 11, 12, 13, 21, 29, 37, 36} )
 	};
+
+	for (ChaserPath cp : chaserPaths) {
+	    cp.chaser->setReverse(true);
+	}
 }
