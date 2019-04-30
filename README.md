@@ -39,6 +39,9 @@ For evaluating Bluetooth connectivity.
 
 https://learn.adafruit.com/adafruit-feather-m0-bluefruit-le?view=all
 
+- ATSAMD21 Cortex M0+ MCU chip
+- Nordic nRF51822 BLE module
+
 ## Development Tools
 
 ### Arduino IDE 1.6.8
