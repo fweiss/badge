@@ -118,6 +118,10 @@ values that can be exported and played back later or looped.
 
 
 ## Libraries
+Following Arduino libraries are needed for this project.
+
+### Bluetooth
+Install ``dafruit_BluefruitLE_nRF51``
 
 ### FastLED
 
