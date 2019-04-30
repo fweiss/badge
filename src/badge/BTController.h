@@ -206,7 +206,7 @@ features:\n\
  2 plasma\n\
  3 squares\n\
  4 face\n\
- 5 sacred\n\
+ 5 sacred, 6 spiral, 7, wormhole\n\
 ";
 
 #endif BT_CONTROLLER_H
