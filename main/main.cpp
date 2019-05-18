@@ -158,7 +158,7 @@ void app_main(void)
 
     ESP_LOGI(LED_STRIP_TAG, "initializing\n");
 
-    example_tg0_timer_init(TIMER_0, TEST_WITHOUT_RELOAD, TIMER_INTERVAL0_SEC);
+//    example_tg0_timer_init(TIMER_0, TEST_WITHOUT_RELOAD, TIMER_INTERVAL0_SEC);
 
     animator.setCallback(
         []() {
@@ -166,9 +166,9 @@ void app_main(void)
         }
     );
 
-    Timer::timerIsr((void*) 0);
+//    Timer::timerIsr((void*) 0);
 
-//    animator.start();
+    animator.start();
 
 
 //	TaskHandle_t main_task_handle;

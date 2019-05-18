@@ -7,6 +7,9 @@ Timer::Timer() {
     this->index = (timer_idx_t) 0;
 
     bool auto_reload = true;
+    double timer_interval_sec = 0.030;
+    uint32_t timer_divider = 16.0;
+    double timer_scale = (TIMER_BASE_CLK / timer_divider);
 
     // initialize the timer configuration
     timer_config_t config;
@@ -18,8 +21,13 @@ Timer::Timer() {
     config.auto_reload = auto_reload;
     timer_init(TIMER_GROUP_0, this->index, &config);
 
-    // initialize the timer counter
+    // initialize the timer
     timer_set_counter_value(TIMER_GROUP_0, this->index, 0x00000000ULL);
+    timer_set_alarm_value(TIMER_GROUP_0, this->index, timer_interval_sec * timer_scale);
+
+    // setup alarm isr
+    timer_enable_intr(TIMER_GROUP_0, this->index);
+    timer_isr_register(TIMER_GROUP_0, this->index, Timer::timerIsr, (void *) this->index, ESP_INTR_FLAG_IRAM, NULL);
 }
 
 void Timer::setCallback(std::function<void(void)> _func) {
@@ -27,7 +35,7 @@ void Timer::setCallback(std::function<void(void)> _func) {
     func = _func;
 }
 
-void Timer::timerIsr(void *data) {
+void IRAM_ATTR Timer::timerIsr(void *data) {
     int timer_idx = (int) data;
     TIMERG0.int_clr_timers.t0 = 1; // clear the interrupt
     TIMERG0.hw_timer[timer_idx].config.alarm_en = TIMER_ALARM_EN; // retrigger alarm

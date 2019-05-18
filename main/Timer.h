@@ -13,6 +13,7 @@ public:
 
     void setCallback(std::function<void(void)> lambda);
     void start();
+
     static void timerIsr(void *data); // nice if it were private
 private:
     timer_group_t group;
