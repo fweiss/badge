@@ -21,6 +21,8 @@
 #include "animations/MeteorShowerAnimation.h"
 #include <stdio.h>
 
+#include "Timer.h"
+
 extern "C" {
 	void app_main(void);
 }
@@ -148,11 +150,7 @@ void main_led_task(void *args) {
 	}
 }
 
-//void app_main()
-//{
-//    printf("Hello world!\n");
-//   xTaskCreate(&main_led_task, "man_led_task", configMINIMAL_STACK_SIZE, NULL, 5, NULL);
-//}
+Timer animator;
 
 void app_main(void)
 {
@@ -161,6 +159,10 @@ void app_main(void)
     ESP_LOGI(LED_STRIP_TAG, "initializing\n");
 
     example_tg0_timer_init(TIMER_0, TEST_WITHOUT_RELOAD, TIMER_INTERVAL0_SEC);
+
+//    animator.start();
+    Timer::timerIsr((void*) 0);
+
 
 //	TaskHandle_t main_task_handle;
 //    BaseType_t task_created = xTaskCreate(main_led_task,
