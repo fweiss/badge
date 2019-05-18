@@ -160,8 +160,15 @@ void app_main(void)
 
     example_tg0_timer_init(TIMER_0, TEST_WITHOUT_RELOAD, TIMER_INTERVAL0_SEC);
 
-//    animator.start();
+    animator.setCallback(
+        []() {
+            animation.drawFrame();
+        }
+    );
+
     Timer::timerIsr((void*) 0);
+
+//    animator.start();
 
 
 //	TaskHandle_t main_task_handle;
