@@ -1,5 +1,7 @@
 #include "BTController.h"
 
+#include "esp_bt_device.h"
+
 const char* BTController::GATTS_TAG = "BTC";
 
 #define GATTS_DEMO_CHAR_VAL_LEN_MAX (32)
@@ -11,12 +13,19 @@ return; \
 
 // todo refactor from unwieldy switch statement
 // sequence:
-// 0, 7, 12
+// 0, 7, 12, 9
 void BTController::gatts_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param) {
+    esp_err_t ret;
+
     ESP_LOGI(GATTS_TAG, "gatts_event_handler: %d", event);
+
     switch (event) {
     case ESP_GATTS_REG_EVT: {
         ESP_LOGI(GATTS_TAG, "registering service");
+
+        ret = esp_ble_gap_config_adv_data(&advertisementData);
+        ERROR_CHECK("configure advertising data");
+
         // fixme initialize in object
         esp_gatt_srvc_id_t service_id;
         service_id.is_primary = true;
@@ -32,7 +41,6 @@ void BTController::gatts_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t
         uint16_t service_handle = param->create.service_handle;
         esp_ble_gatts_start_service(service_handle);
 
-        esp_err_t ret;
         esp_gatt_char_prop_t properties;
         esp_bt_uuid_t uuid = {
                 .len = ESP_UUID_LEN_16,
@@ -55,14 +63,37 @@ void BTController::gatts_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t
         }
         break;
     }
+    case ESP_GATTS_START_EVT: {
+        ESP_LOGI(GATTS_TAG, "service started");
+        break;
+    }
+    case ESP_GATTS_ADD_CHAR_EVT: {
+        ESP_LOGI(GATTS_TAG, "characteristic added");
+    }
     default: {
         break;
     }
     }
 }
 
+// sequence
+// 0
 void BTController::gap_event_handler(esp_gap_ble_cb_event_t event, esp_ble_gap_cb_param_t *param) {
-    ESP_LOGI(GATTS_TAG, "gap_event_handler");
+    esp_err_t ret;
+
+    ESP_LOGI(GATTS_TAG, "gap_event_handler: %d", event);
+
+    switch (event) {
+    case ESP_GAP_BLE_ADV_DATA_SET_COMPLETE_EVT: {
+        ret = esp_ble_gap_start_advertising(&advertisementParameters);
+        ERROR_CHECK("start advertising")
+        ESP_LOGI(GATTS_TAG, "start ble advertisement");
+        break;
+    }
+    default: {
+        break;
+    }
+    }
 }
 
 void BTController::init() {
@@ -86,6 +117,7 @@ void BTController::init() {
         ESP_LOGE(GATTS_TAG, "%s enable bluetooth failed: %s\n", __func__, esp_err_to_name(ret));
         return;
     }
+    esp_bt_dev_set_device_name("Badge");
 
     ret = esp_ble_gatts_register_callback(gatts_event_handler);
     if (ret){
@@ -103,4 +135,49 @@ void BTController::init() {
         return;
     }
     ESP_LOGI(GATTS_TAG, "bt initialized");
+
+    const uint8_t* address = esp_bt_dev_get_address();
+    ESP_LOGI(GATTS_TAG, "bluetooth device address: %x:%x:%x:%x:%x:%x", address[0], address[1], address[2], address[3], address[4], address[5]);
+
 }
+
+void BTController::createAdvertisementData() {
+
+}
+
+uint8_t BTController::adv_service_uuid128[32] = {
+    /* LSB <--------------------------------------------------------------------------------> MSB */
+    //first uuid, 16bit, [12],[13] is the value
+    0xfb, 0x34, 0x9b, 0x5f, 0x80, 0x00, 0x00, 0x80, 0x00, 0x10, 0x00, 0x00, 0xEE, 0x00, 0x00, 0x00,
+    //second uuid, 32bit, [12], [13], [14], [15] is the value
+    0xfb, 0x34, 0x9b, 0x5f, 0x80, 0x00, 0x00, 0x80, 0x00, 0x10, 0x00, 0x00, 0xFF, 0x00, 0x00, 0x00,
+};
+
+
+esp_ble_adv_data_t BTController::advertisementData = {
+    .set_scan_rsp = false,
+    .include_name = true,
+    .include_txpower = true,
+    .min_interval = 0x20,
+    .max_interval = 0x40,
+    .appearance = 0x00,
+    .manufacturer_len = 0, //TEST_MANUFACTURER_DATA_LEN,
+    .p_manufacturer_data =  NULL, //&test_manufacturer[0],
+    .service_data_len = 0,
+    .p_service_data = NULL,
+    .service_uuid_len = 32,
+    .p_service_uuid = adv_service_uuid128,
+    .flag = (ESP_BLE_ADV_FLAG_GEN_DISC | ESP_BLE_ADV_FLAG_BREDR_NOT_SPT),
+};
+
+esp_ble_adv_params_t BTController::advertisementParameters = {
+    .adv_int_min        = 0x20,
+    .adv_int_max        = 0x40,
+    .adv_type           = ADV_TYPE_IND,
+    .own_addr_type      = BLE_ADDR_TYPE_PUBLIC,
+    .peer_addr            = { 0 },
+    .peer_addr_type       = BLE_ADDR_TYPE_RANDOM,
+    .channel_map        = ADV_CHNL_ALL,
+    .adv_filter_policy = ADV_FILTER_ALLOW_SCAN_ANY_CON_ANY,
+};
+
