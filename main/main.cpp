@@ -14,6 +14,7 @@
 #include <stdio.h>
 
 #include "Timer.h"
+#include "BTController.h"
 
 extern "C" {
 	void app_main(void);
@@ -29,11 +30,15 @@ static SpiralAnimation animation(display);
 
 Timer animator;
 
+BTController controller;
+
 void app_main(void)
 {
     nvs_flash_init();
 
     ESP_LOGI(LED_STRIP_TAG, "initializing\n");
+
+    controller.init();
 
     animator.setCallback(
         []() {
