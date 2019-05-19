@@ -13,7 +13,9 @@ return; \
 
 // todo refactor from unwieldy switch statement
 // sequence:
-// 0, 7, 12, 9
+// init: 0, 7, 12, 9
+// connect: 14
+// disconnect: 15
 void BTController::gatts_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param) {
     esp_err_t ret;
 
@@ -69,6 +71,17 @@ void BTController::gatts_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t
     }
     case ESP_GATTS_ADD_CHAR_EVT: {
         ESP_LOGI(GATTS_TAG, "characteristic added");
+        break;
+    }
+    case ESP_GATTS_CONNECT_EVT: {
+        ESP_LOGI(GATTS_TAG, "connect occurred");
+//        esp_ble_gap_update_conn_params(&conn_params);
+        break;
+    }
+    case ESP_GATTS_DISCONNECT_EVT: {
+        esp_ble_gap_start_advertising(&advertisementParameters);
+        ESP_LOGI(GATTS_TAG, "discconnect occurred, advertising started");
+        break;
     }
     default: {
         break;
@@ -77,7 +90,8 @@ void BTController::gatts_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t
 }
 
 // sequence
-// 0
+// init: 0, 6
+// connect: 20
 void BTController::gap_event_handler(esp_gap_ble_cb_event_t event, esp_ble_gap_cb_param_t *param) {
     esp_err_t ret;
 
@@ -87,7 +101,11 @@ void BTController::gap_event_handler(esp_gap_ble_cb_event_t event, esp_ble_gap_c
     case ESP_GAP_BLE_ADV_DATA_SET_COMPLETE_EVT: {
         ret = esp_ble_gap_start_advertising(&advertisementParameters);
         ERROR_CHECK("start advertising")
-        ESP_LOGI(GATTS_TAG, "start ble advertisement");
+        ESP_LOGI(GATTS_TAG, "starting ble advertisement");
+        break;
+    }
+    case ESP_GAP_BLE_ADV_START_COMPLETE_EVT: {
+        ESP_LOGI(GATTS_TAG, "ble advertisement started");
         break;
     }
     default: {
@@ -117,6 +135,8 @@ void BTController::init() {
         ESP_LOGE(GATTS_TAG, "%s enable bluetooth failed: %s\n", __func__, esp_err_to_name(ret));
         return;
     }
+    const uint8_t* address = esp_bt_dev_get_address();
+    ESP_LOGI(GATTS_TAG, "bluetooth device address: %x:%x:%x:%x:%x:%x", address[0], address[1], address[2], address[3], address[4], address[5]);
     esp_bt_dev_set_device_name("Badge");
 
     ret = esp_ble_gatts_register_callback(gatts_event_handler);
@@ -135,10 +155,6 @@ void BTController::init() {
         return;
     }
     ESP_LOGI(GATTS_TAG, "bt initialized");
-
-    const uint8_t* address = esp_bt_dev_get_address();
-    ESP_LOGI(GATTS_TAG, "bluetooth device address: %x:%x:%x:%x:%x:%x", address[0], address[1], address[2], address[3], address[4], address[5]);
-
 }
 
 void BTController::createAdvertisementData() {
