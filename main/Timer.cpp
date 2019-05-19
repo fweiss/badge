@@ -27,7 +27,9 @@ Timer::Timer() {
 
     // setup alarm isr
     timer_enable_intr(TIMER_GROUP_0, this->index);
-    timer_isr_register(TIMER_GROUP_0, this->index, Timer::timerIsr, (void *) this->index, ESP_INTR_FLAG_IRAM, NULL);
+    int intr_alloc_flags = ESP_INTR_FLAG_IRAM;
+    timer_isr_handle_t *handle = NULL;
+    timer_isr_register(TIMER_GROUP_0, this->index, Timer::timerIsr, (void *) this->index, intr_alloc_flags, handle);
 }
 
 void Timer::setCallback(std::function<void(void)> _func) {
