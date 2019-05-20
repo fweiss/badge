@@ -108,6 +108,10 @@ void BTController::gap_event_handler(esp_gap_ble_cb_event_t event, esp_ble_gap_c
         ESP_LOGI(GATTS_TAG, "ble advertisement started");
         break;
     }
+    case ESP_GAP_BLE_UPDATE_CONN_PARAMS_EVT: {
+        ESP_LOGI(GATTS_TAG, "ble update connection parameters");
+        break;
+    }
     default: {
         break;
     }
