@@ -83,6 +83,11 @@ void BTController::gatts_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t
         ESP_LOGI(GATTS_TAG, "discconnect occurred, advertising started");
         break;
     }
+    case ESP_GATTS_WRITE_EVT: {
+        struct esp_ble_gatts_cb_param_t::gatts_write_evt_param write = param->write;
+        ESP_LOGI(GATTS_TAG, "gatts write %d", write.value[0]);
+        break;
+    }
     default: {
         break;
     }
