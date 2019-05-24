@@ -1,14 +1,14 @@
 #include "BadgeService.h"
 
-BLECharacteristicConfig dimmingCharacteristicConfig;
+BLECharacteristicConfig dimmingCharacteristicConfig = {
+    .uuid = 43
+};
 
 BadgeService::BadgeService() : dimmingCharacteristic(dimmingCharacteristicConfig) {
     // create service
 }
 
 void BadgeService::init() {
-    // create dim characteristic
-    // add write handler
     dimmingCharacteristic.onWrite(
         [](int p) {
             // display.setDim();

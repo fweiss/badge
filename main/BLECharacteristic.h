@@ -3,7 +3,8 @@
 #include <functional>
 
 class BLECharacteristicConfig {
-
+public:
+    int uuid;
 };
 
 class BLECharacteristic {
