@@ -46,6 +46,8 @@ void app_main(void)
         }
     );
 
+    display.setBrightness(5);
+
     animator.start();
 }
 

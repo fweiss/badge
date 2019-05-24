@@ -46,3 +46,7 @@ void Display::update() {
 void Display::show() {
 	led_strip_show(ledStrip);
 }
+
+void Display::setBrightness(uint8_t brightness) {
+    this->brightness = brightness;
+}
