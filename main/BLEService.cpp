@@ -10,9 +10,17 @@
 #include "esp_gatts_api.h"
 #include "esp_bt_main.h"
 
+#include "BLECharacteristic.h"
+
 #define GATTS_TAG "BLEService"
 
-void BLEService::registerCharacteristic() {
+BLEService::BLEService() {
+
+}
+
+void BLEService::attach(BLECharacteristic *characteristic, BLECharacteristicConfig &config) {
+    characteristics.insert({config.uuid, characteristic});
+
     esp_err_t ret;
 
     esp_bt_uuid_t uuid = {
@@ -36,4 +44,14 @@ void BLEService::registerCharacteristic() {
     if (ret) {
         ESP_LOGE(GATTS_TAG, "add char failed, error code =%x", ret);
     }
+}
+
+void BLEService::onCharacteristicRead(int uuid) {
+    BLECharacteristic *characteristic = characteristics.at(uuid);
+    characteristic->readCallback(7);
+}
+
+void BLEService::onCharacteristicWrite(int uuid) {
+    BLECharacteristic *characteristic = characteristics.at(uuid);
+    characteristic->readCallback(8);
 }

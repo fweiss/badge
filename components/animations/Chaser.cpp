@@ -12,7 +12,7 @@ void Chaser::roll() {
 		colors->push_front(nc);
 	} else {
 		colors->pop_front();
-    		colors->push_back(nc);
+        colors->push_back(nc);
 	}
 }
 

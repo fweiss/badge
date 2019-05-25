@@ -9,7 +9,7 @@ BadgeService::BadgeService() : dimmingCharacteristic(this, dimmingCharacteristic
 }
 
 void BadgeService::init() {
-    dimmingCharacteristic.onWrite(
+    dimmingCharacteristic.setWriteCallback(
         [](int p) {
             // display.setDim();
     }
