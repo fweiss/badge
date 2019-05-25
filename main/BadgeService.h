@@ -1,16 +1,19 @@
 #pragma once
 
+#include "animations/display.h"
+
 #include "BLECharacteristic.h"
+
 
 class BadgeService : public BLEService {
 public:
-    BadgeService();
+    BadgeService(Display &display);
     virtual ~BadgeService() {}
 
     void init();
 
 private:
-    int display;
+    Display &display;
 
     BLECharacteristic dimmingCharacteristic;
 };

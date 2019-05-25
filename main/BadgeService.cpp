@@ -4,14 +4,14 @@ BLECharacteristicConfig dimmingCharacteristicConfig = {
     .uuid = 43
 };
 
-BadgeService::BadgeService() : dimmingCharacteristic(this, dimmingCharacteristicConfig) {
-    // create service
+BadgeService::BadgeService(Display &display) :
+        display(display), dimmingCharacteristic(this, dimmingCharacteristicConfig) {
 }
 
 void BadgeService::init() {
     dimmingCharacteristic.setWriteCallback(
-        [](int p) {
-            // display.setDim();
+        [this](int p) {
+            display.setBrightness(25);
     }
     );
 }
