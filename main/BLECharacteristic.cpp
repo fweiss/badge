@@ -1,5 +1,5 @@
 #include "BLECharacteristic.h"
 
-BLECharacteristic::BLECharacteristic(BLECharacteristicConfig config) {
-
+BLECharacteristic::BLECharacteristic(BLEService *service, BLECharacteristicConfig config) {
+//    service->registerCharacteristic()
 }

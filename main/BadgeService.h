@@ -2,7 +2,7 @@
 
 #include "BLECharacteristic.h"
 
-class BadgeService {
+class BadgeService : public BLEService {
 public:
     BadgeService();
     virtual ~BadgeService() {}

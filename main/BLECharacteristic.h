@@ -2,6 +2,8 @@
 
 #include <functional>
 
+#include "BLEService.h"
+
 class BLECharacteristicConfig {
 public:
     int uuid;
@@ -9,7 +11,7 @@ public:
 
 class BLECharacteristic {
 public:
-    BLECharacteristic(BLECharacteristicConfig config);
+    BLECharacteristic(BLEService *service, BLECharacteristicConfig config);
     virtual ~BLECharacteristic() {}
 
     void onWrite(std::function<void(int)> func);

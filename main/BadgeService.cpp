@@ -4,7 +4,7 @@ BLECharacteristicConfig dimmingCharacteristicConfig = {
     .uuid = 43
 };
 
-BadgeService::BadgeService() : dimmingCharacteristic(dimmingCharacteristicConfig) {
+BadgeService::BadgeService() : dimmingCharacteristic(this, dimmingCharacteristicConfig) {
     // create service
 }
 
