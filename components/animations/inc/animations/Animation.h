@@ -5,7 +5,7 @@
 class Animation {
 private:
 protected:
-	Display display;
+	Display &display;
 public:
 	Animation(Display &display);
     virtual ~Animation() {};
