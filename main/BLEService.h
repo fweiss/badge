@@ -18,6 +18,7 @@ public:
     // todo make friend
     void attach(BLECharacteristic *characteristic, BLECharacteristicConfig &config);
 
+    void handleGattsEvent(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param);
     void onCharacteristicRead(int uuid);
     void onCharacteristicWrite(struct esp_ble_gatts_cb_param_t::gatts_write_evt_param);
 

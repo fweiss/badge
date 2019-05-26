@@ -16,6 +16,8 @@
 #include "Timer.h"
 #include "BTController.h"
 
+#include "BadgeService.h"
+
 extern "C" {
 	void app_main(void);
 }
@@ -27,6 +29,8 @@ extern "C" {
 
 Display display( GPIO_NUM_14);
 static SpiralAnimation animation(display);
+
+static BadgeService badgeService(display);
 
 Timer animator;
 
