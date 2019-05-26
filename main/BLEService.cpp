@@ -51,7 +51,8 @@ void BLEService::onCharacteristicRead(int uuid) {
     characteristic->readCallback(7);
 }
 
-void BLEService::onCharacteristicWrite(int uuid) {
-    BLECharacteristic *characteristic = characteristics.at(uuid);
+void BLEService::onCharacteristicWrite(struct esp_ble_gatts_cb_param_t::gatts_write_evt_param param) {
+    uint16_t characteristicHandle = param.handle;
+    BLECharacteristic *characteristic = characteristics.at(characteristicHandle);
     characteristic->readCallback(8);
 }
