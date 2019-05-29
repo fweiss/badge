@@ -9,9 +9,11 @@ BadgeService::BadgeService(Display &display) :
 }
 
 void BadgeService::init() {
+
     brightnessCharacteristic.setWriteCallback(
         [this](int p) {
             display.setBrightness(25);
         }
     );
+
 }
