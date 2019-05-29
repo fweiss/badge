@@ -1,17 +1,17 @@
 #include "BadgeService.h"
 
-BLECharacteristicConfig dimmingCharacteristicConfig = {
+BLECharacteristicConfig brighnessCharacteristicConfig = {
     .uuid = 43
 };
 
 BadgeService::BadgeService(Display &display) :
-        display(display), dimmingCharacteristic(this, dimmingCharacteristicConfig) {
+        display(display), brightnessCharacteristic(this, brighnessCharacteristicConfig) {
 }
 
 void BadgeService::init() {
-    dimmingCharacteristic.setWriteCallback(
+    brightnessCharacteristic.setWriteCallback(
         [this](int p) {
             display.setBrightness(25);
-    }
+        }
     );
 }

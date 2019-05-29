@@ -15,5 +15,5 @@ public:
 private:
     Display &display;
 
-    BLECharacteristic dimmingCharacteristic;
+    BLECharacteristic brightnessCharacteristic;
 };
