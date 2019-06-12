@@ -19,7 +19,23 @@ BLEService::BLEService() {
 }
 
 void BLEService::handleGattsEvent(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param) {
+    switch (event) {
+    case ESP_GATTS_ADD_CHAR_EVT:
+        onCharacteristicAdd(gatts_if, param->add_char);
+        break;
+    default:
+        break;
+    }
+}
 
+void BLEService::onCharacteristicAdd(esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t::gatts_add_char_evt_param &addChar) {
+    // todo log error status
+    if (addChar.status == ESP_GATT_OK) {
+        BLECharacteristic *characteristic = characteristicByUuid.at(addChar.char_uuid);
+        characteristicByHandle.insert({addChar.attr_handle, characteristic});
+        (void)addChar.service_handle;
+        ;
+    }
 }
 
 void BLEService::attach(BLECharacteristic *characteristic, BLECharacteristicConfig &config) {
@@ -49,6 +65,7 @@ void BLEService::attach(BLECharacteristic *characteristic, BLECharacteristicConf
         ESP_LOGE(GATTS_TAG, "add char failed, error code =%x", ret);
     }
 }
+
 
 void BLEService::onCharacteristicRead(int uuid) {
     BLECharacteristic *characteristic = characteristics.at(uuid);
