@@ -1,7 +1,12 @@
 #include "BadgeService.h"
 
 BLECharacteristicConfig brighnessCharacteristicConfig = {
-    .uuid = 43
+    .uuid = {
+        .len = ESP_UUID_LEN_16,
+        .uuid = {
+            .uuid16 = 0x0043
+        }
+    }
 };
 
 BadgeService::BadgeService(Display &display) :

@@ -39,16 +39,11 @@ void BLEService::onCharacteristicAdd(esp_gatt_if_t gatts_if, esp_ble_gatts_cb_pa
 }
 
 void BLEService::attach(BLECharacteristic *characteristic, BLECharacteristicConfig &config) {
-    characteristics.insert({config.uuid, characteristic});
+    characteristicByUuid.insert({config.uuid, characteristic});
 
     esp_err_t ret;
 
-    esp_bt_uuid_t uuid = {
-            .len = ESP_UUID_LEN_16,
-            .uuid = {
-                .uuid16 = 0xff01
-            }
-    };
+    esp_bt_uuid_t &uuid = config.uuid;
     esp_gatt_perm_t permissions = ESP_GATT_PERM_READ | ESP_GATT_PERM_WRITE;
     esp_gatt_char_prop_t properties;
     properties = ESP_GATT_CHAR_PROP_BIT_READ | ESP_GATT_CHAR_PROP_BIT_WRITE | ESP_GATT_CHAR_PROP_BIT_NOTIFY;

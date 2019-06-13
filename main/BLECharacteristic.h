@@ -6,7 +6,7 @@
 
 class BLECharacteristicConfig {
 public:
-    int uuid;
+    esp_bt_uuid_t uuid;
 };
 
 class BLECharacteristic {
