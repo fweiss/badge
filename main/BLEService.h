@@ -78,9 +78,9 @@ public:
     static const uint16_t ATTR_MAX_LEN = 16;
 
 protected:
-    std::unordered_map<int, BLECharacteristic*> characteristics;
-    std::unordered_map<uint16_t, BLECharacteristic*> characteristicByHandle;
+//    std::unordered_map<int, BLECharacteristic*> characteristics;
     std::unordered_map<esp_bt_uuid_t, BLECharacteristic*, uuid_hash, uuid_equal> characteristicByUuid;
+    std::unordered_map<uint16_t, BLECharacteristic*> characteristicByHandle;
 
 private:
     uint16_t serviceHandle;

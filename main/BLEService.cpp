@@ -14,7 +14,7 @@
 
 #define GATTS_TAG "BLEService"
 
-BLEService::BLEService() {
+BLEService::BLEService() : characteristicByUuid(), characteristicByHandle() {
 
 }
 
@@ -23,12 +23,17 @@ void BLEService::handleGattsEvent(esp_gatts_cb_event_t event, esp_gatt_if_t gatt
     case ESP_GATTS_ADD_CHAR_EVT:
         onCharacteristicAdd(gatts_if, param->add_char);
         break;
+    case ESP_GATTS_CREATE_EVT:
+        ESP_LOGI(GATTS_TAG, "creating service: %d", param->create.service_handle);
+        serviceHandle = param->create.service_handle;
+        break;
     default:
         break;
     }
 }
 
 void BLEService::onCharacteristicAdd(esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t::gatts_add_char_evt_param &addChar) {
+    ESP_LOGI(GATTS_TAG, "onCharacteristicAdd: %d", addChar.char_uuid.uuid.uuid16);
     // todo log error status
     if (addChar.status == ESP_GATT_OK) {
         BLECharacteristic *characteristic = characteristicByUuid.at(addChar.char_uuid);
@@ -39,6 +44,7 @@ void BLEService::onCharacteristicAdd(esp_gatt_if_t gatts_if, esp_ble_gatts_cb_pa
 }
 
 void BLEService::attach(BLECharacteristic *characteristic, BLECharacteristicConfig &config) {
+    ESP_LOGI(GATTS_TAG, "attach: %d", config.uuid.uuid.uuid16);
     characteristicByUuid.insert({config.uuid, characteristic});
 
     esp_err_t ret;
@@ -63,12 +69,12 @@ void BLEService::attach(BLECharacteristic *characteristic, BLECharacteristicConf
 
 
 void BLEService::onCharacteristicRead(int uuid) {
-    BLECharacteristic *characteristic = characteristics.at(uuid);
-    characteristic->readCallback(7);
+//    BLECharacteristic *characteristic = characteristicsByUuid.at(uuid);
+//    characteristic->readCallback(7);
 }
 
 void BLEService::onCharacteristicWrite(struct esp_ble_gatts_cb_param_t::gatts_write_evt_param param) {
     uint16_t characteristicHandle = param.handle;
-    BLECharacteristic *characteristic = characteristics.at(characteristicHandle);
+    BLECharacteristic *characteristic = characteristicByHandle.at(characteristicHandle);
     characteristic->writeCallback(8);
 }

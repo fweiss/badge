@@ -30,7 +30,8 @@ extern "C" {
 Display display( GPIO_NUM_14);
 static SpiralAnimation animation(display);
 
-static BadgeService badgeService(display);
+/* static */
+//BadgeService badgeService(display);
 
 Timer animator;
 

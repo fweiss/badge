@@ -1,8 +1,11 @@
 #include "BTController.h"
+#include "BadgeService.h"
 
 #include "esp_bt_device.h"
 
 const char* BTController::GATTS_TAG = "BTC";
+
+extern BadgeService badgeService;
 
 #define GATTS_DEMO_CHAR_VAL_LEN_MAX (32)
 
@@ -20,6 +23,8 @@ void BTController::gatts_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t
     esp_err_t ret;
 
     ESP_LOGI(GATTS_TAG, "gatts_event_handler: %d", event);
+
+//    badgeService.handleGattsEvent(event, gatts_if, param);
 
     switch (event) {
     case ESP_GATTS_REG_EVT: {
