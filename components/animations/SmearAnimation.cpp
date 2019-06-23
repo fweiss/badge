@@ -1,11 +1,11 @@
 #include "SmearAnimation.h"
 
-SmearAnimation::SmearAnimation(led_strip_t *ledStrip) : SmearAnimation(new Display(ledStrip)) {
-	r = 0;
-}
+//SmearAnimation::SmearAnimation(led_strip_t *ledStrip) : SmearAnimation(new Display(ledStrip)) {
+//	r = 0;
+//}
 
-SmearAnimation::SmearAnimation(Display* display) : SmearAnimation() {
-	this->display = display;
+SmearAnimation::SmearAnimation(Display &display) : SmearAnimation() {
+	this->display = &display;
 }
 
 SmearAnimation::SmearAnimation() {

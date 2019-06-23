@@ -28,7 +28,9 @@ extern "C" {
 #define LED_STRIP_RMT_INTR_NUM 19U
 
 Display display( GPIO_NUM_14);
-static SpiralAnimation animation(display);
+//static SpiralAnimation animation(display);
+//static MeteorShowerAnimation animation(display);
+static SmearAnimation animation(display);
 
 /* static */
 //BadgeService badgeService(display);
