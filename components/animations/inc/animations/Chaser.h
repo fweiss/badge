@@ -1,9 +1,10 @@
 #pragma once
 
-// folowing to fix Arduino.h when usinf stdlib
+// folowing to fix Arduino.h when using stdlib
 #undef max
 #undef min
 
+#include <stdint.h>
 #include <deque>
 
 class Chaser {

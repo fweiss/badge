@@ -6,9 +6,17 @@ Display::Display(gpio_num_t gpio) {
     int rmt_interrupt_num = 19U;
     bool showing_buf_1 = false;
 
-	ledStrip = new led_strip_t{RGB_LED_TYPE_WS2812, 64, rmt_channel, rmt_interrupt_num, gpio, showing_buf_1, led_strip_buf_1, led_strip_buf_2};
-	ledStrip->access_semaphore = xSemaphoreCreateBinary();
+	ledStrip = new led_strip_t{
+	    RGB_LED_TYPE_WS2812, 64,
+	    rmt_channel,
+	    rmt_interrupt_num, gpio,
+	    showing_buf_1,
+	    led_strip_buf_1,
+	    led_strip_buf_2,
+	    xSemaphoreCreateBinary()};
+//	ledStrip->access_semaphore = xSemaphoreCreateBinary();
 	bool ok = led_strip_init(ledStrip);
+	(void)ok; // fixme log an error
 	this->brightness = 25;
 }
 

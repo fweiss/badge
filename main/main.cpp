@@ -29,8 +29,8 @@ extern "C" {
 
 Display display( GPIO_NUM_14);
 //static SpiralAnimation animation(display);
-//static MeteorShowerAnimation animation(display);
-static SmearAnimation animation(display);
+static MeteorShowerAnimation animation(display);
+//static SmearAnimation animation(display);
 
 /* static */
 //BadgeService badgeService(display);
