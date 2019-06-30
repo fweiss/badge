@@ -5,6 +5,7 @@ Display::Display(gpio_num_t gpio) {
     rmt_channel_t rmt_channel = RMT_CHANNEL_1;
     int rmt_interrupt_num = 19U;
     bool showing_buf_1 = false;
+    SemaphoreHandle_t access_semaphore = xSemaphoreCreateBinary();
 
 	ledStrip = new led_strip_t{
 	    RGB_LED_TYPE_WS2812, 64,
@@ -13,8 +14,7 @@ Display::Display(gpio_num_t gpio) {
 	    showing_buf_1,
 	    led_strip_buf_1,
 	    led_strip_buf_2,
-	    xSemaphoreCreateBinary()};
-//	ledStrip->access_semaphore = xSemaphoreCreateBinary();
+	    access_semaphore};
 	bool ok = led_strip_init(ledStrip);
 	(void)ok; // fixme log an error
 	this->brightness = 25;
