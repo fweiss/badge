@@ -20,9 +20,9 @@ BLEService::BLEService() : characteristicByUuid(), characteristicByHandle() {
 
 void BLEService::handleGattsEvent(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param) {
     switch (event) {
-    case ESP_GATTS_ADD_CHAR_EVT:
-        onCharacteristicAdd(gatts_if, param->add_char);
-        break;
+//    case ESP_GATTS_ADD_CHAR_EVT:
+//        onCharacteristicAdd(gatts_if, param->add_char);
+//        break;
     case ESP_GATTS_CREATE_EVT:
         ESP_LOGI(GATTS_TAG, "creating service: %d", param->create.service_handle);
         serviceHandle = param->create.service_handle;
@@ -40,6 +40,14 @@ void BLEService::handleGattsEvent(esp_gatts_cb_event_t event, esp_gatt_if_t gatt
             };
         BLECharacteristic *characteristic = characteristicByUuid.at(uuid);
         characteristic->writeCallback(write.value[0]);
+        break;
+    }
+    case ESP_GATTS_ADD_CHAR_EVT: {
+        struct esp_ble_gatts_cb_param_t::gatts_add_char_evt_param &add_char = param->add_char;
+        // auto?
+        ESP_LOGI(GATTS_TAG, "received add char event");
+        BLECharacteristic *characteristic = characteristicByUuid.at(add_char.char_uuid);
+        characteristicByHandle.insert({ add_char.attr_handle, characteristic });
         break;
     }
     default:
