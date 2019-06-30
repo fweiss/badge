@@ -84,6 +84,8 @@ protected:
 
 private:
     uint16_t serviceHandle;
+
+    void addCharacteristics();
     void onCharacteristicWrite();
     void onCharacteristicRead();
 };

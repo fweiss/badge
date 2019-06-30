@@ -33,7 +33,7 @@ static MeteorShowerAnimation animation(display);
 //static SmearAnimation animation(display);
 
 /* static */
-//BadgeService badgeService(display);
+BadgeService badgeService(display);
 
 Timer animator;
 
@@ -46,6 +46,7 @@ void app_main(void)
     ESP_LOGI(LED_STRIP_TAG, "initializing\n");
 
     controller.init();
+    badgeService.init();
 
     animator.setCallback(
         []() {

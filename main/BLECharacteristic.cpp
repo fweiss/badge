@@ -1,6 +1,7 @@
 #include "BLECharacteristic.h"
 
 BLECharacteristic::BLECharacteristic(BLEService *service, BLECharacteristicConfig &config) {
+    // get config data here
     service->attach(this, config);
 }
 
