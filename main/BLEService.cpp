@@ -30,7 +30,7 @@ void BLEService::handleGattsEvent(esp_gatts_cb_event_t event, esp_gatt_if_t gatt
         break;
     case ESP_GATTS_WRITE_EVT: {
         ESP_LOGI(GATTS_TAG, "received write event");
-        struct esp_ble_gatts_cb_param_t::gatts_write_evt_param write = param->write;
+        struct esp_ble_gatts_cb_param_t::gatts_write_evt_param &write = param->write;
         // handle, len, value
         esp_bt_uuid_t uuid = {
                 .len = ESP_UUID_LEN_16,
@@ -38,7 +38,8 @@ void BLEService::handleGattsEvent(esp_gatts_cb_event_t event, esp_gatt_if_t gatt
                     .uuid16 = 0x0043
                 }
             };
-        BLECharacteristic *characteristic = characteristicByUuid.at(uuid);
+//        BLECharacteristic *characteristic = characteristicByUuid.at(uuid);
+        BLECharacteristic *characteristic = characteristicByHandle.at(write.handle);
         characteristic->writeCallback(write.value[0]);
         break;
     }
