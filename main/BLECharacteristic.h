@@ -6,7 +6,10 @@
 
 class BLECharacteristicConfig {
 public:
-    esp_bt_uuid_t uuid;
+    const esp_bt_uuid_t uuid;
+    const esp_gatt_perm_t permissions;
+    const esp_gatt_char_prop_t properties;
+    esp_attr_control_t control;
 };
 
 class BLECharacteristic {
@@ -19,6 +22,10 @@ public:
 
     std::function<void(int)> writeCallback;
     std::function<void(int)> readCallback;
+
+    const esp_gatt_perm_t &permissions;
+    const esp_gatt_char_prop_t &properties;
+    esp_attr_control_t &control; // fixme not const to comply with API
 
 protected:
     void onRead();
