@@ -95,7 +95,7 @@ void BLEService::addCharacteristics() {
                 &uuid,
                 characteristic->permissions,
                 characteristic->properties,
-                &value,
+                NULL,
                 &characteristic->control);
         if (ret) {
             ESP_LOGE(GATTS_TAG, "add char failed, error code: %x", ret);
