@@ -77,30 +77,58 @@ void BLEService::onCharacteristicWrite(struct esp_ble_gatts_cb_param_t::gatts_wr
 }
 
 void BLEService::addCharacteristics() {
-    esp_bt_uuid_t uuid = {
-            .len = ESP_UUID_LEN_16,
-            .uuid = {
-                .uuid16 = 0x0043
-            }
-        };
-
-    BLECharacteristic *characteristic = characteristicByUuid.at(uuid);
     esp_err_t ret;
+    for (const auto &pair : characteristicByUuid) {
+        auto uuid = pair.first; // copy by value for subsequent API call
+        auto &characteristicx = pair.second;
+        ESP_LOGI(GATTS_TAG, "adding uuid: 0x%04x", uuid.uuid.uuid16);
 
-//    esp_bt_uuid_t &uuid = characteristic->uuid;
-    esp_gatt_perm_t permissions = ESP_GATT_PERM_READ | ESP_GATT_PERM_WRITE;
-    esp_gatt_char_prop_t properties;
-    properties = ESP_GATT_CHAR_PROP_BIT_READ | ESP_GATT_CHAR_PROP_BIT_WRITE | ESP_GATT_CHAR_PROP_BIT_NOTIFY;
-    uint8_t v[] = { 0x11,0x22,0x33 };
-    esp_attr_value_t value = {
-        .attr_max_len = ATTR_MAX_LEN,
-        .attr_len     = sizeof(v),
-        .attr_value   = v,
-    };
-    esp_attr_control_t control = { .auto_rsp = ESP_GATT_AUTO_RSP };
+        esp_gatt_perm_t permissions = ESP_GATT_PERM_READ | ESP_GATT_PERM_WRITE;
+        esp_gatt_char_prop_t properties;
+        properties = ESP_GATT_CHAR_PROP_BIT_READ | ESP_GATT_CHAR_PROP_BIT_WRITE | ESP_GATT_CHAR_PROP_BIT_NOTIFY;
+        uint8_t v[] = { 0x11,0x22,0x33 };
+        esp_attr_value_t value = {
+            .attr_max_len = ATTR_MAX_LEN,
+            .attr_len     = sizeof(v),
+            .attr_value   = v,
+        };
+        esp_attr_control_t control = { .auto_rsp = ESP_GATT_AUTO_RSP };
 
-    ret = esp_ble_gatts_add_char(serviceHandle, &uuid, permissions, properties, &value, &control);
-    if (ret) {
-        ESP_LOGE(GATTS_TAG, "add char failed, error code =%x", ret);
+        ret = esp_ble_gatts_add_char(
+                serviceHandle,
+                &uuid,
+                permissions,
+                properties,
+                &value,
+                &control);
+        if (ret) {
+            ESP_LOGE(GATTS_TAG, "add char failed, error code: %x", ret);
+        }
+
     }
+//    esp_bt_uuid_t uuid = {
+//            .len = ESP_UUID_LEN_16,
+//            .uuid = {
+//                .uuid16 = 0x0043
+//            }
+//        };
+//
+//    BLECharacteristic *characteristic = characteristicByUuid.at(uuid);
+//
+////    esp_bt_uuid_t &uuid = characteristic->uuid;
+//    esp_gatt_perm_t permissions = ESP_GATT_PERM_READ | ESP_GATT_PERM_WRITE;
+//    esp_gatt_char_prop_t properties;
+//    properties = ESP_GATT_CHAR_PROP_BIT_READ | ESP_GATT_CHAR_PROP_BIT_WRITE | ESP_GATT_CHAR_PROP_BIT_NOTIFY;
+//    uint8_t v[] = { 0x11,0x22,0x33 };
+//    esp_attr_value_t value = {
+//        .attr_max_len = ATTR_MAX_LEN,
+//        .attr_len     = sizeof(v),
+//        .attr_value   = v,
+//    };
+//    esp_attr_control_t control = { .auto_rsp = ESP_GATT_AUTO_RSP };
+//
+//    ret = esp_ble_gatts_add_char(serviceHandle, &uuid, permissions, properties, &value, &control);
+//    if (ret) {
+//        ESP_LOGE(GATTS_TAG, "add char failed, error code =%x", ret);
+//    }
 }
