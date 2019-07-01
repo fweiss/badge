@@ -29,8 +29,8 @@ void BLEService::handleGattsEvent(esp_gatts_cb_event_t event, esp_gatt_if_t gatt
         addCharacteristics();
         break;
     case ESP_GATTS_WRITE_EVT: {
-        ESP_LOGI(GATTS_TAG, "received write event");
         auto &write = param->write;
+        ESP_LOGI(GATTS_TAG, "received write event");
         // handle, len, value
         BLECharacteristic *characteristic = characteristicByHandle.at(write.handle);
         characteristic->writeCallback(write.value[0]);
@@ -38,7 +38,7 @@ void BLEService::handleGattsEvent(esp_gatts_cb_event_t event, esp_gatt_if_t gatt
     }
     case ESP_GATTS_ADD_CHAR_EVT: {
         auto &add_char = param->add_char;
-        ESP_LOGI(GATTS_TAG, "received add char event");
+        ESP_LOGI(GATTS_TAG, "received add char event: %0x", add_char.char_uuid.uuid.uuid16);
         BLECharacteristic *characteristic = characteristicByUuid.at(add_char.char_uuid);
         characteristicByHandle.insert({ add_char.attr_handle, characteristic });
         break;

@@ -16,4 +16,5 @@ private:
     Display &display;
 
     BLECharacteristic brightnessCharacteristic;
+    BLECharacteristic programCharacteristic;
 };
