@@ -12,6 +12,8 @@ public:
     esp_attr_control_t control;
 };
 
+#define UUID16(x) { .len = ESP_UUID_LEN_16, .uuid = { .uuid16 = x } }
+
 class BLECharacteristic {
 public:
     BLECharacteristic(BLEService *service, BLECharacteristicConfig &config);
