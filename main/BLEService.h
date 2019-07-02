@@ -1,6 +1,7 @@
 #pragma once
 
 #include <unordered_map>
+#include <queue>
 
 #include "freertos/FreeRTOS.h"
 
@@ -80,6 +81,7 @@ public:
 protected:
     std::unordered_map<esp_bt_uuid_t, BLECharacteristic*, uuid_hash, uuid_equal> characteristicByUuid;
     std::unordered_map<uint16_t, BLECharacteristic*> characteristicByHandle;
+    std::queue<BLECharacteristic*> characteristicQueue;
 
 private:
     uint16_t serviceHandle;
@@ -87,4 +89,6 @@ private:
     void addCharacteristics();
     void onCharacteristicWrite();
     void onCharacteristicRead();
+
+    void addCharacteristic(BLECharacteristic* characteristic);
 };

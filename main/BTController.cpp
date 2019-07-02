@@ -39,7 +39,7 @@ void BTController::gatts_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t
         service_id.id.inst_id = 0x00;
         service_id.id.uuid.len = ESP_UUID_LEN_16;
         service_id.id.uuid.uuid.uuid16 = 0x00FF;
-        uint16_t num_handle = 4;
+        uint16_t num_handle = 14;
         esp_ble_gatts_create_service(gatts_if, &service_id, num_handle);
         break;
     }
@@ -75,7 +75,7 @@ void BTController::gatts_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t
         break;
     }
     case ESP_GATTS_ADD_CHAR_EVT: {
-        ESP_LOGI(GATTS_TAG, "characteristic added");
+//        ESP_LOGI(GATTS_TAG, "characteristic added");
         break;
     }
     case ESP_GATTS_CONNECT_EVT: {

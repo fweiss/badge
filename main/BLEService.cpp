@@ -14,7 +14,7 @@
 
 #define GATTS_TAG "BLEService"
 
-BLEService::BLEService() : characteristicByUuid(), characteristicByHandle() {
+BLEService::BLEService() : characteristicByUuid(), characteristicByHandle(), characteristicQueue() {
 
 }
 
@@ -26,7 +26,10 @@ void BLEService::handleGattsEvent(esp_gatts_cb_event_t event, esp_gatt_if_t gatt
     case ESP_GATTS_CREATE_EVT:
         ESP_LOGI(GATTS_TAG, "creating service: %d", param->create.service_handle);
         serviceHandle = param->create.service_handle;
-        addCharacteristics();
+//        addCharacteristics();
+        if ( ! characteristicQueue.empty()) {
+            addCharacteristic(characteristicQueue.front());
+        }
         break;
     case ESP_GATTS_WRITE_EVT: {
         auto &write = param->write;
@@ -39,8 +42,14 @@ void BLEService::handleGattsEvent(esp_gatts_cb_event_t event, esp_gatt_if_t gatt
     case ESP_GATTS_ADD_CHAR_EVT: {
         auto &add_char = param->add_char;
         ESP_LOGI(GATTS_TAG, "received add char event: %0x", add_char.char_uuid.uuid.uuid16);
-        BLECharacteristic *characteristic = characteristicByUuid.at(add_char.char_uuid);
+//        BLECharacteristic *characteristic = characteristicByUuid.at(add_char.char_uuid);
+        BLECharacteristic *characteristic = characteristicQueue.front();
+        characteristicQueue.pop();
         characteristicByHandle.insert({ add_char.attr_handle, characteristic });
+
+        if ( ! characteristicQueue.empty()) {
+            addCharacteristic(characteristicQueue.front());
+        }
         break;
     }
     default:
@@ -62,6 +71,7 @@ void BLEService::onCharacteristicAdd(esp_gatt_if_t gatts_if, esp_ble_gatts_cb_pa
 void BLEService::attach(BLECharacteristic *characteristic, BLECharacteristicConfig &config) {
     ESP_LOGI(GATTS_TAG, "attach: %d", config.uuid.uuid.uuid16);
     characteristicByUuid.insert({config.uuid, characteristic});
+    characteristicQueue.push(characteristic);
 }
 
 
@@ -95,11 +105,33 @@ void BLEService::addCharacteristics() {
                 &uuid,
                 characteristic->permissions,
                 characteristic->properties,
-                NULL,
+                &value,
                 &characteristic->control);
         if (ret) {
             ESP_LOGE(GATTS_TAG, "add char failed, error code: %x", ret);
         }
 
     }
+}
+
+void BLEService::addCharacteristic(BLECharacteristic* characteristic) {
+    esp_err_t ret;
+    ESP_LOGI(GATTS_TAG, "adding characteristic %0x0x", characteristic->uuid.uuid.uuid16);
+    uint8_t v[] = { 0x11,0x22,0x33 };
+    esp_attr_value_t value = {
+        .attr_max_len = ATTR_MAX_LEN,
+        .attr_len     = sizeof(v),
+        .attr_value   = v,
+    };
+    ret = esp_ble_gatts_add_char(
+            serviceHandle,
+            &characteristic->uuid,
+            characteristic->permissions,
+            characteristic->properties,
+            &value,
+            &characteristic->control);
+    if (ret) {
+        ESP_LOGE(GATTS_TAG, "add char failed, error code: 0x%0x", ret);
+    }
+
 }

@@ -1,6 +1,7 @@
 #include "BLECharacteristic.h"
 
 BLECharacteristic::BLECharacteristic(BLEService *service, BLECharacteristicConfig &config) :
+    uuid(config.uuid),
     permissions(config.permissions),
     properties(config.properties),
     control(config.control) {
