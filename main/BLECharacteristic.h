@@ -19,11 +19,11 @@ public:
     BLECharacteristic(BLEService *service, BLECharacteristicConfig &config);
     virtual ~BLECharacteristic() {}
 
-    void setWriteCallback(std::function<void(int)> func);
-    void setReadCallback(std::function<void(int)> func);
+    void setWriteCallback(std::function<void(uint16_t len, uint8_t *value)> func);
+    void setReadCallback(std::function<void(uint16_t len, uint8_t *value)> func);
 
-    std::function<void(int)> writeCallback;
-    std::function<void(int)> readCallback;
+    std::function<void(uint16_t len, uint8_t *value)> writeCallback;
+    std::function<void(uint16_t len, uint8_t *value)> readCallback;
 
     esp_bt_uuid_t uuid;
     const esp_gatt_perm_t &permissions;

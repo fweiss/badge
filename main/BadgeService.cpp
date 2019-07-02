@@ -28,14 +28,14 @@ BadgeService::BadgeService(Display &display) :
 void BadgeService::init() {
 
     brightnessCharacteristic.setWriteCallback(
-        [this](int p) {
+        [this](uint16_t len, uint8_t *value) {
             ESP_LOGI(LOG_TAG, "write requested");
-            display.setBrightness(p);
+            display.setBrightness(value[0]);
         }
     );
 
     programCharacteristic.setWriteCallback(
-        [this](int p) {
+        [this](uint16_t len, uint8_t *value) {
             ESP_LOGI(LOG_TAG, "change program requested");
         }
     );

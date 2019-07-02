@@ -8,10 +8,10 @@ BLECharacteristic::BLECharacteristic(BLEService *service, BLECharacteristicConfi
     service->attach(this, config);
 }
 
-void BLECharacteristic::setWriteCallback(std::function<void(int)> func) {
+void BLECharacteristic::setWriteCallback(std::function<void(uint16_t len, uint8_t *value)> func) {
     this->writeCallback = func;
 }
 
-void BLECharacteristic::setReadCallback(std::function<void(int)> func) {
+void BLECharacteristic::setReadCallback(std::function<void(uint16_t len, uint8_t *value)> func) {
     this->readCallback = func;
 }
