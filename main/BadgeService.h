@@ -15,7 +15,7 @@ public:
 
 private:
     Display &display;
-    AnimationProgram animationProgram;
+    AnimationProgram &animationProgram;
 
     BLECharacteristic brightnessCharacteristic;
     BLECharacteristic programCharacteristic;

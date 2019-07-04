@@ -38,6 +38,7 @@ void BadgeService::init() {
     programCharacteristic.setWriteCallback(
         [this](uint16_t len, uint8_t *value) {
             ESP_LOGI(LOG_TAG, "change program requested");
+            animationProgram.setProgram(value[0]);
         }
     );
 

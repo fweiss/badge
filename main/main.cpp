@@ -34,7 +34,7 @@ static SpiralAnimation spiralAnimation(display);
 static MeteorShowerAnimation meteorShowerAnimation(display);
 static SmearAnimation smearAnimation(display);
 
-static AnimationProgram animationProgram;
+AnimationProgram animationProgram;
 
 /* static */
 BadgeService badgeService(display, animationProgram);
@@ -49,6 +49,7 @@ void app_main(void)
 
     ESP_LOGI(LED_STRIP_TAG, "initializing\n");
 
+
     animationProgram.putAnimation(0, &spiralAnimation);
     animationProgram.putAnimation(1, &meteorShowerAnimation);
 //    animationProgram.putAnimation(2, smearAnimation);
@@ -57,7 +58,7 @@ void app_main(void)
     badgeService.init();
 
     animator.setCallback(
-        []() {
+        [] {
             animationProgram.drawFrame();
         }
     );
