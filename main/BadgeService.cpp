@@ -19,8 +19,9 @@ BLECharacteristicConfig programCharacteristicConfig = {
     .control = { .auto_rsp = ESP_GATT_AUTO_RSP } // in case of ESP_GATT_AUTO_RSP, need a default value
 };
 
-BadgeService::BadgeService(Display &display) :
+BadgeService::BadgeService(Display &display, AnimationProgram &animationProgram) :
     display(display),
+    animationProgram(animationProgram),
     brightnessCharacteristic(this, brighnessCharacteristicConfig),
     programCharacteristic(this, programCharacteristicConfig) {
 }

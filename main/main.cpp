@@ -11,6 +11,7 @@
 #include "animations/SmearAnimation.h"
 #include "animations/SpiralAnimation.h"
 #include "animations/MeteorShowerAnimation.h"
+#include "animations/AnimationProgram.h"
 #include <stdio.h>
 
 #include "Timer.h"
@@ -27,13 +28,16 @@ extern "C" {
 #define LED_STRIP_LENGTH 64U
 #define LED_STRIP_RMT_INTR_NUM 19U
 
-Display display( GPIO_NUM_14);
-static SpiralAnimation animation(display);
-//static MeteorShowerAnimation animation(display);
-//static SmearAnimation animation(display);
+static Display display( GPIO_NUM_14);
+
+static SpiralAnimation spiralAnimation(display);
+static MeteorShowerAnimation meteorShowerAnimation(display);
+static SmearAnimation smearAnimation(display);
+
+static AnimationProgram animationProgram;
 
 /* static */
-BadgeService badgeService(display);
+BadgeService badgeService(display, animationProgram);
 
 Timer animator;
 
@@ -45,12 +49,16 @@ void app_main(void)
 
     ESP_LOGI(LED_STRIP_TAG, "initializing\n");
 
+    animationProgram.putAnimation(0, &spiralAnimation);
+    animationProgram.putAnimation(1, &meteorShowerAnimation);
+//    animationProgram.putAnimation(2, smearAnimation);
+
     controller.init();
     badgeService.init();
 
     animator.setCallback(
         []() {
-            animation.drawFrame();
+            animationProgram.drawFrame();
         }
     );
 
