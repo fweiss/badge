@@ -24,7 +24,7 @@ extern "C" {
 	void app_main(void);
 }
 
-static const char* LED_STRIP_TAG = "BADGE";
+static const char* TAG = "BADGE";
 
 #define LED_STRIP_LENGTH 64U
 #define LED_STRIP_RMT_INTR_NUM 19U
@@ -46,14 +46,13 @@ void app_main(void)
 {
     nvs_flash_init();
 
-    ESP_LOGI(LED_STRIP_TAG, "initializing\n");
+    ESP_LOGI(TAG, "initializing\n");
 
 
     animationProgram.putAnimation(0, &spiralAnimation);
     animationProgram.putAnimation(1, &meteorShowerAnimation);
 //    animationProgram.putAnimation(2, smearAnimation);
 
-//    controller.init();
     badgeService.init();
 
     // refactor above
