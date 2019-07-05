@@ -6,6 +6,7 @@
 #include "esp_log.h"
 #include "nvs_flash.h"
 #include "driver/gpio.h"
+
 #include "led_strip/led_strip.h"
 #include "animations/display.h"
 #include "animations/SmearAnimation.h"
@@ -16,6 +17,7 @@
 
 #include "Timer.h"
 #include "BTController.h"
+#include "BLECore.h"
 
 #include "BadgeService.h"
 
@@ -54,8 +56,8 @@ void app_main(void)
     animationProgram.putAnimation(1, &meteorShowerAnimation);
 //    animationProgram.putAnimation(2, smearAnimation);
 
-    controller.init();
-    badgeService.init();
+//    controller.init();
+//    badgeService.init();
 
     // refactor above
     // BlECore.init
@@ -64,6 +66,8 @@ void app_main(void)
     // BLECore does the setup housekeeping with event handler
     // starts the app/server registration (maybe implicitly)
     // delegates other events to service (or services)
+    BLECore core;
+    core.init();
 
     animator.setCallback(
         [] {
