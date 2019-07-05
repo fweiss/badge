@@ -154,7 +154,7 @@ void BLECore::registerApp() {
     esp_err_t ret;
     ESP_LOGI(LOG_TAG, "registering app server");
     ret = esp_ble_gatts_app_register(0);
-    if (ret){
+    if (ret) {
         ESP_LOGE(LOG_TAG, "gatts app register error, error code = %x", ret);
         return;
     }

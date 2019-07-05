@@ -57,7 +57,7 @@ void app_main(void)
 //    animationProgram.putAnimation(2, smearAnimation);
 
 //    controller.init();
-//    badgeService.init();
+    badgeService.init();
 
     // refactor above
     // BlECore.init
