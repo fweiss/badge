@@ -23,7 +23,7 @@ extern "C" {
 	void app_main(void);
 }
 
-#define LED_STRIP_TAG "LED STRIP"
+#define LED_STRIP_TAG "BADGEP"
 
 #define LED_STRIP_LENGTH 64U
 #define LED_STRIP_RMT_INTR_NUM 19U
@@ -56,6 +56,14 @@ void app_main(void)
 
     controller.init();
     badgeService.init();
+
+    // refactor above
+    // BlECore.init
+    // appRegister
+    // BLECore.setService
+    // BLECore does the setup housekeeping with event handler
+    // starts the app/server registration (maybe implicitly)
+    // delegates other events to service (or services)
 
     animator.setCallback(
         [] {
