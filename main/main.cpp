@@ -16,7 +16,6 @@
 #include <stdio.h>
 
 #include "Timer.h"
-#include "BTController.h"
 #include "BLECore.h"
 
 #include "BadgeService.h"
@@ -42,8 +41,6 @@ AnimationProgram animationProgram;
 BadgeService badgeService(display, animationProgram);
 
 Timer animator;
-
-BTController controller;
 
 void app_main(void)
 {
