@@ -3,6 +3,6 @@
 # project subdirectory.
 #
 
-PROJECT_NAME := led_strip
+PROJECT_NAME := badge
 
 include $(IDF_PATH)/make/project.mk
