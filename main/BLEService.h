@@ -72,9 +72,9 @@ public:
 
     void handleGattsEvent(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param);
 
-    void onCharacteristicAdd(esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t::gatts_add_char_evt_param &addChar);
-    void onCharacteristicRead(int uuid);
-    void onCharacteristicWrite(struct esp_ble_gatts_cb_param_t::gatts_write_evt_param);
+//    void onCharacteristicAdd(esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t::gatts_add_char_evt_param &addChar);
+//    void onCharacteristicRead(int uuid);
+//    void onCharacteristicWrite(struct esp_ble_gatts_cb_param_t::gatts_write_evt_param);
 
     static const uint16_t ATTR_MAX_LEN = 16;
 
@@ -86,9 +86,9 @@ protected:
 private:
     uint16_t serviceHandle;
 
-    void addCharacteristics();
-    void onCharacteristicWrite();
-    void onCharacteristicRead();
+//    void addCharacteristics();
+//    void onCharacteristicWrite();
+//    void onCharacteristicRead();
 
     void addCharacteristic(BLECharacteristic* characteristic);
 };
