@@ -12,7 +12,7 @@
 
 #include "BLECharacteristic.h"
 
-#define GATTS_TAG "BLEService"
+static const char* GATTS_TAG = "BLEService";
 
 BLEService::BLEService() : characteristicByUuid(), characteristicByHandle(), characteristicQueue() {
 
@@ -53,17 +53,6 @@ void BLEService::handleGattsEvent(esp_gatts_cb_event_t event, esp_gatt_if_t gatt
     }
 }
 
-//void BLEService::onCharacteristicAdd(esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t::gatts_add_char_evt_param &addChar) {
-//    ESP_LOGI(GATTS_TAG, "onCharacteristicAdd: %d", addChar.char_uuid.uuid.uuid16);
-//    // todo log error status
-//    if (addChar.status == ESP_GATT_OK) {
-//        BLECharacteristic *characteristic = characteristicByUuid.at(addChar.char_uuid);
-//        characteristicByHandle.insert({addChar.attr_handle, characteristic});
-//        (void)addChar.service_handle;
-//        ;
-//    }
-//}
-
 // save the characteristic in a queue for later processing via ESP_GATTS_ADD_CHAR_EVT
 void BLEService::attach(BLECharacteristic *characteristic, BLECharacteristicConfig &config) {
     ESP_LOGI(GATTS_TAG, "attach: %d", config.uuid.uuid.uuid16);
@@ -71,15 +60,10 @@ void BLEService::attach(BLECharacteristic *characteristic, BLECharacteristicConf
     characteristicQueue.push(characteristic);
 }
 
-//void BLEService::onCharacteristicRead(int uuid) {
-////    BLECharacteristic *characteristic = characteristicsByUuid.at(uuid);
-////    characteristic->readCallback(7);
-//}
-
 // A value is required when control is ESP_GATT_AUTO_RSP, but not for ESP_GATT_RSP_BY_APP
 void BLEService::addCharacteristic(BLECharacteristic* characteristic) {
     esp_err_t ret;
-    ESP_LOGI(GATTS_TAG, "adding characteristic %0x0x", characteristic->uuid.uuid.uuid16);
+    ESP_LOGI(GATTS_TAG, "adding characteristic 0x%0x", characteristic->uuid.uuid.uuid16);
     uint8_t v[] = { 0x11,0x22,0x33 };
     esp_attr_value_t value = {
         .attr_max_len = ATTR_MAX_LEN,

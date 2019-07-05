@@ -2,7 +2,7 @@
 
 #include "esp_log.h"
 
-#define ANIPROG_TAG "ANIPROGRAM"
+static const char* TAG = "PROGRAM";
 
 AnimationProgram::AnimationProgram() : programs() {
 
@@ -17,6 +17,6 @@ void AnimationProgram::drawFrame() {
 }
 
 void AnimationProgram::setProgram(uint8_t index) {
-    ESP_LOGI(ANIPROG_TAG, "set program %d", index);
+    ESP_LOGI(TAG, "set program %d", index);
     this->index = index;
 }

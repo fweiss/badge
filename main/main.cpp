@@ -25,7 +25,7 @@ extern "C" {
 	void app_main(void);
 }
 
-#define LED_STRIP_TAG "BADGEP"
+static const char* LED_STRIP_TAG = "BADGE";
 
 #define LED_STRIP_LENGTH 64U
 #define LED_STRIP_RMT_INTR_NUM 19U

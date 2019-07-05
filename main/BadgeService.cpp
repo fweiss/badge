@@ -2,7 +2,7 @@
 
 #include "esp_log.h"
 
-#define LOG_TAG "BADGE"
+static const char* LOG_TAG = "BADGE";
 
 BLECharacteristicConfig brighnessCharacteristicConfig = {
     .uuid = UUID16(0x0043),
@@ -29,14 +29,14 @@ void BadgeService::init() {
 
     brightnessCharacteristic.setWriteCallback(
         [this](uint16_t len, uint8_t *value) {
-            ESP_LOGI(LOG_TAG, "write requested");
+            ESP_LOGI(LOG_TAG, "set brightness");
             display.setBrightness(value[0]);
         }
     );
 
     programCharacteristic.setWriteCallback(
         [this](uint16_t len, uint8_t *value) {
-            ESP_LOGI(LOG_TAG, "change program requested");
+            ESP_LOGI(LOG_TAG, "set program");
             animationProgram.setProgram(value[0]);
         }
     );

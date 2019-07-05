@@ -30,9 +30,4 @@ public:
     const esp_gatt_char_prop_t &properties;
     esp_attr_control_t &control; // fixme not const to comply with API
 
-protected:
-    void onRead();
-    void onWrite();
-
-private:
 };
