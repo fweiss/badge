@@ -3,7 +3,7 @@
 #include "animations/display.h"
 #include "animations/AnimationProgram.h"
 
-#include "BLECharacteristic.h"
+#include "blewiz/BLECharacteristic.h"
 
 class BadgeService : public BLEService {
 public:

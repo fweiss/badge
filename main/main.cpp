@@ -16,7 +16,7 @@
 #include <stdio.h>
 
 #include "Timer.h"
-#include "BLECore.h"
+#include "blewiz/BLECore.h"
 
 #include "BadgeService.h"
 
