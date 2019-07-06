@@ -4,13 +4,13 @@
 //	r = 0;
 //}
 
-SmearAnimation::SmearAnimation(Display &display) : SmearAnimation() {
-	this->display = &display;
+SmearAnimation::SmearAnimation(Display &display) : Animation(display) {
+    r = 0;
 }
 
-SmearAnimation::SmearAnimation() {
-	r = 0;
-}
+//SmearAnimation::SmearAnimation() {
+//	r = 0;
+//}
 
 void SmearAnimation::drawFrame() {
 	for (int x=0; x<8; x++) {
@@ -18,9 +18,9 @@ void SmearAnimation::drawFrame() {
 			uint16_t  p = y * 8 + x;
 			uint8_t g = 20 + 15 * y;
 			uint8_t b = 20 + 13 * x;
-			display->setPixelRgb(p, r, g, b);
+			display.setPixelRgb(p, r, g, b);
 		}
 	}
-	display->update();
+	display.update();
 	r = (r + 3) % 256;
 }

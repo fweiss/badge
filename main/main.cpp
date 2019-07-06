@@ -50,17 +50,10 @@ void app_main(void) {
 
     animationProgram.putAnimation(0, &spiralAnimation);
     animationProgram.putAnimation(1, &meteorShowerAnimation);
-//    animationProgram.putAnimation(2, smearAnimation);
+    animationProgram.putAnimation(2, &smearAnimation);
 
     badgeService.init();
 
-    // refactor above
-    // BlECore.init
-    // appRegister
-    // BLECore.setService
-    // BLECore does the setup housekeeping with event handler
-    // starts the app/server registration (maybe implicitly)
-    // delegates other events to service (or services)
     BLECore core;
     core.registerService(&badgeService);
     core.init();
