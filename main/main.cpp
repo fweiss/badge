@@ -42,12 +42,11 @@ BadgeService badgeService(display, animationProgram);
 
 Timer animator;
 
-void app_main(void)
-{
+void app_main(void) {
+    // fixme check error
     nvs_flash_init();
 
-    ESP_LOGI(TAG, "initializing\n");
-
+    ESP_LOGI(TAG, "initializing");
 
     animationProgram.putAnimation(0, &spiralAnimation);
     animationProgram.putAnimation(1, &meteorShowerAnimation);
@@ -63,6 +62,7 @@ void app_main(void)
     // starts the app/server registration (maybe implicitly)
     // delegates other events to service (or services)
     BLECore core;
+    core.registerService(&badgeService);
     core.init();
 
     animator.setCallback(

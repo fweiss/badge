@@ -5,7 +5,6 @@
 
 #include "BLECharacteristic.h"
 
-
 class BadgeService : public BLEService {
 public:
     BadgeService(Display &display, AnimationProgram &animationProgram);

@@ -18,6 +18,8 @@ BLECore::BLECore() {
 
 }
 
+BLEService* BLECore::service = NULL;
+
 void BLECore::init() {
     initDevice();
     initBluedroid();
@@ -25,12 +27,15 @@ void BLECore::init() {
     registerApp();
 }
 
+// outline for Service elaboration
+// advertising could be separate?
+//
 void BLECore::gatts_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param) {
     esp_err_t ret;
 
     ESP_LOGI(LOG_TAG, "gatts_event_handler: %d", event);
 
-    badgeService.handleGattsEvent(event, gatts_if, param);
+    service->handleGattsEvent(event, gatts_if, param);
 
     switch (event) {
     case ESP_GATTS_REG_EVT: {
@@ -40,13 +45,20 @@ void BLECore::gatts_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t gatt
         ERROR_CHECK("configure advertising data");
 
         // fixme initialize in object
-        esp_gatt_srvc_id_t service_id;
-        service_id.is_primary = true;
-        service_id.id.inst_id = 0x00;
-        service_id.id.uuid.len = ESP_UUID_LEN_16;
-        service_id.id.uuid.uuid.uuid16 = 0x00FF;
-        uint16_t num_handle = 14;
-        esp_ble_gatts_create_service(gatts_if, &service_id, num_handle);
+//        esp_gatt_srvc_id_t service_id;
+//        service_id.is_primary = true;
+//        service_id.id.inst_id = 0x00;
+//        service_id.id.uuid.len = ESP_UUID_LEN_16;
+//        service_id.id.uuid.uuid.uuid16 = 0x00FF;
+//        uint16_t num_handle = 14;
+//        esp_ble_gatts_create_service(gatts_if, &service_id, num_handle);
+        // if null
+        if (service != NULL) {
+            addService(service, gatts_if);
+        }
+        else {
+            ESP_LOGW(LOG_TAG, "no service to add");
+        }
         break;
     }
     case ESP_GATTS_CREATE_EVT: {
@@ -158,6 +170,19 @@ void BLECore::registerApp() {
         ESP_LOGE(LOG_TAG, "gatts app register error, error code = %x", ret);
         return;
     }
+}
+
+void BLECore::addService(BLEService *service, esp_gatt_if_t gatts_if) {
+    esp_gatt_srvc_id_t service_id = {
+        .id = {
+            .uuid = UUID16(0x00FF),
+            .inst_id = 0x00 // gatts_if
+        },
+        .is_primary = true,
+    };
+    uint16_t num_handle = 14;
+    esp_ble_gatts_create_service(gatts_if, &service_id, num_handle);
+
 }
 
 uint8_t BLECore::adv_service_uuid128[32] = {

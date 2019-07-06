@@ -5,12 +5,17 @@
 #include "esp_gatts_api.h"
 #include "esp_bt_main.h"
 
+#include "BLEService.h"
+
 class BLECore {
 public:
     BLECore();
     virtual ~BLECore() {}
 
     void init();
+    void registerService(BLEService *service) { BLECore::service = service; }
+
+    static BLEService *service; // public, for now
 
 private:
     static const char* LOG_TAG;
@@ -27,5 +32,8 @@ private:
     void initBluedroid();
     void initCallbacks();
     void registerApp();
+
+    static void addService(BLEService *service, esp_gatt_if_t gatts_if);
+
 
 };

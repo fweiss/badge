@@ -7,6 +7,8 @@
 
 #include "esp_gatts_api.h"
 
+#define UUID16(x) { .len = ESP_UUID_LEN_16, .uuid = { .uuid16 = x } }
+
 //#include "BLECharacteristic.h"
 class BLECharacteristic;
 class BLECharacteristicConfig;
