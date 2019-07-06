@@ -40,7 +40,7 @@ AnimationProgram animationProgram;
 /* static */
 BadgeService badgeService(display, animationProgram);
 
-Timer animator;
+Timer animator; // todo parameterize
 
 void app_main(void) {
     // fixme check error

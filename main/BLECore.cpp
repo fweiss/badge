@@ -5,8 +5,6 @@
 #include "esp_log.h"
 #include "esp_bt_device.h"
 
-extern BLEService badgeService;
-
 const char* BLECore::LOG_TAG = "BLE_CORE";
 
 #define ERROR_CHECK(m) if (ret) { \
@@ -173,6 +171,7 @@ void BLECore::registerApp() {
 }
 
 void BLECore::addService(BLEService *service, esp_gatt_if_t gatts_if) {
+    // init here?
     esp_gatt_srvc_id_t service_id = {
         .id = {
             .uuid = UUID16(0x00FF),
