@@ -4,6 +4,7 @@
 
 #include "esp_log.h"
 #include "esp_bt_device.h"
+#include "esp_gatt_defs.h"
 
 const char* BLECore::LOG_TAG = "BLE_CORE";
 
@@ -172,16 +173,13 @@ void BLECore::registerApp() {
 
 void BLECore::addService(BLEService *service, esp_gatt_if_t gatts_if) {
     // init here?
-    esp_gatt_srvc_id_t service_id = {
-        .id = {
-            .uuid = UUID16(0x00FF),
-            .inst_id = 0x00 // gatts_if
-        },
-        .is_primary = true,
-    };
+    esp_gatt_srvc_id_t service_id;
+    service_id.is_primary = true;
+    service_id.id.inst_id = 0x00;
+    service_id.id.uuid.len = ESP_UUID_LEN_16;
+    service_id.id.uuid.uuid.uuid16 = 0x00ff;
     uint16_t num_handle = 14;
     esp_ble_gatts_create_service(gatts_if, &service_id, num_handle);
-
 }
 
 uint8_t BLECore::adv_service_uuid128[32] = {
