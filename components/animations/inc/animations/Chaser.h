@@ -17,7 +17,7 @@ public:
 	uint32_t get(uint16_t index);
     void preroll(uint16_t amount);
 protected:
-	std::deque<uint32_t> *colors;
+	std::deque<uint32_t> colors;
 private:
 	bool reverse;
 };

@@ -9,7 +9,7 @@ CandyChaser::CandyChaser(uint16_t size) : Chaser(size) {
 	this->db = -5;
 	preroll(size);
 	for (int i=0; i<16; i++) {
-		this->colors->push_front(nextColor());
+		this->colors.push_front(nextColor());
 	}
 	this->setReverse(true);
 }
@@ -26,10 +26,10 @@ CandyChaser::CandyChaser(uint8_t r, uint8_t g, uint8_t b) : Chaser(16) {
 	this->dg = 7;
 	this->db = -5;
 
-	this->colors = new std::deque<uint32_t>();
+//	this->colors = new std::deque<uint32_t>();
 	preroll(r);
 	for (int i=0; i<16; i++) {
-		this->colors->push_front(nextColor());
+		this->colors.push_front(nextColor());
 	}
 	this->setReverse(true);
 }

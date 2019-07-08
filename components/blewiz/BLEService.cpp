@@ -41,7 +41,7 @@ void BLEService::handleGattsEvent(esp_gatts_cb_event_t event, esp_gatt_if_t gatt
 //        BLECharacteristic *characteristic = characteristicByUuid.at(add_char.char_uuid);
         BLECharacteristic *characteristic = characteristicQueue.front();
         characteristicQueue.pop();
-        characteristicByHandle.insert({ add_char.attr_handle, characteristic });
+        characteristicByHandle.emplace(add_char.attr_handle, characteristic);
 
         if ( ! characteristicQueue.empty()) {
             addCharacteristic(characteristicQueue.front());
@@ -56,7 +56,7 @@ void BLEService::handleGattsEvent(esp_gatts_cb_event_t event, esp_gatt_if_t gatt
 // save the characteristic in a queue for later processing via ESP_GATTS_ADD_CHAR_EVT
 void BLEService::attach(BLECharacteristic *characteristic, BLECharacteristicConfig &config) {
     ESP_LOGI(GATTS_TAG, "attach: %d", config.uuid.uuid.uuid16);
-    characteristicByUuid.insert({config.uuid, characteristic});
+    characteristicByUuid.emplace(config.uuid, characteristic);
     characteristicQueue.push(characteristic);
 }
 
