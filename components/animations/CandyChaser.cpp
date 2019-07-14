@@ -1,9 +1,11 @@
 #include "CandyChaser.h"
 
+#include "esp_system.h" // for esp_random()
+
 CandyChaser::CandyChaser(uint16_t size) : Chaser(size) {
-	this->r = 0;
-	this->g = 0;
-	this->b = 0;
+	this->r = esp_random();
+	this->g = esp_random();
+	this->b = esp_random();
 	this->dr = 3;
 	this->dg = 7;
 	this->db = -5;

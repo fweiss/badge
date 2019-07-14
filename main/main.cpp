@@ -48,8 +48,8 @@ void app_main(void) {
 
     ESP_LOGI(TAG, "initializing");
 
-    animationProgram.putAnimation(0, &spiralAnimation);
-    animationProgram.putAnimation(1, &meteorShowerAnimation);
+    animationProgram.putAnimation(0, &meteorShowerAnimation);
+    animationProgram.putAnimation(1, &spiralAnimation);
     animationProgram.putAnimation(2, &smearAnimation);
 
     badgeService.init();
