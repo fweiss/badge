@@ -10,9 +10,9 @@
 #include "led_strip/led_strip.h"
 #include "animations/display.h"
 #include "animations/SmearAnimation.h"
+#include "animations/SpiralAnimation.h"
 #include "animations/MeteorShowerAnimation.h"
 #include "animations/AnimationProgram.h"
-#include "animations/Z.h"
 #include <stdio.h>
 
 #include "Timer.h"
@@ -31,7 +31,7 @@ static const char* TAG = "BADGE";
 
 static Display display( GPIO_NUM_14);
 
-static Z z(display);
+static SpiralAnimation spiralAnimation(display);
 static MeteorShowerAnimation meteorShowerAnimation(display);
 static SmearAnimation smearAnimation(display);
 
@@ -48,7 +48,7 @@ void app_main(void) {
 
     ESP_LOGI(TAG, "initializing");
 
-    animationProgram.putAnimation(0, &z);
+    animationProgram.putAnimation(0, &spiralAnimation);
     animationProgram.putAnimation(1, &meteorShowerAnimation);
     animationProgram.putAnimation(2, &smearAnimation);
 
