@@ -14,6 +14,7 @@ private:
     CandyChaser* generator3;
 protected:
     void drawFrame(unsigned long frameIndex) override;
+    void drawFrame() override;
 public:
     SpiralAnimation(Adafruit_NeoMatrix &matrix) : PixelAnimation(matrix) {
         setRepeatCount(80);
