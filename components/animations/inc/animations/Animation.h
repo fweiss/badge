@@ -6,9 +6,9 @@
 class Animation {
 private:
 protected:
-	Display &display;
+    Display &display;
 public:
-	Animation(Display &display);
+    Animation(Display &display);
     virtual ~Animation() {};
-	virtual void drawFrame() = 0;
+    virtual void drawFrame() = 0;
 };

@@ -7,5 +7,5 @@ class MeteorShowerAnimation : public PathAnimation {
 private:
 protected:
 public:
-	MeteorShowerAnimation(Display &display);
+    MeteorShowerAnimation(Display &display);
 };

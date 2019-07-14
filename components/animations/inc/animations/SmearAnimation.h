@@ -5,9 +5,9 @@
 
 class SmearAnimation : public Animation {
 private:
-	uint16_t r;
+    uint16_t r;
 protected:
 public:
-	SmearAnimation(Display &display);
-	void drawFrame() override;
+    SmearAnimation(Display &display);
+    void drawFrame() override;
 };
