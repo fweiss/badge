@@ -5,12 +5,9 @@
 
 class SmearAnimation : public Animation {
 private:
-//	Display *display;
-	uint8_t r;
+	uint16_t r;
 protected:
 public:
-//	SmearAnimation(led_strip_t *ledStrip);
 	SmearAnimation(Display &display);
-//	SmearAnimation();
-	void drawFrame();
+	void drawFrame() override;
 };
