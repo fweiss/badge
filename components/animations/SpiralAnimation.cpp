@@ -13,6 +13,6 @@ SpiralAnimation::SpiralAnimation(Display &display) : PathAnimation(display) {
 	};
 
 	for (ChaserPath cp : chaserPaths) {
-	    cp.chaser->setReverse(true);
+	    cp.chaser->setReverse(false);
 	}
 }
