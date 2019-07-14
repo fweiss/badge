@@ -11,7 +11,7 @@ public:
     Timer();
     virtual ~Timer() {}
 
-    void setCallback(std::function<void(void)> lambda);
+    void setCallback(void lambda(void));
     void start();
 
     static void timerIsr(void *data); // nice if it were private

@@ -32,9 +32,9 @@ Timer::Timer() {
     timer_isr_register(TIMER_GROUP_0, this->index, Timer::timerIsr, (void *) this->index, intr_alloc_flags, handle);
 }
 
-void Timer::setCallback(std::function<void(void)> _func) {
+void Timer::setCallback(void func(void)) {
     // todo private, per timer
-    func = _func;
+    this->func = func;
 }
 
 void IRAM_ATTR Timer::timerIsr(void *data) {
