@@ -6,7 +6,7 @@
 #include "esp_bt_device.h"
 #include "esp_gatt_defs.h"
 
-const char* BLECore::LOG_TAG = "BLE_CORE";
+const char* BLECore::LOG_TAG = "BLECore";
 
 #define ERROR_CHECK(m) if (ret) { \
 ESP_LOGE(LOG_TAG, "%s %s failed: %s\n", __func__, m, esp_err_to_name(ret)); \
@@ -173,6 +173,7 @@ void BLECore::registerApp() {
 
 void BLECore::addService(BLEService *service, esp_gatt_if_t gatts_if) {
     // init here?
+    // fixme parameterize service uuid
     esp_gatt_srvc_id_t service_id;
     service_id.is_primary = true;
     service_id.id.inst_id = 0x00;

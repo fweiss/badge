@@ -8,7 +8,7 @@
 class BadgeService : public BLEService {
 public:
     BadgeService(Display &display, AnimationProgram &animationProgram);
-    virtual ~BadgeService() {}
+    virtual ~BadgeService();
 
     void init();
 
@@ -16,6 +16,9 @@ private:
     Display &display;
     AnimationProgram &animationProgram;
 
+    BLECharacteristic batteryCharacteristic;
     BLECharacteristic brightnessCharacteristic;
     BLECharacteristic programCharacteristic;
+
+    static void batteryTask(void *parameters);
 };
