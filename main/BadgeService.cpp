@@ -87,6 +87,7 @@ void BadgeService::batteryTask(void *parameters) {
 
         uint8_t value[] = { percent };
         uint16_t length = sizeof(value);
+        // subsequent ESP_GATTS_SET_ATTR_VAL_EVT
         esp_err_t err = ::esp_ble_gatts_set_attr_value(handle, length, value);
         if (err != ESP_OK) {
             ESP_LOGE(LOG_TAG, "battery characteristic: set attribbte: err: %0x", err);

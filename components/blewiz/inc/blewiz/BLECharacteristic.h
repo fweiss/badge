@@ -2,6 +2,7 @@
 
 #include <functional>
 
+#include "BLEAttribute.h"
 #include "BLEService.h"
 
 class BLECharacteristicConfig {
@@ -12,7 +13,7 @@ public:
     esp_attr_control_t control;
 };
 
-class BLECharacteristic {
+class BLECharacteristic : public BLEAttribute{
 public:
     BLECharacteristic(BLEService *service, BLECharacteristicConfig &config);
     virtual ~BLECharacteristic() {}
