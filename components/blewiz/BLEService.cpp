@@ -92,23 +92,24 @@ void BLEService::attach(BLECharacteristic *characteristic, BLECharacteristicConf
 // A value is required when control is ESP_GATT_AUTO_RSP, but not for ESP_GATT_RSP_BY_APP
 // fixme remove fake value
 void BLEService::addCharacteristic(BLECharacteristic* characteristic) {
-    esp_err_t ret;
-    ESP_LOGI(GATTS_TAG, "adding characteristic 0x%0x", characteristic->uuid.uuid.uuid16);
-    uint8_t v[] = { 0x11,0x22,0x33 };
-    esp_attr_value_t value = {
-        .attr_max_len = ATTR_MAX_LEN,
-        .attr_len     = sizeof(v),
-        .attr_value   = v,
-    };
-    ret = esp_ble_gatts_add_char(
-            serviceHandle,
-            &characteristic->uuid,
-            characteristic->permissions,
-            characteristic->properties,
-            &value,
-            &characteristic->control);
-    if (ret) {
-        ESP_LOGE(GATTS_TAG, "add char failed, error code: 0x%0x", ret);
-    }
-
+    characteristic->addToService(*this);
+//    esp_err_t ret;
+//    ESP_LOGI(GATTS_TAG, "adding characteristic 0x%0x", characteristic->uuid.uuid.uuid16);
+//    uint8_t v[] = { 0x11,0x22,0x33 };
+//    esp_attr_value_t value = {
+//        .attr_max_len = ATTR_MAX_LEN,
+//        .attr_len     = sizeof(v),
+//        .attr_value   = v,
+//    };
+//    ret = esp_ble_gatts_add_char(
+//            serviceHandle,
+//            &characteristic->uuid,
+//            characteristic->permissions,
+//            characteristic->properties,
+//            &value,
+//            &characteristic->control);
+//    if (ret) {
+//        ESP_LOGE(GATTS_TAG, "add char failed, error code: 0x%0x", ret);
+//    }
+//
 }

@@ -29,5 +29,7 @@ public:
     const esp_gatt_perm_t &permissions;
     const esp_gatt_char_prop_t &properties;
     esp_attr_control_t &control; // fixme not const to comply with API
-
+protected:
+    friend class BLEService;
+    void addToService(BLEService &service);
 };

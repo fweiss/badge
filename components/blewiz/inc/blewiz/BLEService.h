@@ -75,6 +75,7 @@ public:
     void handleGattsEvent(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param);
 
     static const uint16_t ATTR_MAX_LEN = 16;
+    uint16_t getHandle() { return serviceHandle; }
 
 protected:
     std::unordered_map<esp_bt_uuid_t, BLECharacteristic*, uuid_hash, uuid_equal> characteristicByUuid;
