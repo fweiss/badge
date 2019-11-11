@@ -10,8 +10,9 @@
 #define UUID16(x) { .len = ESP_UUID_LEN_16, .uuid = { .uuid16 = x } }
 
 //#include "BLECharacteristic.h"
-class BLECharacteristic;
-class BLECharacteristicConfig;
+class BLEAttribute;
+//class BLECharacteristic;
+//class BLECharacteristicConfig;
 
 // specialization for std::unordered_map
 struct uuid_hash {
@@ -70,7 +71,7 @@ public:
     virtual ~BLEService() {}
 
     // todo make friend
-    void attach(BLECharacteristic *characteristic, BLECharacteristicConfig &config);
+    void attach(BLEAttribute *attribute);
 
     void handleGattsEvent(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param);
 
@@ -78,12 +79,12 @@ public:
     uint16_t getHandle() { return serviceHandle; }
 
 protected:
-    std::unordered_map<esp_bt_uuid_t, BLECharacteristic*, uuid_hash, uuid_equal> characteristicByUuid;
-    std::unordered_map<uint16_t, BLECharacteristic*> characteristicByHandle;
-    std::queue<BLECharacteristic*> characteristicQueue;
+    std::unordered_map<esp_bt_uuid_t, BLEAttribute*, uuid_hash, uuid_equal> characteristicByUuid;
+    std::unordered_map<uint16_t, BLEAttribute*> characteristicByHandle;
+    std::queue<BLEAttribute*> characteristicQueue;
 
 private:
     uint16_t serviceHandle;
 
-    void addCharacteristic(BLECharacteristic* characteristic);
+    void addCharacteristic(BLEAttribute *characteristic);
 };

@@ -11,7 +11,7 @@ BLECharacteristic::BLECharacteristic(BLEService *service, BLECharacteristicConfi
     permissions(config.permissions),
     properties(config.properties),
     control(config.control) {
-    service->attach(this, config);
+    service->attach(this);
 }
 
 void BLECharacteristic::setWriteCallback(std::function<void(uint16_t len, uint8_t *value)> func) {

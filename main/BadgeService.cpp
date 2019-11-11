@@ -72,7 +72,7 @@ void BadgeService::batteryTask(void *parameters) {
     BLECharacteristic *batteryCharacteristic = (BLECharacteristic*)parameters;
     while (1) {
         vTaskDelay(pdMS_TO_TICKS(1000));
-        uint16_t handle = batteryCharacteristic->handle;
+        uint16_t handle = batteryCharacteristic->getHandle();
         if (handle == 0) {
             ESP_LOGE(LOG_TAG, "battery characteristic: no handle");
             return;
