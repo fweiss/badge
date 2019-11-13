@@ -14,13 +14,6 @@ BLECharacteristic::BLECharacteristic(BLEService *service, BLECharacteristicConfi
     service->attach(this);
 }
 
-void BLECharacteristic::setWriteCallback(std::function<void(uint16_t len, uint8_t *value)> func) {
-    this->writeCallback = func;
-}
-
-void BLECharacteristic::setReadCallback(std::function<void(uint16_t len, uint8_t *value)> func) {
-    this->readCallback = func;
-}
 
 void BLECharacteristic::addToService(BLEService &service) {
     // A value is required when control is ESP_GATT_AUTO_RSP, but not for ESP_GATT_RSP_BY_APP

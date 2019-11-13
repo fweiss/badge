@@ -12,12 +12,17 @@ public:
     static const uint16_t ATTR_MAX_LEN = 16;
 
     uint16_t getHandle() { return this->handle; }
+    BLEService *getService() { return this->service; }
+
+    void setWriteCallback(std::function<void(uint16_t len, uint8_t *value)> func);
+    void setReadCallback(std::function<void(uint16_t len, uint8_t *value)> func);
 
 protected:
     friend class BLEService;
 
     uint16_t handle = 0;
     esp_bt_uuid_t uuid;
+    BLEService *service;
 
     virtual void addToService(BLEService &service) = 0;
     std::function<void(uint16_t len, uint8_t *value)> writeCallback;

@@ -70,13 +70,23 @@ public:
     BLEService();
     virtual ~BLEService() {}
 
+    esp_gatt_if_t gatt_if;
+    uint16_t conn_id;
+
+    esp_gatt_if_t getGattIf() { return this->gatt_if; }
+    uint16_t getConnId() { return this->conn_id; }
+    uint16_t getHandle() { return serviceHandle; }
+
     // todo make friend
     void attach(BLEAttribute *attribute);
+    void registerNextAttribute(uint16_t attr_handle);
 
     void handleGattsEvent(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param);
 
+    virtual void onConnect() {}
+    virtual void onDisconnect() {}
+
     static const uint16_t ATTR_MAX_LEN = 16;
-    uint16_t getHandle() { return serviceHandle; }
 
 protected:
     std::unordered_map<esp_bt_uuid_t, BLEAttribute*, uuid_hash, uuid_equal> characteristicByUuid;

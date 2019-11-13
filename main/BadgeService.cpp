@@ -7,37 +7,54 @@
 
 static const char* LOG_TAG = "BADGE";
 
+//.uuid = UUID16(0x2902),
+//.permissions = ESP_GATT_PERM_READ | ESP_GATT_PERM_WRITE,
+//.control = { .auto_rsp = ESP_GATT_RSP_BY_APP }
+
 BLECharacteristicConfig batteryCharacteristicConfig = {
     .uuid = UUID16(0x2a19),
     .permissions = ESP_GATT_PERM_READ | ESP_GATT_PERM_WRITE,
     .properties = ESP_GATT_CHAR_PROP_BIT_READ | ESP_GATT_CHAR_PROP_BIT_WRITE | ESP_GATT_CHAR_PROP_BIT_NOTIFY,
-    .control = { .auto_rsp = ESP_GATT_AUTO_RSP }
+    .control = { .auto_rsp = ESP_GATT_AUTO_RSP },
+    .descriptorConfigs = {{
+            .uuid = UUID16(0x2902),
+            .permissions = ESP_GATT_PERM_READ | ESP_GATT_PERM_WRITE,
+            .control = { .auto_rsp = ESP_GATT_RSP_BY_APP }
+    }}
+};
+
+BLEDescriptorConfig bd = {
+        .uuid = UUID16(0x2902),
+        .permissions = ESP_GATT_PERM_READ | ESP_GATT_PERM_WRITE,
+        .control = { .auto_rsp = ESP_GATT_RSP_BY_APP }
 };
 
 BLECharacteristicConfig brighnessCharacteristicConfig = {
     .uuid = UUID16(0x0043),
     .permissions = ESP_GATT_PERM_READ | ESP_GATT_PERM_WRITE,
     .properties = ESP_GATT_CHAR_PROP_BIT_READ | ESP_GATT_CHAR_PROP_BIT_WRITE | ESP_GATT_CHAR_PROP_BIT_NOTIFY,
-    .control = { .auto_rsp = ESP_GATT_AUTO_RSP }
+    .control = { .auto_rsp = ESP_GATT_AUTO_RSP },
+    .descriptorConfigs = { }
 };
 
 BLECharacteristicConfig programCharacteristicConfig = {
     .uuid = UUID16(0x0044),
     .permissions = ESP_GATT_PERM_READ | ESP_GATT_PERM_WRITE,
     .properties = ESP_GATT_CHAR_PROP_BIT_READ | ESP_GATT_CHAR_PROP_BIT_WRITE | ESP_GATT_CHAR_PROP_BIT_NOTIFY,
-    .control = { .auto_rsp = ESP_GATT_AUTO_RSP }
+    .control = { .auto_rsp = ESP_GATT_AUTO_RSP },
+    .descriptorConfigs = {}
 };
 
 BadgeService::BadgeService(Display &display, AnimationProgram &animationProgram) :
     display(display),
     animationProgram(animationProgram),
     batteryCharacteristic(this, batteryCharacteristicConfig),
+    batteryNotifyDesciptor(this, bd),
     brightnessCharacteristic(this, brighnessCharacteristicConfig),
     programCharacteristic(this, programCharacteristicConfig) {
 
     ::adc1_config_width(ADC_WIDTH_12Bit);
     ::adc1_config_channel_atten(ADC1_CHANNEL_7, ADC_ATTEN_11db); // Measure up to 2.2V
-    xTaskCreate(batteryTask, "battery", 4096, &batteryCharacteristic, 1, NULL);
 }
 
 BadgeService::~BadgeService() {
@@ -50,6 +67,12 @@ void BadgeService::init() {
         [this](uint16_t len, uint8_t *value) {
             ESP_LOGI(LOG_TAG, "read battery");
         }
+    );
+
+    batteryNotifyDesciptor.setWriteCallback(
+            [this](uint16_t len, uint8_t *value) {
+                ESP_LOGI(LOG_TAG, "write notify");
+            }
     );
 
     brightnessCharacteristic.setWriteCallback(
@@ -68,9 +91,23 @@ void BadgeService::init() {
 
 }
 
+void BadgeService::onConnect() {
+    // fixme depends on connection
+//    ::xTaskCreate(batteryTask, "battery", 4096, &batteryCharacteristic, 1, NULL);
+}
+
+void BadgeService::onDisconnect() {
+
+}
+
 void BadgeService::batteryTask(void *parameters) {
     BLECharacteristic *batteryCharacteristic = (BLECharacteristic*)parameters;
+    // todo check service, connect
+    esp_gatt_if_t gatt_if = batteryCharacteristic->getService()->getGattIf();
+    uint16_t conn_id = batteryCharacteristic->getService()->getConnId();
+    ESP_LOGI(LOG_TAG, "battery task started: gatt_if: %d conn_id: %d", gatt_if, conn_id);
     while (1) {
+        esp_err_t esp_err;
         vTaskDelay(pdMS_TO_TICKS(1000));
         uint16_t handle = batteryCharacteristic->getHandle();
         if (handle == 0) {
@@ -88,9 +125,15 @@ void BadgeService::batteryTask(void *parameters) {
         uint8_t value[] = { percent };
         uint16_t length = sizeof(value);
         // subsequent ESP_GATTS_SET_ATTR_VAL_EVT
-        esp_err_t err = ::esp_ble_gatts_set_attr_value(handle, length, value);
-        if (err != ESP_OK) {
-            ESP_LOGE(LOG_TAG, "battery characteristic: set attribbte: err: %0x", err);
+        esp_err = ::esp_ble_gatts_set_attr_value(handle, length, value);
+        if (esp_err != ESP_OK) {
+            ESP_LOGE(LOG_TAG, "battery characteristic: set attribbte: err: %0x", esp_err);
+            return;
+        }
+        bool need_confirm = false;
+        esp_err = ::esp_ble_gatts_send_indicate(gatt_if, conn_id, handle, length, value, need_confirm);
+        if (esp_err != ESP_OK) {
+            ESP_LOGE(LOG_TAG, "battery characteristic: set attribbte: err: %0x", esp_err);
             return;
         }
     }

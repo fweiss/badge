@@ -12,11 +12,15 @@ public:
 
     void init();
 
+    void onConnect() override;
+    void onDisconnect() override;
+
 private:
     Display &display;
     AnimationProgram &animationProgram;
 
     BLECharacteristic batteryCharacteristic;
+    BLEDescriptor batteryNotifyDesciptor;
     BLECharacteristic brightnessCharacteristic;
     BLECharacteristic programCharacteristic;
 

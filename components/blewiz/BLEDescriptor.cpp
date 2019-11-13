@@ -19,7 +19,7 @@ void BLEDescriptor::addToService(BLEService &service) {
     // fixme remove fake value
     esp_err_t ret;
     ESP_LOGI(LOG_TAG, "add descriptor 0x%0x", uuid.uuid.uuid16);
-    uint8_t v[] = { 0x11,0x22,0x33 };
+    uint8_t v[] = { 0x01, 0x00 }; // notify
     esp_attr_value_t value = {
         .attr_max_len = ATTR_MAX_LEN,
         .attr_len     = sizeof(v),

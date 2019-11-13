@@ -77,12 +77,16 @@ void BLECore::gatts_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t gatt
     }
     case ESP_GATTS_CONNECT_EVT: {
         ESP_LOGI(LOG_TAG, "connect occurred");
+        service->conn_id = param->connect.conn_id;
+        service->onConnect();
 //        esp_ble_gap_update_conn_params(&conn_params);
         break;
     }
     case ESP_GATTS_DISCONNECT_EVT: {
+        service->onDisconnect();
         esp_ble_gap_start_advertising(&advertisementParameters);
         ESP_LOGI(LOG_TAG, "discconnect occurred, advertising started");
+        // todo zero conn_id
         break;
     }
     default: {

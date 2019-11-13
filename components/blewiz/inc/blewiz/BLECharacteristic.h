@@ -1,8 +1,10 @@
 #pragma once
 
 #include <functional>
+#include <vector>
 
 #include "BLEAttribute.h"
+#include "BLEDescriptor.h"
 #include "BLEService.h"
 
 class BLECharacteristicConfig {
@@ -11,6 +13,7 @@ public:
     const esp_gatt_perm_t permissions;
     const esp_gatt_char_prop_t properties;
     esp_attr_control_t control;
+    std::vector<BLEDescriptorConfig> descriptorConfigs;
 };
 
 class BLECharacteristic : public BLEAttribute{
@@ -23,8 +26,6 @@ public:
     const esp_gatt_char_prop_t &properties;
     esp_attr_control_t &control; // fixme not const to comply with API
 
-    void setWriteCallback(std::function<void(uint16_t len, uint8_t *value)> func);
-    void setReadCallback(std::function<void(uint16_t len, uint8_t *value)> func);
 
 protected:
     friend class BLEService;

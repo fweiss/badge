@@ -29,7 +29,7 @@ void BLEService::handleGattsEvent(esp_gatts_cb_event_t event, esp_gatt_if_t gatt
         break;
     case ESP_GATTS_WRITE_EVT: {
         auto &write = param->write;
-        ESP_LOGI(GATTS_TAG, "received write event");
+        ESP_LOGI(GATTS_TAG, "received write event: handle: %d", write.handle);
         BLEAttribute *characteristic = characteristicByHandle.at(write.handle);
         characteristic->writeCallback(write.len, write.value);
         break;
@@ -38,16 +38,33 @@ void BLEService::handleGattsEvent(esp_gatts_cb_event_t event, esp_gatt_if_t gatt
         // todo check status
         auto &add_char = param->add_char;
         ESP_LOGI(GATTS_TAG, "received add char event: %0x", add_char.char_uuid.uuid.uuid16);
-//        BLECharacteristic *characteristic = characteristicByUuid.at(add_char.char_uuid);
-        BLEAttribute *characteristic = characteristicQueue.front();
+        registerNextAttribute(add_char.attr_handle);
+//        BLEAttribute *characteristic = characteristicQueue.front();
+//        characteristicQueue.pop();
+//        characteristic->handle = add_char.attr_handle;
+//        characteristicByHandle.emplace(add_char.attr_handle, characteristic);
+//
+//        if ( ! characteristicQueue.empty()) {
+//            addCharacteristic(characteristicQueue.front());
+//        }
+        break;
+    }
+    case ESP_GATTS_ADD_CHAR_DESCR_EVT: {
+        // fixme duplicate code
+        // todo check status
+        esp_ble_gatts_cb_param_t::gatts_add_char_descr_evt_param &add_char_descr = param->add_char_descr;
+        ESP_LOGI(GATTS_TAG, "received add char desc event: %0x", add_char_descr.descr_uuid.uuid.uuid16);
+        // todo assuming that front uuid is the same as that of the event
+        BLEAttribute *attribute = characteristicQueue.front();
         characteristicQueue.pop();
-        characteristic->handle = add_char.attr_handle;
-        characteristicByHandle.emplace(add_char.attr_handle, characteristic);
+        attribute->handle = add_char_descr.attr_handle;
+        characteristicByHandle.emplace(add_char_descr.attr_handle, attribute);
 
         if ( ! characteristicQueue.empty()) {
             addCharacteristic(characteristicQueue.front());
         }
         break;
+
     }
     case ESP_GATTS_READ_EVT: {
         esp_ble_gatts_cb_param_t::gatts_read_evt_param &read = param->read;
@@ -82,11 +99,28 @@ void BLEService::handleGattsEvent(esp_gatts_cb_event_t event, esp_gatt_if_t gatt
     }
 }
 
+/**
+ * The handle for the queued attributes has been established by the BLE stack.
+ * Register the attribute so it can be looked up by handle.
+ * Then add the next attribute, if any, to the BLE stack.
+ */
+void BLEService::registerNextAttribute(uint16_t attr_handle) {
+    BLEAttribute *attribute = characteristicQueue.front();
+    characteristicQueue.pop();
+    attribute->handle = attr_handle;
+    characteristicByHandle.emplace(attr_handle, attribute);
+
+    if ( ! characteristicQueue.empty()) {
+        BLEAttribute *next_attribute = characteristicQueue.front();
+        next_attribute->addToService(*this);
+    }
+}
+
 // save the characteristic in a queue for later processing via ESP_GATTS_ADD_CHAR_EVT
-void BLEService::attach(BLEAttribute *characteristic) {
-    ESP_LOGI(GATTS_TAG, "attach: %d", characteristic->uuid.uuid.uuid16);
-    characteristicByUuid.emplace(characteristic->uuid, characteristic);
-    characteristicQueue.push(characteristic);
+void BLEService::attach(BLEAttribute *attribute) {
+    ESP_LOGI(GATTS_TAG, "attach: %d", attribute->uuid.uuid.uuid16);
+    characteristicByUuid.emplace(attribute->uuid, attribute);
+    characteristicQueue.push(attribute);
 }
 
 // A value is required when control is ESP_GATT_AUTO_RSP, but not for ESP_GATT_RSP_BY_APP
