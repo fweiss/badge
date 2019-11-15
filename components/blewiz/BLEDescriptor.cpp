@@ -1,5 +1,7 @@
 #include "BLEDescriptor.h"
 
+#include "BLEService.h"
+
 #include "esp_log.h"
 #include "esp_gap_ble_api.h"
 #include "esp_gatts_api.h"

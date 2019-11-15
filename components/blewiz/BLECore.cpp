@@ -13,6 +13,9 @@ ESP_LOGE(LOG_TAG, "%s %s failed: %s\n", __func__, m, esp_err_to_name(ret)); \
 return; \
 }
 
+// e.g. esp_ble_gatts_cb_param_t::gatts_connect_evt_param &connect = param->connect;
+#define GATT_EVT_PARAM(name, type) esp_ble_gatts_cb_param_t:: ## type & ## name = param-> ## name;
+
 BLECore::BLECore() {
 
 }
@@ -64,7 +67,6 @@ void BLECore::gatts_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t gatt
         ESP_LOGI(LOG_TAG, "creating service");
         uint16_t service_handle = param->create.service_handle;
         esp_ble_gatts_start_service(service_handle);
-
         break;
     }
     case ESP_GATTS_START_EVT: {
@@ -76,8 +78,9 @@ void BLECore::gatts_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t gatt
         break;
     }
     case ESP_GATTS_CONNECT_EVT: {
-        ESP_LOGI(LOG_TAG, "connect occurred");
-        service->conn_id = param->connect.conn_id;
+        esp_ble_gatts_cb_param_t::gatts_connect_evt_param &connect = param->connect;
+        ESP_LOGI(LOG_TAG, "connect occurred: conn_id: %d", connect.conn_id);
+        service->conn_id = connect.conn_id;
         service->onConnect();
 //        esp_ble_gap_update_conn_params(&conn_params);
         break;
@@ -120,7 +123,6 @@ void BLECore::gap_event_handler(esp_gap_ble_cb_event_t event, esp_ble_gap_cb_par
     }
     }
 }
-
 
 void BLECore::initDevice() {
     esp_err_t ret;
@@ -176,6 +178,9 @@ void BLECore::registerApp() {
 }
 
 void BLECore::addService(BLEService *service, esp_gatt_if_t gatts_if) {
+
+    service->gatt_if = gatts_if;
+
     // init here?
     // fixme parameterize service uuid
     esp_gatt_srvc_id_t service_id;

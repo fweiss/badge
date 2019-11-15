@@ -9,8 +9,8 @@
 
 #define UUID16(x) { .len = ESP_UUID_LEN_16, .uuid = { .uuid16 = x } }
 
-//#include "BLECharacteristic.h"
-class BLEAttribute;
+#include "BLEAttribute.h"
+//class BLEAttribute;
 //class BLECharacteristic;
 //class BLECharacteristicConfig;
 
@@ -65,7 +65,7 @@ struct BLEUuid {
     }
 };
 
-class BLEService {
+class BLEService : public BLEAttribute {
 public:
     BLEService();
     virtual ~BLEService() {}
@@ -80,6 +80,7 @@ public:
     // todo make friend
     void attach(BLEAttribute *attribute);
     void registerNextAttribute(uint16_t attr_handle);
+    void addToService(BLEService &service) override;
 
     void handleGattsEvent(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param);
 

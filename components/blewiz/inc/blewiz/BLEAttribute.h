@@ -1,8 +1,11 @@
 #pragma once
 
-#include "BLEService.h"
+//#include "BLEService.h"
+class BLEService;
 
 #include <functional>
+
+#include "esp_gatts_api.h"
 
 class BLEAttribute {
 public:

@@ -93,7 +93,7 @@ void BadgeService::init() {
 
 void BadgeService::onConnect() {
     // fixme depends on connection
-//    ::xTaskCreate(batteryTask, "battery", 4096, &batteryCharacteristic, 1, NULL);
+    ::xTaskCreate(batteryTask, "battery", 4096, &batteryCharacteristic, 1, NULL);
 }
 
 void BadgeService::onDisconnect() {

@@ -29,7 +29,7 @@ void BLEService::handleGattsEvent(esp_gatts_cb_event_t event, esp_gatt_if_t gatt
         break;
     case ESP_GATTS_WRITE_EVT: {
         auto &write = param->write;
-        ESP_LOGI(GATTS_TAG, "received write event: handle: %d", write.handle);
+        ESP_LOGI(GATTS_TAG, "received write event: conn_id: %d handle: %d", write.conn_id, write.handle);
         BLEAttribute *characteristic = characteristicByHandle.at(write.handle);
         characteristic->writeCallback(write.len, write.value);
         break;
@@ -38,6 +38,7 @@ void BLEService::handleGattsEvent(esp_gatts_cb_event_t event, esp_gatt_if_t gatt
         // todo check status
         auto &add_char = param->add_char;
         ESP_LOGI(GATTS_TAG, "received add char event: %0x", add_char.char_uuid.uuid.uuid16);
+
         registerNextAttribute(add_char.attr_handle);
 //        BLEAttribute *characteristic = characteristicQueue.front();
 //        characteristicQueue.pop();
@@ -108,6 +109,7 @@ void BLEService::registerNextAttribute(uint16_t attr_handle) {
     BLEAttribute *attribute = characteristicQueue.front();
     characteristicQueue.pop();
     attribute->handle = attr_handle;
+    attribute->service = this;
     characteristicByHandle.emplace(attr_handle, attribute);
 
     if ( ! characteristicQueue.empty()) {
@@ -127,4 +129,8 @@ void BLEService::attach(BLEAttribute *attribute) {
 // fixme remove fake value
 void BLEService::addCharacteristic(BLEAttribute* characteristic) {
     characteristic->addToService(*this);
+}
+
+void BLEService::addToService(BLEService &service) {
+
 }
