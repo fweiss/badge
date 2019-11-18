@@ -55,6 +55,7 @@ BadgeService::BadgeService(Display &display, AnimationProgram &animationProgram)
 
     ::adc1_config_width(ADC_WIDTH_12Bit);
     ::adc1_config_channel_atten(ADC1_CHANNEL_7, ADC_ATTEN_11db); // Measure up to 2.2V
+    taskHandle = NULL;
 }
 
 BadgeService::~BadgeService() {
@@ -93,11 +94,14 @@ void BadgeService::init() {
 
 void BadgeService::onConnect() {
     // fixme depends on connection
-    ::xTaskCreate(batteryTask, "battery", 4096, &batteryCharacteristic, 1, NULL);
+    ::xTaskCreate(batteryTask, "battery", 4096, &batteryCharacteristic, 1, &taskHandle);
 }
 
 void BadgeService::onDisconnect() {
-
+    if (taskHandle != NULL) {
+        vTaskDelete(taskHandle);
+        taskHandle = NULL;
+    }
 }
 
 void BadgeService::batteryTask(void *parameters) {
@@ -108,7 +112,7 @@ void BadgeService::batteryTask(void *parameters) {
     ESP_LOGI(LOG_TAG, "battery task started: gatt_if: %d conn_id: %d", gatt_if, conn_id);
     while (1) {
         esp_err_t esp_err;
-        vTaskDelay(pdMS_TO_TICKS(1000));
+        vTaskDelay(pdMS_TO_TICKS(5000));
         uint16_t handle = batteryCharacteristic->getHandle();
         if (handle == 0) {
             ESP_LOGE(LOG_TAG, "battery characteristic: no handle");

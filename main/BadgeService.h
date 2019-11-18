@@ -5,6 +5,8 @@
 
 #include "blewiz/BLECharacteristic.h"
 
+#include "freertos/task.h"
+
 class BadgeService : public BLEService {
 public:
     BadgeService(Display &display, AnimationProgram &animationProgram);
@@ -25,4 +27,5 @@ private:
     BLECharacteristic programCharacteristic;
 
     static void batteryTask(void *parameters);
+    TaskHandle_t taskHandle;
 };
