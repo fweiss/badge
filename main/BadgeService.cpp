@@ -26,7 +26,7 @@ BLECharacteristicConfig batteryCharacteristicConfig = {
 BLEDescriptorConfig bd = {
         .uuid = UUID16(0x2902),
         .permissions = ESP_GATT_PERM_READ | ESP_GATT_PERM_WRITE,
-        .control = { .auto_rsp = ESP_GATT_RSP_BY_APP }
+        .control = { .auto_rsp = ESP_GATT_AUTO_RSP }
 };
 
 BLECharacteristicConfig brighnessCharacteristicConfig = {
@@ -112,7 +112,7 @@ void BadgeService::batteryTask(void *parameters) {
     ESP_LOGI(LOG_TAG, "battery task started: gatt_if: %d conn_id: %d", gatt_if, conn_id);
     while (1) {
         esp_err_t esp_err;
-        vTaskDelay(pdMS_TO_TICKS(5000));
+        vTaskDelay(pdMS_TO_TICKS(2000));
         uint16_t handle = batteryCharacteristic->getHandle();
         if (handle == 0) {
             ESP_LOGE(LOG_TAG, "battery characteristic: no handle");
