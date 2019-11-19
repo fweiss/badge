@@ -30,9 +30,12 @@ void Display::clear() {
 }
 
 void Display::setPixel(uint16_t p, uint32_t color) {
-    uint8_t r = color & 0xff;
+//    uint8_t r = color & 0xff;
+//    uint8_t g = (color >> 8) & 0xff;
+//    uint8_t b = (color >> 16) & 0xff;
+    uint8_t r = (color >> 16) & 0xff;
     uint8_t g = (color >> 8) & 0xff;
-    uint8_t b = (color >> 16) & 0xff;
+    uint8_t b = color & 0xff;
     this->setPixel(p, r, g, b);
 }
 

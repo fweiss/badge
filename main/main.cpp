@@ -12,6 +12,7 @@
 #include "animations/SmearAnimation.h"
 #include "animations/SpiralAnimation.h"
 #include "animations/MeteorShowerAnimation.h"
+#include "animations/BitmapAnimation.h"
 #include "animations/AnimationProgram.h"
 #include <stdio.h>
 
@@ -34,6 +35,7 @@ static Display display( GPIO_NUM_14);
 static SpiralAnimation spiralAnimation(display);
 static MeteorShowerAnimation meteorShowerAnimation(display);
 static SmearAnimation smearAnimation(display);
+static BitmapAnimation bitmapAnimation(display);
 
 AnimationProgram animationProgram;
 
@@ -48,9 +50,11 @@ void app_main(void) {
 
     ESP_LOGI(TAG, "initializing");
 
+    // fixme check duplicate index error
     animationProgram.putAnimation(0, &meteorShowerAnimation);
     animationProgram.putAnimation(1, &spiralAnimation);
     animationProgram.putAnimation(2, &smearAnimation);
+    animationProgram.putAnimation(3, &bitmapAnimation);
 
     badgeService.init();
 

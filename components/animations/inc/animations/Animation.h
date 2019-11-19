@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Animation.h"
 #include "display.h"
 
 class Animation {

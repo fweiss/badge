@@ -13,6 +13,7 @@ void AnimationProgram::putAnimation(uint8_t index, Animation *animation) {
 }
 
 void AnimationProgram::drawFrame() {
+    // fixme check index
     programs[index]->drawFrame();
 }
 
