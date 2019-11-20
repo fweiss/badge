@@ -3,10 +3,11 @@
 #include <map>
 
 #include "Animation.h"
+#include "Timer.h"
 
 class AnimationProgram {
 public:
-    AnimationProgram();
+    AnimationProgram(Timer &animator);
     virtual ~AnimationProgram() {};
 
     void drawFrame();
@@ -16,4 +17,5 @@ public:
 private:
     std::map<uint8_t,Animation*> programs;
     uint8_t index;
+    Timer &animator;
 };

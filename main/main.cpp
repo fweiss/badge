@@ -17,7 +17,7 @@
 #include "animations/Heart1.h"
 #include <stdio.h>
 
-#include "Timer.h"
+#include "animations/Timer.h"
 #include "blewiz/BLECore.h"
 
 #include "BadgeService.h"
@@ -39,12 +39,11 @@ static SmearAnimation smearAnimation(display);
 static BitmapAnimation bitmapAnimation(display);
 static Heart1 heart1Animation(display);
 
-AnimationProgram animationProgram;
+Timer animator; // todo parameterize
+AnimationProgram animationProgram(animator);
 
 /* static */
 BadgeService badgeService(display, animationProgram);
-
-Timer animator; // todo parameterize
 
 void app_main(void) {
     // fixme check error

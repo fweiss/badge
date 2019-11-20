@@ -4,7 +4,7 @@
 
 static const char* TAG = "PROGRAM";
 
-AnimationProgram::AnimationProgram() : programs() {
+AnimationProgram::AnimationProgram(Timer &animator) : programs(), animator(animator) {
 
 }
 
@@ -20,4 +20,5 @@ void AnimationProgram::drawFrame() {
 void AnimationProgram::setProgram(uint8_t index) {
     ESP_LOGI(TAG, "set program %d", index);
     this->index = index;
+    animator.setIntervalSecs(index == 4 ? .3 : .03);
 }

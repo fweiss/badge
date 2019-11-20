@@ -9,7 +9,7 @@ Timer::Timer() {
     bool auto_reload = true;
     double timer_interval_sec = 0.030;
     uint32_t timer_divider = 16.0;
-    double timer_scale = (TIMER_BASE_CLK / timer_divider);
+    this->timer_scale = (TIMER_BASE_CLK / timer_divider);
 
     // initialize the timer configuration
     timer_config_t config;
@@ -30,6 +30,10 @@ Timer::Timer() {
     int intr_alloc_flags = ESP_INTR_FLAG_IRAM;
     timer_isr_handle_t *handle = NULL;
     timer_isr_register(TIMER_GROUP_0, this->index, Timer::timerIsr, (void *) this->index, intr_alloc_flags, handle);
+}
+
+void Timer::setIntervalSecs(float secs) {
+    timer_set_alarm_value(TIMER_GROUP_0, index, secs * timer_scale);
 }
 
 void Timer::setCallback(void func(void)) {
