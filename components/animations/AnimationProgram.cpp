@@ -20,5 +20,5 @@ void AnimationProgram::drawFrame() {
 void AnimationProgram::setProgram(uint8_t index) {
     ESP_LOGI(TAG, "set program %d", index);
     this->index = index;
-    animator.setIntervalSecs(index == 4 ? .3 : .03);
+    animator.setIntervalSecs(index == 4 || index == 5 ? .3 : .03);
 }

@@ -8,6 +8,7 @@
 #include "driver/gpio.h"
 
 #include "led_strip/led_strip.h"
+
 #include "animations/display.h"
 #include "animations/SmearAnimation.h"
 #include "animations/SpiralAnimation.h"
@@ -15,9 +16,11 @@
 #include "animations/BitmapAnimation.h"
 #include "animations/AnimationProgram.h"
 #include "animations/Heart1.h"
+#include "animations/Heart2.h"
+#include "animations/Timer.h"
+
 #include <stdio.h>
 
-#include "animations/Timer.h"
 #include "blewiz/BLECore.h"
 
 #include "BadgeService.h"
@@ -38,6 +41,7 @@ static MeteorShowerAnimation meteorShowerAnimation(display);
 static SmearAnimation smearAnimation(display);
 static BitmapAnimation bitmapAnimation(display);
 static Heart1 heart1Animation(display);
+static Heart2 heart2(display);
 
 Timer animator; // todo parameterize
 AnimationProgram animationProgram(animator);
@@ -57,6 +61,7 @@ void app_main(void) {
     animationProgram.putAnimation(2, &smearAnimation);
     animationProgram.putAnimation(3, &bitmapAnimation);
     animationProgram.putAnimation(4, &heart1Animation);
+    animationProgram.putAnimation(5, &heart2);
 
     badgeService.init();
 
