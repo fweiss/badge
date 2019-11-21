@@ -2,6 +2,9 @@
 
 #include "BitmapAnimation.h"
 
-class Felix : pubic BitmapAnimation {
-
-}
+class Felix : public BitmapAnimation {
+public:
+    Felix(Display &display);
+protected:
+    static std::vector<std::vector<uint32_t>> yy;
+};

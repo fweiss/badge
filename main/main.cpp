@@ -13,7 +13,7 @@
 #include "animations/SmearAnimation.h"
 #include "animations/SpiralAnimation.h"
 #include "animations/MeteorShowerAnimation.h"
-#include "animations/BitmapAnimation.h"
+#include "animations/Felix.h"
 #include "animations/AnimationProgram.h"
 #include "animations/Heart1.h"
 #include "animations/Heart2.h"
@@ -39,7 +39,7 @@ static Display display( GPIO_NUM_14);
 static SpiralAnimation spiralAnimation(display);
 static MeteorShowerAnimation meteorShowerAnimation(display);
 static SmearAnimation smearAnimation(display);
-static BitmapAnimation bitmapAnimation(display);
+static Felix felix(display);
 static Heart1 heart1Animation(display);
 static Heart2 heart2(display);
 
@@ -59,7 +59,7 @@ void app_main(void) {
     animationProgram.putAnimation(0, &meteorShowerAnimation);
     animationProgram.putAnimation(1, &spiralAnimation);
     animationProgram.putAnimation(2, &smearAnimation);
-    animationProgram.putAnimation(3, &bitmapAnimation);
+    animationProgram.putAnimation(3, &felix);
     animationProgram.putAnimation(4, &heart1Animation);
     animationProgram.putAnimation(5, &heart2);
 
