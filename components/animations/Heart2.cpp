@@ -1,6 +1,6 @@
 #include "Heart2.h"
 
-Heart2::Heart2(Display &display) : BitmapAnimation(display), frameIndex(0), bm(heart) {
+Heart2::Heart2(Display &display) : BitmapAnimation(display, heart) {
 
 }
 
@@ -10,7 +10,7 @@ void Heart2::drawFrame() {
 }
 
 void Heart2::drawFrame(uint16_t frameIndex) {
-    std::vector<uint32_t> frame = bm.at(frameIndex);
+    std::vector<uint32_t> frame = frames.at(frameIndex);
     uint16_t p = 0;
     for (uint32_t c : frame) {
         display.setPixel(p++, c);

@@ -1,7 +1,11 @@
 #include "BitmapAnimation.h"
 
-BitmapAnimation::BitmapAnimation(Display &display) :
-    Animation(display) {
+BitmapAnimation::BitmapAnimation(Display &display) : BitmapAnimation(display, zz) {
+
+}
+
+BitmapAnimation::BitmapAnimation(Display &display, std::vector<std::vector<uint32_t>> &frames) :
+    Animation(display), frameIndex(0), frames(frames) {
 
 }
 
@@ -16,6 +20,8 @@ void BitmapAnimation::drawFrame() {
     }
     display.update();
 }
+
+std::vector<std::vector<uint32_t>> BitmapAnimation::zz = {};
 
 #define back 0x8080ff
 #define fur 0x000000
