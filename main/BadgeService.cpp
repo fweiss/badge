@@ -94,7 +94,7 @@ void BadgeService::init() {
 
 void BadgeService::onConnect() {
     // fixme depends on connection
-    ::xTaskCreate(batteryTask, "battery", 4096, &batteryCharacteristic, 1, &taskHandle);
+    ::xTaskCreate(batteryTask, "battery", 4096, &batteryCharacteristic, tskIDLE_PRIORITY, &taskHandle);
 }
 
 void BadgeService::onDisconnect() {
@@ -110,6 +110,8 @@ void BadgeService::batteryTask(void *parameters) {
     esp_gatt_if_t gatt_if = batteryCharacteristic->getService()->getGattIf();
     uint16_t conn_id = batteryCharacteristic->getService()->getConnId();
     ESP_LOGI(LOG_TAG, "battery task started: gatt_if: %d conn_id: %d", gatt_if, conn_id);
+
+    uint8_t value[1];
     while (1) {
         esp_err_t esp_err;
         vTaskDelay(pdMS_TO_TICKS(2000));
@@ -126,7 +128,7 @@ void BadgeService::batteryTask(void *parameters) {
         const float range = 4.236;
         uint8_t percent = (base + raw * slope) / range * 100;
 
-        uint8_t value[] = { percent };
+        value[0] = percent;
         uint16_t length = sizeof(value);
         // subsequent ESP_GATTS_SET_ATTR_VAL_EVT
         esp_err = ::esp_ble_gatts_set_attr_value(handle, length, value);

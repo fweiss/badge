@@ -19,7 +19,7 @@ std::vector<std::vector<uint32_t>> Heart2::heart = {
     },
     {
         0, 0, 0, 0, 0 , 0, 0, 0,
-        0, purple, purple, 0, 0, purple, purple, 0,
+        0, 0, purple, 0, 0, purple, 0, 0,
         0, purple, purple, purple, purple, purple, purple, 0,
         0, purple, purple, purple, purple, purple, purple, 0,
         0, purple, purple, purple, purple, purple, purple, 0,

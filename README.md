@@ -28,19 +28,8 @@ and general purpose I/O. It even has a 10 bit ADC. The chip by itself is not pra
 is typically packaged on a PCB with additional support components. For this
 project the following packages were evaluated.
 
-- Sparkfun ESP8266 Thing
-- Sparkfun ESP8266 Thing Dev
-- AI Thinker ESP8266-01
-- Olimex MOD ESP8266 DEV
-
-### Adafruit Feather BLE
-
-For evaluating Bluetooth connectivity.
-
-https://learn.adafruit.com/adafruit-feather-m0-bluefruit-le?view=all
-
-- ATSAMD21 Cortex M0+ MCU chip
-- Nordic nRF51822 BLE module
+- Sparkfun ESP32 Thing
+- Adafruit Feather HUZZAH32
 
 ## Development Tools
 
