@@ -20,7 +20,7 @@ the serial input to the DOUT pin.
 Current tests. Hue
 All green at 150 value: 647 mA
 
-### ESP8266
+### ESP82
 
 This is an extremely popular WiFi IoT component. The core element is a 5x5 mm SoC chip that incorporates
 WiFi RF transceiver, 802.11 wifi and TCP/IP stack, a fast Tensilica embedded CPU, and 16 GPIO pins for serial
@@ -33,33 +33,6 @@ project the following packages were evaluated.
 
 ## Development Tools
 
-### Arduino IDE 1.6.8
-
-The venerable Arduino IDE is used to compile and upload code to IoT devices. In can be used for a wide variety of
-devices and CPUs, not just the original Arduino AVR.
-
-#### Arduino board managers
-
-There are a wide variety of libraries that can be used with the Arduino toolchain.
-
-For ESP8266, see [https://github.com/esp8266/Arduino]. In preferences, add
-http://arduino.esp8266.com/stable/package_esp8266com_index.json. Then go to board managers and
-install it. Once it's installed, select the appropriate board in the Tools menu.
-
-More info: http://randomnerdtutorials.com/how-to-install-esp8266-board-arduino-ide/
-
-#### Arduino ESP8266FS plugin
-
-This plugin allows you upload data files to the ESP8266 flash from the Arduino IDE.
-
-[https://github.com/esp8266/arduino-esp8266fs-plugin]
-
-This will not work with the Sparkfun Thing, which has only 512 kB flash.
-
-#### Adafruit Feather M0
-This is another popular development board. Add the following URL to the Arduino board manager:
-
-``https://adafruit.github.io/arduino-board-index/package_adafruit_index.json``
 
 #### C++11
 
@@ -69,36 +42,6 @@ In arduino/hardware/arduino/avr, in the platform.txt file, add "-std=gnu++11 to 
 compiler.cpp.flags
 
 Additional info about initializers in C++11: http://www.informit.com/articles/article.aspx?p=1852519
-
-#### Sloeber
-This is an excellent Eclipse plugin that extends the CDT with the Arduino toolchain.
-Follow the instructions on the Sloeber web site to setup the toolchain.
-The following will cover setting up and configuring the badge project.
-
-Create a new Arduino project called badge.
-In the project root directory initialize git and point to the remote github repo.
-
-```
-git init
-git remote add origin https://github.com/fweiss/badge.git
-git pull origin master
-```
-
-In the badge.cpp file, replace the lines following the #include "badge.cpp" with:
-
-``#include "src/badge/badge.ino"``
-
-Verify that the following libraries are included in the project:
-
-- Adafruit_GFX_Library
-- Adafruit_NeoMatrix
-- Adafruit_NeoPixel
-
-Run Arduino > Verify to check if the configuration works.
-
-Attach the device.
-
-Run Arduino > Upload Sketch and verify that it runs.
 
 ### glediator
 
@@ -112,91 +55,24 @@ values that can be exported and played back later or looped.
 ## Libraries
 Following Arduino libraries are needed for this project.
 
-### Bluetooth
-Install ``dafruit_BluefruitLE_nRF51``
-
-### FastLED
-
-This is a pretty clean library that handles a lot of pixel hardware. Unfortunately, it is not yet ready for ESP8266.
-
-### Adafruit NeoPixel libraries
-
-https://github.com/adafruit/Adafruit_NeoPixel
-
-plus matrix, gfx
-
-https://learn.adafruit.com/adafruit-gfx-graphics-library/overview
-
-#### CP437
-
-The GFX library evidently uses Code Page 437 (CP437). However, the BlueFruit LE client uses UNICODE with UTF-8 encoding.
-Without some help, special characters from the Arduino keyboard, such as "ñ" or "®" appear as two or three odd symbols
-on the LED matrix. Two transformations are needed.
-
-- UTF-8 to ISO-8859-1/latin1
-- ISO-8859-1/latin1 to CP437
-
-It may also be possible to create a custom GFX font that use the ISO-8859-1/latin1 character set.
-
-Another option is to encode CP437 in the client. It's unknown presently if the Arduino keyboard does CP437.
-
-### SPIFFS
-
-On ESP8266, binary files can be uploaded to the flash and read from the program.
-
-[https://github.com/esp8266/Arduino/blob/master/doc/filesystem.md]
-
-### ESP8266WebServer
-
-Handles routing of web requests. Example show use of SPIFFS to serve static content.
-
-[https://github.com/esp8266/Arduino/tree/master/libraries/ESP8266WebServer]
+https://github.com/Lucas-Bruder/ESP32_LED_STRIP
 
 ## Deployment
 
-Use the Arduino IDE 1.6.8.
+Use the ESP_IDF toolchain.
 
-Under Tools, select the correct board.
-
-- Adafruit Feather M0 (Natice USB port)
-- etc
+Details TODO
 
 ## Client Tools
 
-For bluetooth, you'll need a client that can connect and send/receive text.
+It is intended that the device wiil be controlled from a mobile phone. For testing, the following tools can be used.
 
-The preferred client is Adafruit Bluefruit LE.
+### Nordic Bluetooth Connect
 
-### Adafruit Bluefruit LE
+Full access to the GATT characteristics.
 
-Multiple connect modes (use UART). Has multiple options.
+Details TODO
 
-### nRF UART v2 (Android, iOS)
+## Links and References
 
-Work pretty well with the Adafruit Feather M0 Bluetooth. Couldn't configure EOL.
-
-### BlueTerm 1.1
-
-Doesn't connect.
-
-## Bluetooth Serial Port Terminal
-
-Does not pair in SPP.
-
-### Bluetooth Terminal
-
-Does not connect.
-
-### Bluetooth Superterminal
-
-Crashed.
-
-### BT SPP
-
-Requires mac address to connect. No scan.
-
-
-## Tips
-
-If the Feather M0 gets stuck and the Native USB Port is not accessible from the Arduino IDE, put it into manual bootloader mode.
-Press the reset button twice (like a double click) and the red LED will pulse, showing that it's in bootloader mode.
+https://www.esp32.com/viewtopic.php?t=576
