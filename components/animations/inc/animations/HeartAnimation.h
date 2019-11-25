@@ -4,9 +4,9 @@
 
 #include <vector>
 
-class Heart2 : public BitmapAnimation {
+class HeartAnimation : public BitmapAnimation {
 public:
-    Heart2(Display &display);
+    HeartAnimation(Display &display);
 protected:
 
     static std::vector<std::vector<uint32_t>> heart;

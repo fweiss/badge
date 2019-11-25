@@ -1,13 +1,13 @@
-#include "Heart2.h"
+#include "HeartAnimation.h"
 
-Heart2::Heart2(Display &display) : BitmapAnimation(display, heart) {
+HeartAnimation::HeartAnimation(Display &display) : BitmapAnimation(display, heart) {
 
 }
 
 #define red 0x640000
 #define purple 0x640064
 
-std::vector<std::vector<uint32_t>> Heart2::heart = {
+std::vector<std::vector<uint32_t>> HeartAnimation::heart = {
     {
         0, red, red, 0, 0 , red, red, 0,
         red, red, purple, red, red, purple, red, red,

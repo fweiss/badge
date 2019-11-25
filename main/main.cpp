@@ -15,8 +15,7 @@
 #include "animations/MeteorShowerAnimation.h"
 #include "animations/Felix.h"
 #include "animations/AnimationProgram.h"
-#include "animations/Heart1.h"
-#include "animations/Heart2.h"
+#include "animations/HeartAnimation.h"
 #include "animations/Timer.h"
 
 #include <stdio.h>
@@ -40,8 +39,7 @@ static SpiralAnimation spiralAnimation(display);
 static MeteorShowerAnimation meteorShowerAnimation(display);
 static SmearAnimation smearAnimation(display);
 static Felix felix(display);
-static Heart1 heart1Animation(display);
-static Heart2 heart2(display);
+static HeartAnimation heart1Animation(display);
 
 Timer animator; // todo parameterize
 AnimationProgram animationProgram(animator);
@@ -61,7 +59,6 @@ void app_main(void) {
     animationProgram.putAnimation(2, &smearAnimation);
     animationProgram.putAnimation(3, &felix);
     animationProgram.putAnimation(4, &heart1Animation);
-    animationProgram.putAnimation(5, &heart2);
 
     badgeService.init();
 
