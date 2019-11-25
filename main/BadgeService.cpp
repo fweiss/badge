@@ -94,11 +94,13 @@ void BadgeService::init() {
 
 void BadgeService::onConnect() {
     // fixme depends on connection
+    ESP_LOGI(LOG_TAG, "starting battery notify task");
     ::xTaskCreate(batteryTask, "battery", 4096, &batteryCharacteristic, tskIDLE_PRIORITY, &taskHandle);
 }
 
 void BadgeService::onDisconnect() {
     if (taskHandle != NULL) {
+        ESP_LOGI(LOG_TAG, "stopping battery notify task");
         vTaskDelete(taskHandle);
         taskHandle = NULL;
     }
