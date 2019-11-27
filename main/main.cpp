@@ -17,6 +17,7 @@
 #include "animations/AnimationProgram.h"
 #include "animations/HeartAnimation.h"
 #include "animations/JsonAnimation.h"
+#include "animations/SpinBottleAnimation.h"
 #include "animations/Timer.h"
 
 #include <stdio.h>
@@ -42,6 +43,7 @@ static SmearAnimation smearAnimation(display);
 static Felix felix(display);
 static HeartAnimation heart1Animation(display);
 static JsonAnimation testJson(display);
+static SpinBottleAnimation spinBottle(display);
 
 Timer animator; // todo parameterize
 AnimationProgram animationProgram(animator);
@@ -61,7 +63,8 @@ void app_main(void) {
     animationProgram.putAnimation(2, &smearAnimation);
     animationProgram.putAnimation(3, &felix);
     animationProgram.putAnimation(4, &heart1Animation);
-    animationProgram.putAnimation(5, &testJson);
+    animationProgram.putAnimation(5, &spinBottle);
+    animationProgram.putAnimation(6, &testJson);
 
     testJson.loadJson();
 
