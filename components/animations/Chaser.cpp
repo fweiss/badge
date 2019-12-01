@@ -1,6 +1,6 @@
 #include "Chaser.h"
 
-Chaser::Chaser(uint16_t size) {
+Chaser::Chaser(uint16_t size) : colors(size) {
 //	this->colors = new std::deque<uint32_t>(size);
     this->reverse = false;
 }

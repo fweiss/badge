@@ -23,6 +23,6 @@ protected:
     void drawPath(std::vector<uint16_t> spiral, Chaser *chaser);
 public:
     PathAnimation(Display &display);
-    void drawFrame() override;
+    virtual void drawFrame() override;
 };
 
