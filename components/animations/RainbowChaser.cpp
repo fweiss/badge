@@ -24,7 +24,7 @@ uint32_t RainbowChaser::nextColor() {
     // abs and max seem to get confused with untyped literals
 
     int16_t r = std::max(0, triangle((hue + 0 * ha) % p, hp) - (ha + 1)); // empirical -129 to avoid zero glitch
-    int16_t g = std::max(0, triangle((hue + 2 * ha) % p, hp) - (ha +- 1));
+    int16_t g = std::max(0, triangle((hue + 2 * ha) % p, hp) - (ha + 1));
     int16_t b = std::max(0, triangle((hue + 4 * ha) % p, hp) - (ha + 1));
 
     hue = (hue + 1) % p;
