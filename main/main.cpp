@@ -19,6 +19,7 @@
 #include "animations/JsonAnimation.h"
 #include "animations/SpinBottleAnimation.h"
 #include "animations/WormholeAnimation.h"
+#include "animations/SpinBottle2.h"
 #include "animations/Timer.h"
 
 #include <stdio.h>
@@ -46,6 +47,7 @@ static HeartAnimation heart1Animation(display);
 static JsonAnimation testJson(display);
 static SpinBottleAnimation spinBottle(display);
 static WormholeAnimation wormhole(display);
+static SpinBottle2 spinBottle2(display);
 
 Timer animator; // todo parameterize
 AnimationProgram animationProgram(animator);
@@ -66,8 +68,9 @@ void app_main(void) {
     animationProgram.putAnimation(3, &felix);
     animationProgram.putAnimation(4, &heart1Animation);
     animationProgram.putAnimation(5, &spinBottle);
-    animationProgram.putAnimation(6, &wormhole);
-    animationProgram.putAnimation(7, &testJson);
+    animationProgram.putAnimation(6, &spinBottle2);
+    animationProgram.putAnimation(7, &wormhole);
+    animationProgram.putAnimation(8, &testJson);
 
     testJson.loadJson();
 
