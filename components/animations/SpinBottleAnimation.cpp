@@ -1,6 +1,8 @@
 #include "SpinBottleAnimation.h"
 
-SpinBottleAnimation::SpinBottleAnimation(Display &display) : BitmapAnimation(display, frames) {
+static const uint16_t defaultFramePeriodMillis = 300;
+
+SpinBottleAnimation::SpinBottleAnimation(Display &display) : BitmapAnimation(display, frames, defaultFramePeriodMillis) {
 
 }
 

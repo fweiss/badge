@@ -8,6 +8,7 @@ class BitmapAnimation : public Animation {
 public:
     BitmapAnimation(Display &display);
     BitmapAnimation(Display &display, std::vector<std::vector<uint32_t>> &frames);
+    BitmapAnimation(Display &display, std::vector<std::vector<uint32_t>> &frames, uint16_t framePeriodMilis);
 
 protected:
     void nextFrame() { frameIndex = (frameIndex + 1) % frames.size(); }

@@ -9,6 +9,11 @@ BitmapAnimation::BitmapAnimation(Display &display, std::vector<std::vector<uint3
 
 }
 
+BitmapAnimation::BitmapAnimation(Display &display, std::vector<std::vector<uint32_t>> &frames, uint16_t framePeriodMillis) :
+    Animation(display, framePeriodMillis), frameIndex(0), frames(frames) {
+
+}
+
 void BitmapAnimation::drawFrame() {
     drawFrame(frameIndex);
     nextFrame();
