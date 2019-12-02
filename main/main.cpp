@@ -66,8 +66,8 @@ void app_main(void) {
     animationProgram.putAnimation(3, &felix);
     animationProgram.putAnimation(4, &heart1Animation);
     animationProgram.putAnimation(5, &spinBottle);
-    animationProgram.putAnimation(6, &testJson);
-    animationProgram.putAnimation(7, &wormhole);
+    animationProgram.putAnimation(6, &wormhole);
+    animationProgram.putAnimation(7, &testJson);
 
     testJson.loadJson();
 
