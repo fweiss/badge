@@ -10,6 +10,7 @@
 class Chaser {
 public:
     Chaser(uint16_t size);
+    Chaser(uint16_t size, uint16_t step);
     virtual ~Chaser() {};
     void roll();
     virtual uint32_t nextColor() = 0;
@@ -18,6 +19,7 @@ public:
     void preroll(uint16_t amount);
 protected:
     std::deque<uint32_t> colors;
+    const uint16_t step;
 private:
     bool reverse;
 };

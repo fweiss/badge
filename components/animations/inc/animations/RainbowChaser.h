@@ -4,7 +4,7 @@
 
 class RainbowChaser : public Chaser {
 public:
-    RainbowChaser(uint16_t size);
+    RainbowChaser(uint16_t size, uint16_t step);
 
     uint32_t nextColor() override;
 protected:

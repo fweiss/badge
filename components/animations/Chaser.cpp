@@ -1,12 +1,22 @@
 #include "Chaser.h"
 
-Chaser::Chaser(uint16_t size) : colors(size) {
+Chaser::Chaser(uint16_t size) : colors(size), step(1) {
 //	this->colors = new std::deque<uint32_t>(size);
+    this->reverse = false;
+}
+\
+Chaser::Chaser(uint16_t size, uint16_t step) : colors(size), step(step) {
     this->reverse = false;
 }
 
 void Chaser::roll() {
-    uint32_t nc = nextColor();
+
+    uint32_t nc;
+
+    for (uint16_t i=0; i<step; i++) {
+        nc = nextColor();
+    }
+
     if (reverse) {
         colors.pop_back();
         colors.push_front(nc);

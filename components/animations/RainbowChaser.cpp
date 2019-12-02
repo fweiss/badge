@@ -4,7 +4,7 @@
 //#undef max
 //#undef abs
 
-RainbowChaser::RainbowChaser(uint16_t size) : Chaser(size), hue(0) {
+RainbowChaser::RainbowChaser(uint16_t size, uint16_t step) : Chaser(size, step), hue(0) {
 
 }
 

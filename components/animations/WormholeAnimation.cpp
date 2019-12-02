@@ -1,14 +1,16 @@
 #include "WormholeAnimation.h"
 
-WormholeAnimation::WormholeAnimation(Display &display) : PathAnimation(display), chaser(4) {
+WormholeAnimation::WormholeAnimation(Display &display) : PathAnimation(display), chaser(4, 32) {
 
 }
 
+// need greater chaser granularity
+// default is 3 * 256 steps
+// but the "roll" should be as the next color is being added to the chaser
 void WormholeAnimation::drawFrame() {
+
     chaser.roll();
-    chaser.roll();
-    chaser.roll();
-    chaser.roll();
+
     uint16_t colorIndex = 0;
     for (std::vector<uint16_t> path :paths) {
         uint32_t color = chaser.get(colorIndex++);
