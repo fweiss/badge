@@ -1,6 +1,6 @@
 #pragma once
 
-#include "display.h"
+#include "Display.h"
 
 class Animation {
 public:

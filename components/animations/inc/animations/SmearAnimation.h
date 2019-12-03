@@ -1,7 +1,7 @@
 #pragma once
 
-#include "display.h"
 #include "Animation.h"
+#include "Display.h"
 
 class SmearAnimation : public Animation {
 private:
