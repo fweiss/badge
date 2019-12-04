@@ -21,6 +21,7 @@
 #include "animations/WormholeAnimation.h"
 #include "animations/SpinBottle2.h"
 #include "animations/Timer.h"
+#include "animations/Checkerboard.h"
 
 #include <stdio.h>
 
@@ -48,6 +49,7 @@ static JsonAnimation testJson(display);
 static SpinBottleAnimation spinBottle(display);
 static WormholeAnimation wormhole(display);
 static SpinBottle2 spinBottle2(display);
+static Checkerboard checkerboard(display);
 
 Timer animator; // todo parameterize
 AnimationProgram animationProgram(animator);
@@ -71,6 +73,7 @@ void app_main(void) {
     animationProgram.putAnimation(6, &spinBottle2);
     animationProgram.putAnimation(7, &wormhole);
     animationProgram.putAnimation(8, &testJson);
+    animationProgram.putAnimation(9, &checkerboard);
 
     testJson.loadJson();
 
