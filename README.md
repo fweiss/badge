@@ -33,6 +33,9 @@ project the following packages were evaluated.
 
 ## Development Tools
 
+### Eclipse GDB Hardware Debugging
+
+https://docs.espressif.com/projects/esp-idf/en/latest/api-guides/jtag-debugging/using-debugger.html#jtag-debugging-using-debugger-eclipse
 
 #### C++11
 
