@@ -8,7 +8,7 @@ Display::Display(gpio_num_t gpio) {
     SemaphoreHandle_t access_semaphore = xSemaphoreCreateBinary();
 
     ledStrip = new led_strip_t{
-        RGB_LED_TYPE_WS2812, 64,
+        RGB_LED_TYPE_WS2812, pixelCount,
         rmt_channel,
         rmt_interrupt_num, gpio,
         showing_buf_1,
@@ -47,7 +47,10 @@ void Display::setPixelRgb(uint16_t p, uint8_t r, uint8_t g, uint8_t b) {
     uint8_t scaledRed = (r * brightness) / 100;
     uint8_t scaledGreen = (g * brightness) / 100;
     uint8_t scaledBlue = (b * brightness) / 100;
-    led_strip_set_pixel_rgb(ledStrip, p, scaledRed, scaledGreen, scaledBlue);
+    if (p < pixelCount) {
+        led_strip_set_pixel_rgb(ledStrip, p, scaledRed, scaledGreen, scaledBlue);
+    }
+    // todo exception
 }
 
 void Display::update() {
