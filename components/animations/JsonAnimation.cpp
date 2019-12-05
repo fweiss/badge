@@ -30,13 +30,26 @@ static const char* json2 = R"(["0x97c7dd","0x97c7dd","0x97c7dd","0x2c9f0a","0x2c
 void JsonAnimation::loadJson() {
     cJSON *root = cJSON_Parse(json2);
     ESP_LOGI(LOG_TAG, "parsed json: size: %d", cJSON_GetArraySize(root));
-    std::vector<uint32_t> *frame = new std::vector<uint32_t>(64);
-    for (cJSON *jsonFrame = root->next; jsonFrame; jsonFrame = jsonFrame->next) {
-        std::string vs("0xff0000");
-        uint32_t v = 0x00ff00; //std::stoul(vs, nullptr, 0);
-        ESP_LOGI(LOG_TAG, "pixel: 0x%0x", v);
-        frame->push_back(0x0000ff);
+    std::vector<uint32_t> *frame = new std::vector<uint32_t>();
+
+    ESP_LOGI(LOG_TAG, "root child: 0x%0x", (unsigned int)root->child);
+    for (cJSON *jsonFrame = root->child; jsonFrame; jsonFrame = jsonFrame->next) {
+//        ESP_LOGI(LOG_TAG, "pixel: 0x%0x", 0x08);
+//        ESP_LOGI(LOG_TAG, "pixel: %s", jsonFrame->valuestring);
+
+        std::string vs(jsonFrame->valuestring);
+        uint32_t v = std::stoul(vs, nullptr, 0);
+        ESP_LOGI(LOG_TAG, "pixel v: 0x%x", v);
+        frame->push_back(v);
     }
+
+//    for (cJSON *jsonFrame = root->child; jsonFrame; jsonFrame = jsonFrame->next) {
+//        std::string vs("0xff0000");
+//        uint32_t v = 0x00ff00; //std::stoul(vs, nullptr, 0);
+//        ESP_LOGI(LOG_TAG, "pixel: 0x%0x", v);
+//        frame->push_back(0x0000ff);
+//    }
+
     ESP_LOGI(LOG_TAG, "pixels in frame: %d", frame->size());
     zz.push_back(*frame);
     cJSON_Delete(root);
