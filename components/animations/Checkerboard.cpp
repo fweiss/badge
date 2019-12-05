@@ -1,6 +1,6 @@
 #include "Checkerboard.h"
 
-Checkerboard::Checkerboard(Display &display) : BitmapAnimation(display, frames, 100) {
+Checkerboard::Checkerboard(Display &display) : BitmapAnimation(display, frames, 300) {
 
 }
 
