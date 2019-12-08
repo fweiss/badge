@@ -79,3 +79,11 @@ Details TODO
 ## Links and References
 
 https://www.esp32.com/viewtopic.php?t=576
+
+### Receive stream data from client
+
+C++ example code: https://openlabpro.com/guide/ble-uart-on-esp32-controller/
+
+Nordic BLE UART example: https://infocenter.nordicsemi.com/index.jsp?topic=%2Fcom.nordic.infocenter.sdk5.v14.2.0%2Fble_sdk_app_nus_eval.html&cp=4_0_0_4_2_2_22
+
+ 
