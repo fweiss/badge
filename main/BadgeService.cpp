@@ -5,6 +5,8 @@
 
 #include "driver/adc.h"
 
+#include <string>
+
 static const char* LOG_TAG = "BADGE";
 
 //.uuid = UUID16(0x2902),
@@ -45,13 +47,24 @@ BLECharacteristicConfig programCharacteristicConfig = {
     .descriptorConfigs = {}
 };
 
+BLECharacteristicConfig downloadCharacteristicConfig = {
+    .uuid = UUID16(0x0045),
+    .permissions = ESP_GATT_PERM_WRITE,
+    .properties = ESP_GATT_CHAR_PROP_BIT_WRITE,
+    .control = { .auto_rsp = ESP_GATT_AUTO_RSP },
+    .descriptorConfigs = {}
+};
+
+// END OF CHARACTERISTIC CONFIGURATIONS
+
 BadgeService::BadgeService(Display &display, AnimationProgram &animationProgram) :
     display(display),
     animationProgram(animationProgram),
     batteryCharacteristic(this, batteryCharacteristicConfig),
     batteryNotifyDesciptor(this, bd),
     brightnessCharacteristic(this, brighnessCharacteristicConfig),
-    programCharacteristic(this, programCharacteristicConfig) {
+    programCharacteristic(this, programCharacteristicConfig),
+    downloadCharacteristic(this, downloadCharacteristicConfig) {
 
     ::adc1_config_width(ADC_WIDTH_12Bit);
     ::adc1_config_channel_atten(ADC1_CHANNEL_7, ADC_ATTEN_11db); // Measure up to 2.2V
@@ -90,6 +103,12 @@ void BadgeService::init() {
         }
     );
 
+    downloadCharacteristic.setWriteCallback(
+        [this](uint16_t len, uint8_t *value) {
+            std::string data((char*)value, len);
+            ESP_LOGI(LOG_TAG, "download notify: %s", (char*)data.c_str());
+        }
+    );
 }
 
 void BadgeService::onConnect() {

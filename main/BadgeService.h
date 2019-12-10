@@ -25,6 +25,7 @@ private:
     BLEDescriptor batteryNotifyDesciptor;
     BLECharacteristic brightnessCharacteristic;
     BLECharacteristic programCharacteristic;
+    BLECharacteristic downloadCharacteristic;
 
     static void batteryTask(void *parameters);
     TaskHandle_t taskHandle;
