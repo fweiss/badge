@@ -1,5 +1,7 @@
 #include "SpiralAnimation.h"
 
+#include <algorithm>
+
 SpiralAnimation::SpiralAnimation(Display &display) : PathAnimation(display) {
 //        setRepeatCount(80);
 //        setPeriod(40);
@@ -12,7 +14,13 @@ SpiralAnimation::SpiralAnimation(Display &display) : PathAnimation(display) {
         ChaserPath(new CandyChaser(180, 10, 0), {56, 48, 40, 32, 24, 16, 8, 9, 10, 11, 12, 13, 21, 29, 37, 36} )
     };
 
-    for (ChaserPath cp : chaserPaths) {
-        cp.chaser->setReverse(false);
-    }
+    // still debateable if the chaser or the path should be reversed
+//    for (ChaserPath cp : chaserPaths) {
+//        cp.chaser->setReverse(false);
+//    }
+
+//        for (ChaserPath cp : chaserPaths) {
+//            std::reverse(cp.path.begin(), cp.path.end());
+//        }
+
 }

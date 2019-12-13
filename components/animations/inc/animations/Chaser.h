@@ -12,6 +12,7 @@ public:
     Chaser(uint16_t size);
     Chaser(uint16_t size, uint16_t step);
     virtual ~Chaser() {};
+
     void roll();
     virtual uint32_t nextColor() = 0;
     void setReverse(bool reverse);

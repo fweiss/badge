@@ -12,9 +12,9 @@ void PathAnimation::drawFrame() {
     display.show();
 }
 
-void PathAnimation::drawPath(std::vector<uint16_t> spiral, Chaser *chaser) {
+void PathAnimation::drawPath(std::vector<uint16_t> path, Chaser *chaser) {
     uint16_t i = 0;
-    for (int pixelIndex : spiral) {
+    for (int pixelIndex : path) {
         uint32_t pixelColor = chaser->get(i++);
         display.setPixel(pixelIndex, pixelColor);
     }
