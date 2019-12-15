@@ -91,7 +91,7 @@ void BadgeService::init() {
 
     brightnessCharacteristic.setWriteCallback(
         [this](uint16_t len, uint8_t *value) {
-            ESP_LOGI(LOG_TAG, "set brightness");
+            ESP_LOGI(LOG_TAG, "set brightness: %d", value[0]);
             display.setBrightness(value[0]);
         }
     );
