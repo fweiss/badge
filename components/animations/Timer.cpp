@@ -6,7 +6,7 @@ Timer::Timer() {
     this->group = (timer_group_t) 0;
     this->index = (timer_idx_t) 0;
 
-    bool auto_reload = true;
+    timer_autoreload_t auto_reload = TIMER_AUTORELOAD_EN;
     double timer_interval_sec = 0.030;
     uint32_t timer_divider = 16.0;
     this->timer_scale = (TIMER_BASE_CLK / timer_divider);
