@@ -25,6 +25,7 @@
 #include "animations/EmojiAnimation.h"
 #include "animations/Kaleidascope.h"
 #include "animations/MarqueeAnimation.h"
+#include "animations/DiceAnimation.h"
 
 #include <stdio.h>
 
@@ -56,6 +57,7 @@ static Checkerboard checkerboard(display);
 static EmojiAnimation emoji(display);
 static Kaleidascope kaleidascope(display);
 static MarqueeAnimation marquee(display);
+static DiceAnimation diceAnimation(display);
 
 Timer animator; // todo parameterize
 AnimationProgram animationProgram(animator);
@@ -83,6 +85,7 @@ void app_main(void) {
     animationProgram.putAnimation(10, &emoji);
     animationProgram.putAnimation(11, &kaleidascope);
     animationProgram.putAnimation(12, &marquee);
+    animationProgram.putAnimation(13, &diceAnimation);
 
 //    testJson.loadJson();
 
