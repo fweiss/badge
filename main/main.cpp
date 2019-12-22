@@ -26,6 +26,7 @@
 #include "animations/Kaleidascope.h"
 #include "animations/MarqueeAnimation.h"
 #include "animations/DiceAnimation.h"
+#include "animations/Party.h"
 
 #include <stdio.h>
 
@@ -43,6 +44,11 @@ static const char* TAG = "BADGE";
 #define LED_STRIP_RMT_INTR_NUM 19U
 
 static Display display( GPIO_NUM_14);
+
+#define PLUG(clazz, name, index) \
+    static clazz name(display); \
+    animationProgram.putAnimation(index, &name);
+
 
 static SpiralAnimation spiralAnimation(display);
 static MeteorShowerAnimation meteorShowerAnimation(display);
@@ -86,6 +92,7 @@ void app_main(void) {
     animationProgram.putAnimation(11, &kaleidascope);
     animationProgram.putAnimation(12, &marquee);
     animationProgram.putAnimation(13, &diceAnimation);
+    PLUG(Party, party, 14)
 
 //    testJson.loadJson();
 

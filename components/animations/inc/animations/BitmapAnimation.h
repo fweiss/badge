@@ -6,6 +6,8 @@
 
 class BitmapAnimation : public Animation {
 public:
+    typedef std::vector<std::vector<uint32_t>> Frames;
+
     BitmapAnimation(Display &display);
     BitmapAnimation(Display &display, std::vector<std::vector<uint32_t>> &frames);
     BitmapAnimation(Display &display, std::vector<std::vector<uint32_t>> &frames, uint16_t framePeriodMilis);
