@@ -13,4 +13,5 @@ public:
 protected:
     Display &display;
     uint16_t framePeriodMillis;
+    uint32_t frameIndex;
 };

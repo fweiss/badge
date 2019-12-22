@@ -23,6 +23,8 @@
 #include "animations/Timer.h"
 #include "animations/Checkerboard.h"
 #include "animations/EmojiAnimation.h"
+#include "animations/Kaleidascope.h"
+#include "animations/MarqueeAnimation.h"
 
 #include <stdio.h>
 
@@ -52,6 +54,8 @@ static WormholeAnimation wormhole(display);
 static SpinBottle2 spinBottle2(display);
 static Checkerboard checkerboard(display);
 static EmojiAnimation emoji(display);
+static Kaleidascope kaleidascope(display);
+static MarqueeAnimation marquee(display);
 
 Timer animator; // todo parameterize
 AnimationProgram animationProgram(animator);
@@ -77,8 +81,10 @@ void app_main(void) {
     animationProgram.putAnimation(8, &testJson);
     animationProgram.putAnimation(9, &checkerboard);
     animationProgram.putAnimation(10, &emoji);
+    animationProgram.putAnimation(11, &kaleidascope);
+    animationProgram.putAnimation(12, &marquee);
 
-    testJson.loadJson();
+//    testJson.loadJson();
 
     badgeService.init();
 

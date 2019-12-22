@@ -17,12 +17,12 @@ public:
 
 // the animation class
 class PathAnimation : public Animation {
-private:
+public:
+    PathAnimation(Display &display);
+    PathAnimation(Display &display, uint16_t framePeriodMilis);
+    virtual void drawFrame() override;
 protected:
     std::vector<ChaserPath> chaserPaths;
     void drawPath(std::vector<uint16_t> spiral, Chaser *chaser);
-public:
-    PathAnimation(Display &display);
-    virtual void drawFrame() override;
 };
 

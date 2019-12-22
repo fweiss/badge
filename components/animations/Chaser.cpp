@@ -36,7 +36,7 @@ uint32_t Chaser::get(uint16_t index) {
 
 void Chaser::preroll(uint16_t amount) {
     for (int i=0; i<amount; i++) {
-        nextColor();
+        roll();
     }
 }
 
