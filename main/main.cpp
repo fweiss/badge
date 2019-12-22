@@ -29,6 +29,7 @@
 #include "animations/Party.h"
 #include "animations/Weather.h"
 #include "animations/MiscellanyAnimation.h"
+#include "animations/FunBit64.h"
 
 #include <stdio.h>
 
@@ -97,6 +98,7 @@ void app_main(void) {
     PLUG(Party, party, 14)
     PLUG(Weather, weather, 15)
     PLUG(MiscellanyAnimation, miscellany, 16)
+    PLUG(FunBit64, funbit, 17)
 
 //    testJson.loadJson();
 
