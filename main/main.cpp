@@ -27,6 +27,7 @@
 #include "animations/MarqueeAnimation.h"
 #include "animations/DiceAnimation.h"
 #include "animations/Party.h"
+#include "animations/Weather.h"
 
 #include <stdio.h>
 
@@ -93,6 +94,7 @@ void app_main(void) {
     animationProgram.putAnimation(12, &marquee);
     animationProgram.putAnimation(13, &diceAnimation);
     PLUG(Party, party, 14)
+    PLUG(Weather, weather, 15)
 
 //    testJson.loadJson();
 
