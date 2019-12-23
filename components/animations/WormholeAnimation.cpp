@@ -1,6 +1,6 @@
 #include "WormholeAnimation.h"
 
-WormholeAnimation::WormholeAnimation(Display &display) : PathAnimation(display), chaser(4, 32) {
+WormholeAnimation::WormholeAnimation(Display &display) : PathAnimation(display, 200), chaser(4, 256 * 3 / 8) {
 
 }
 
