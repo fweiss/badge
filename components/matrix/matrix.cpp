@@ -65,6 +65,8 @@ Matrix::Matrix(gpio_num_t gpioPin, size_t size) : size(size) {
     rmt_config_t config = RMT_DEFAULT_CONFIG_TX(gpioPin, channel);
     config.clk_div = 4; // 20 MHz, i.e. 50 ns
     config.tx_config.loop_en = false;
+//    config.tx_config.idle_level = RMT_IDLE_LEVEL_HIGH;
+//    config.tx_config.idle_output_en = true;
 
     status = rmt_config(&config);
     if (status != ESP_OK) {
@@ -76,9 +78,15 @@ Matrix::Matrix(gpio_num_t gpioPin, size_t size) : size(size) {
         ESP_LOGE(TAG, "RMT drive install failed: %d", status);
     }
 
-    ws2812_t0h_ticks = 9;
-    ws2812_t0l_ticks = 18;
-    ws2812_t1h_ticks = 17;
+//    ws2812_t0h_ticks = 9;
+//    ws2812_t0l_ticks = 18;
+//    ws2812_t1h_ticks = 17;
+//    ws2812_t1l_ticks = 10;
+
+    // divider 4 = 20 Mhz = 50 ns
+    ws2812_t0h_ticks = 7;
+    ws2812_t0l_ticks = 14;
+    ws2812_t1h_ticks = 11;
     ws2812_t1l_ticks = 10;
 
     status = rmt_translator_init(channel, &ws2812_rmt_adapter);
@@ -122,9 +130,33 @@ void Matrix::show() {
         return;
     }
 
+    sendReset();
+
     bool wait_tx_done = true;
     status = rmt_write_sample(channel, grbPixels, size * bytesPerPixel, wait_tx_done);
     if (status != ESP_OK) {
         ESP_LOGW(TAG, "RMT write sample failed: %d", status);
     }
+}
+
+// some have reported that since 2017, WS2812B requires 300 us reset low
+void Matrix::sendReset() {
+    esp_err_t status;
+
+    rmt_item32_t rmt_item[2];
+    rmt_item[0].duration0 = 1000;
+    rmt_item[0].level0 = 1;
+    rmt_item[0].duration1 = 10000; // 500 us
+    rmt_item[0].level1 = 0;
+    rmt_item[1].duration0 = 10000;
+    rmt_item[1].level0 = 0;
+    rmt_item[1].duration1 = 1000;
+    rmt_item[1].level1 = 1;
+
+    bool wait_tx_done = true;
+    status = rmt_write_items(channel, rmt_item, 2, wait_tx_done);
+    if (status != ESP_OK) {
+        ESP_LOGW(TAG, "rmt write items failed: %d", status);
+    }
+    ESP_LOGI(TAG, "reset pulse sent");
 }

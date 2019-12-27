@@ -8,6 +8,7 @@
 #include "driver/gpio.h"
 
 #include "led_strip/led_strip.h"
+#include "matrix/matrix.h"
 
 #include "animations/display.h"
 #include "animations/SmearAnimation.h"
@@ -30,6 +31,8 @@
 #include "animations/Weather.h"
 #include "animations/MiscellanyAnimation.h"
 #include "animations/FunBit64.h"
+
+#include "animations/AnimationTask.h"
 
 #include <stdio.h>
 
@@ -68,7 +71,7 @@ static Kaleidascope kaleidascope(display);
 static MarqueeAnimation marquee(display);
 static DiceAnimation diceAnimation(display);
 
-Timer animator; // todo parameterize
+AnimationTask animator; // todo parameterize
 AnimationProgram animationProgram(animator);
 
 /* static */
@@ -81,9 +84,9 @@ void app_main(void) {
     ESP_LOGI(TAG, "initializing");
 
     // fixme check duplicate index error
-    animationProgram.putAnimation(0, &spiralAnimation);
+    animationProgram.putAnimation(2, &spiralAnimation);
     animationProgram.putAnimation(1, &meteorShowerAnimation);
-    animationProgram.putAnimation(2, &smearAnimation);
+    animationProgram.putAnimation(0, &smearAnimation);
     animationProgram.putAnimation(3, &felix);
     animationProgram.putAnimation(4, &heart1Animation);
     animationProgram.putAnimation(5, &spinBottle);

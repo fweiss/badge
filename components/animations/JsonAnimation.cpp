@@ -45,7 +45,7 @@ void JsonAnimation::loadJson(const char *json) {
 
         std::string vs(jsonFrame->valuestring);
         uint32_t v = std::stoul(vs, nullptr, 0);
-        ESP_LOGI(LOG_TAG, "pixel v: 0x%x", v);
+//        ESP_LOGI(LOG_TAG, "pixel v: 0x%x", v);
         frame->push_back(v);
     }
 

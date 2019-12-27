@@ -5,6 +5,8 @@
 #include "freertos/task.h"
 #include "freertos/semphr.h"
 
+#include <functional>
+
 class AnimationTask {
 public:
     AnimationTask();
@@ -13,7 +15,7 @@ public:
     void start();
     void setIntervalSecs(float secs);
     void setCurrentAnimantion(Animation *animation) { this->currentAnimation = animation; }
-    void setCallback(void lambda(void));
+    void setCallback(void lambda(void)) { this->func = lambda; }
 
 protected:
     SemaphoreHandle_t semaphoreHandle;
@@ -21,6 +23,8 @@ protected:
 //    TickType_t lastWakeTimeTicks;
     TickType_t currentIntervalTicks;
     Animation *currentAnimation;
+    std::function<void(void)> func;
+
 
     TaskHandle_t taskHandle;
     static void taskCode(void *parameters);

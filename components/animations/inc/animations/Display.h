@@ -2,11 +2,12 @@
 
 #include "freertos/FreeRTOS.h"
 #include "led_strip/led_strip.h"
+#include "matrix/matrix.h"
 
 class Display {
 public:
     Display(gpio_num_t gpio);
-    Display(led_strip_t *ledString);
+//    Display(led_strip_t *ledString);
 
     void clear();
     void update();
@@ -22,4 +23,5 @@ private:
     struct led_color_t led_strip_buf_2[64];
     struct led_strip_t *ledStrip;
     uint8_t brightness;
+    Matrix matrix;
 };

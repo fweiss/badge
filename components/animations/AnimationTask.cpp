@@ -6,7 +6,7 @@ static const char *TAG = "AniumationTask";
 
 AnimationTask::AnimationTask() {
     semaphoreHandle = xSemaphoreCreateBinary();
-    currentIntervalTicks = 30 / portTICK_PERIOD_MS;
+    currentIntervalTicks = 1000 / portTICK_PERIOD_MS;
 }
 
 AnimationTask::~AnimationTask() {
@@ -17,7 +17,7 @@ AnimationTask::~AnimationTask() {
 void AnimationTask::start() {
     static char name[] = "animator task";
     uint16_t stackDepth = 8096;
-    UBaseType_t priority = tskIDLE_PRIORITY;
+    UBaseType_t priority = tskIDLE_PRIORITY + 4;
     BaseType_t status = xTaskCreate(AnimationTask::taskCode, name, stackDepth, this, priority, &taskHandle);
     if (status != pdPASS) {
         ESP_LOGE(TAG, "Create task failed: %d", status);
@@ -47,10 +47,17 @@ void AnimationTask::taskCode(void *parameters) {
 }
 
 void AnimationTask::run() {
+    static int c = 1;
     for (;;) {
-        if (currentAnimation != NULL) {
-            currentAnimation->drawFrame();
-        }
+//        if (currentAnimation != NULL) {
+//            currentAnimation->drawFrame();
+//        }
+
+//        if (c) {
+            ESP_LOGI(TAG, "drawing...");
+            func();
+            c = 0;
+//        }
 
         // block waiting for an animation change or the current animation interval
         // this allows changes to occur without waiting for the interval to expire,
@@ -63,6 +70,8 @@ void AnimationTask::run() {
         } else {
             // the animation task interval expired
         }
+
+        vTaskDelay(300 / portTICK_PERIOD_MS);
 
         //  check task status
     }

@@ -23,20 +23,29 @@
 #define LED_STRIP_TASK_SIZE             (2048)
 #define LED_STRIP_TASK_PRIORITY         (configMAX_PRIORITIES - 1)
 
-#define LED_STRIP_REFRESH_PERIOD_MS     (30U) // TODO: add as parameter to led_strip_init
+#define LED_STRIP_REFRESH_PERIOD_MS     (3000U) // TODO: add as parameter to led_strip_init
 
 #define LED_STRIP_NUM_RMT_ITEMS_PER_LED (24U) // Assumes 24 bit color for each led
 
 // RMT Clock source is @ 80 MHz. Dividing it by 8 gives us 10 MHz frequency, or 100ns period.
-#define LED_STRIP_RMT_CLK_DIV (8)
+#define LED_STRIP_RMT_CLK_DIV (4)
 
 /****************************
         WS2812 Timing
  ****************************/
-#define LED_STRIP_RMT_TICKS_BIT_1_HIGH_WS2812 9 // 900ns (900ns +/- 150ns per datasheet)
-#define LED_STRIP_RMT_TICKS_BIT_1_LOW_WS2812  3 // 300ns (350ns +/- 150ns per datasheet)
-#define LED_STRIP_RMT_TICKS_BIT_0_HIGH_WS2812 3 // 300ns (350ns +/- 150ns per datasheet)
-#define LED_STRIP_RMT_TICKS_BIT_0_LOW_WS2812  9 // 900ns (900ns +/- 150ns per datasheet)
+//#define LED_STRIP_RMT_TICKS_BIT_1_HIGH_WS2812 9 // 900ns (900ns +/- 150ns per datasheet)
+//#define LED_STRIP_RMT_TICKS_BIT_1_LOW_WS2812  3 // 300ns (350ns +/- 150ns per datasheet)
+//#define LED_STRIP_RMT_TICKS_BIT_0_HIGH_WS2812 3 // 300ns (350ns +/- 150ns per datasheet)
+//#define LED_STRIP_RMT_TICKS_BIT_0_LOW_WS2812  9 // 900ns (900ns +/- 150ns per datasheet)
+
+/****************************
+        WS2812B Timing
+ ****************************/
+#define LED_STRIP_RMT_TICKS_BIT_1_HIGH_WS2812 16 // 900ns (900ns +/- 150ns per datasheet)
+#define LED_STRIP_RMT_TICKS_BIT_1_LOW_WS2812  9 // 300ns (350ns +/- 150ns per datasheet)
+#define LED_STRIP_RMT_TICKS_BIT_0_HIGH_WS2812 8  // 300ns (350ns +/- 150ns per datasheet)
+#define LED_STRIP_RMT_TICKS_BIT_0_LOW_WS2812  17 // 900ns (900ns +/- 150ns per datasheet)
+
 
 /****************************
         SK6812 Timing
@@ -108,6 +117,10 @@ static void led_strip_fill_rmt_items_sk6812(struct led_color_t *led_strip_buf, r
             }
             rmt_items_index++;
         }
+        rmt_items[0].level0 = 0;
+        rmt_items[0].duration0 = 500;
+        rmt_items[0].level1 = 0;
+        rmt_items[0].duration1 = 500;
     }
 }
 
