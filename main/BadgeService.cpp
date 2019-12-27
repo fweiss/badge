@@ -55,6 +55,14 @@ BLECharacteristicConfig downloadCharacteristicConfig = {
     .descriptorConfigs = {}
 };
 
+BLECharacteristicConfig paintPixelCharacteristicConfig = {
+    .uuid = UUID16(0x0046 ),
+    .permissions = ESP_GATT_PERM_WRITE,
+    .properties = ESP_GATT_CHAR_PROP_BIT_WRITE,
+    .control = { .auto_rsp = ESP_GATT_AUTO_RSP },
+    .descriptorConfigs = {}
+};
+
 // END OF CHARACTERISTIC CONFIGURATIONS
 
 BadgeService::BadgeService(Display &display, AnimationProgram &animationProgram) :
@@ -64,7 +72,8 @@ BadgeService::BadgeService(Display &display, AnimationProgram &animationProgram)
     batteryNotifyDesciptor(this, bd),
     brightnessCharacteristic(this, brighnessCharacteristicConfig),
     programCharacteristic(this, programCharacteristicConfig),
-    downloadCharacteristic(this, downloadCharacteristicConfig) {
+    downloadCharacteristic(this, downloadCharacteristicConfig),
+    paintPixelCharacteristic(this, paintPixelCharacteristicConfig) {
 
     ::adc1_config_width(ADC_WIDTH_12Bit);
     ::adc1_config_channel_atten(ADC1_CHANNEL_7, ADC_ATTEN_11db); // Measure up to 2.2V
@@ -107,6 +116,20 @@ void BadgeService::init() {
         [this](uint16_t len, uint8_t *value) {
             std::string data((char*)value, len);
             ESP_LOGI(LOG_TAG, "download notify: %s", (char*)data.c_str());
+        }
+    );
+
+    paintPixelCharacteristic.setWriteCallback(
+        [this](uint16_t len, uint8_t *value) {
+            if (len < 5) {
+                ESP_LOGW(LOG_TAG, "paint pixel: invalid length: %d", len);
+                return;
+            }
+            uint16_t x = value[0];
+            uint16_t y = value[1];
+            Color color = (value[2] << 16) | (value[3] << 8) | (value[4]);
+            ESP_LOGI(LOG_TAG, "paint pixel: %d, %d: %xl", x, y, color);
+            paintPixel->setPixelColor(x, y, color);
         }
     );
 }

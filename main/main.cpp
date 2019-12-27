@@ -31,6 +31,7 @@
 #include "animations/Weather.h"
 #include "animations/MiscellanyAnimation.h"
 #include "animations/FunBit64.h"
+#include "animations/PaintPixel.h"
 
 #include "animations/AnimationTask.h"
 
@@ -102,9 +103,11 @@ void app_main(void) {
     PLUG(Weather, weather, 15)
     PLUG(MiscellanyAnimation, miscellany, 16)
     PLUG(FunBit64, funbit, 17)
+    PLUG(PaintPixel, paintPixel, 18)
 
 //    testJson.loadJson();
 
+    badgeService.setPaintPixel(&paintPixel);
     badgeService.init();
 
     BLECore core;

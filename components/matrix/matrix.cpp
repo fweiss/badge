@@ -158,5 +158,5 @@ void Matrix::sendReset() {
     if (status != ESP_OK) {
         ESP_LOGW(TAG, "rmt write items failed: %d", status);
     }
-    ESP_LOGI(TAG, "reset pulse sent");
+//    ESP_LOGI(TAG, "reset pulse sent");
 }

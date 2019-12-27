@@ -47,16 +47,16 @@ void AnimationTask::taskCode(void *parameters) {
 }
 
 void AnimationTask::run() {
-    static int c = 1;
+//    static int c = 1;
     for (;;) {
 //        if (currentAnimation != NULL) {
 //            currentAnimation->drawFrame();
 //        }
 
 //        if (c) {
-            ESP_LOGI(TAG, "drawing...");
+//            ESP_LOGI(TAG, "drawing...");
             func();
-            c = 0;
+//            c = 0;
 //        }
 
         // block waiting for an animation change or the current animation interval
