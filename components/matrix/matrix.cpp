@@ -62,8 +62,34 @@ Matrix::Matrix(gpio_num_t gpioPin, size_t size) : size(size) {
         return;
     }
 
+    // RMT timing for WS2812B
+    // 1=80 MHz,12.5 ns, etc
+    // 4=20 MHz, i.e. 50 ns
+    uint16_t clk_div = 4;
+
+    // original led_strip
+    clk_div = 8; // 100ns
+    ws2812_t0h_ticks = 3;
+    ws2812_t0l_ticks = 9;
+    ws2812_t1h_ticks = 9;
+    ws2812_t1l_ticks = 3;
+
+
+    //    ws2812_t0h_ticks = 9;
+    //    ws2812_t0l_ticks = 18;
+    //    ws2812_t1h_ticks = 17;
+    //    ws2812_t1l_ticks = 10;
+
+    // experimental
+    // divider 4 = 20 Mhz = 50 ns
+//    clk_div = 4;
+//    ws2812_t0h_ticks = 7;
+//    ws2812_t0l_ticks = 14;
+//    ws2812_t1h_ticks = 11;
+//    ws2812_t1l_ticks = 10;
+
     rmt_config_t config = RMT_DEFAULT_CONFIG_TX(gpioPin, channel);
-    config.clk_div = 4; // 20 MHz, i.e. 50 ns
+    config.clk_div = clk_div;
     config.tx_config.loop_en = false;
 //    config.tx_config.idle_level = RMT_IDLE_LEVEL_HIGH;
 //    config.tx_config.idle_output_en = true;
@@ -77,17 +103,6 @@ Matrix::Matrix(gpio_num_t gpioPin, size_t size) : size(size) {
     if (status != ESP_OK) {
         ESP_LOGE(TAG, "RMT drive install failed: %d", status);
     }
-
-//    ws2812_t0h_ticks = 9;
-//    ws2812_t0l_ticks = 18;
-//    ws2812_t1h_ticks = 17;
-//    ws2812_t1l_ticks = 10;
-
-    // divider 4 = 20 Mhz = 50 ns
-    ws2812_t0h_ticks = 7;
-    ws2812_t0l_ticks = 14;
-    ws2812_t1h_ticks = 11;
-    ws2812_t1l_ticks = 10;
 
     status = rmt_translator_init(channel, &ws2812_rmt_adapter);
     if (status != ESP_OK) {
