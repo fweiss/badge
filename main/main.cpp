@@ -85,9 +85,9 @@ void app_main(void) {
     ESP_LOGI(TAG, "initializing");
 
     // fixme check duplicate index error
-    animationProgram.putAnimation(2, &spiralAnimation);
+    animationProgram.putAnimation(0, &spiralAnimation);
     animationProgram.putAnimation(1, &meteorShowerAnimation);
-    animationProgram.putAnimation(0, &smearAnimation);
+    animationProgram.putAnimation(2, &smearAnimation);
     animationProgram.putAnimation(3, &felix);
     animationProgram.putAnimation(4, &heart1Animation);
     animationProgram.putAnimation(5, &spinBottle);
