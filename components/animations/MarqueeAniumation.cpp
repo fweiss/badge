@@ -11,7 +11,7 @@ void MarqueeAnimation::drawFrame() {
         uint16_t chaserIndex = 0;
         for (uint16_t pixelIndex : path) {
             uint32_t color = chaser.get(chaserIndex++);
-            bool black = 0 == ((row++ + chaserIndex + frameIndex) % 3);
+            bool black = 0 == ((chaserIndex + frameIndex) % 3);
             display.setPixel(pixelIndex, black ? 0 : color);
         }
     }
