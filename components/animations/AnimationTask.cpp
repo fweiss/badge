@@ -22,14 +22,7 @@ void AnimationTask::start() {
     if (status != pdPASS) {
         ESP_LOGE(TAG, "Create task failed: %d", status);
     }
-    // check taskHandle
-//                        TaskFunction_t pvTaskCode,
-//                        const char * const pcName,
-//                        uint16_t usStackDepth,
-//                        void *pvParameters,
-//                        UBaseType_t uxPriority,
-//                        TaskHandle_t *pvCreatedTask
-//                     );
+    // TODO check taskHandle
 }
 
 void AnimationTask::setIntervalSecs(float secs) {
@@ -47,22 +40,16 @@ void AnimationTask::taskCode(void *parameters) {
 }
 
 void AnimationTask::run() {
-//    static int c = 1;
     for (;;) {
-//        if (currentAnimation != NULL) {
-//            currentAnimation->drawFrame();
-//        }
 
-//        if (c) {
+        // call the animation drawframe function
 //            ESP_LOGI(TAG, "drawing...");
-            func();
-//            c = 0;
-//        }
+        func();
 
         // block waiting for an animation change or the current animation interval
         // this allows changes to occur without waiting for the interval to expire,
         // such as would be the case with vTaskDelayUntil()
-        // we may want to use vTaskDelayUntil on a different thread to provide more precice
+        // we may want to use vTaskDelayUntil on a different task to provide more precise
         // timing
         BaseType_t notified = xSemaphoreTake(semaphoreHandle, currentIntervalTicks);
         if (notified) {
