@@ -22,7 +22,6 @@
 #include "animations/WormholeAnimation.h"
 #include "animations/SpinBottle2.h"
 #include "animations/Timer.h"
-#include "animations/Checkerboard.h"
 #include "animations/EmojiAnimation.h"
 #include "animations/Kaleidascope.h"
 #include "animations/MarqueeAnimation.h"
@@ -32,6 +31,7 @@
 #include "animations/MiscellanyAnimation.h"
 #include "animations/FunBit64.h"
 #include "animations/PaintPixel.h"
+#include "animations/Alphabet.h"
 
 #include "animations/AnimationTask.h"
 
@@ -66,7 +66,6 @@ static JsonAnimation testJson(display);
 static SpinBottleAnimation spinBottle(display);
 static WormholeAnimation wormhole(display);
 static SpinBottle2 spinBottle2(display);
-static Checkerboard checkerboard(display);
 static EmojiAnimation emoji(display);
 static Kaleidascope kaleidascope(display);
 static MarqueeAnimation marquee(display);
@@ -94,16 +93,16 @@ void app_main(void) {
     animationProgram.putAnimation(6, &spinBottle2);
     animationProgram.putAnimation(7, &wormhole);
     animationProgram.putAnimation(8, &testJson);
-    animationProgram.putAnimation(9, &checkerboard);
-    animationProgram.putAnimation(10, &emoji);
-    animationProgram.putAnimation(11, &kaleidascope);
-    animationProgram.putAnimation(12, &marquee);
-    animationProgram.putAnimation(13, &diceAnimation);
-    PLUG(Party, party, 14)
-    PLUG(Weather, weather, 15)
-    PLUG(MiscellanyAnimation, miscellany, 16)
-    PLUG(FunBit64, funbit, 17)
-    PLUG(PaintPixel, paintPixel, 18)
+    animationProgram.putAnimation(9, &emoji);
+    animationProgram.putAnimation(10, &kaleidascope);
+    animationProgram.putAnimation(11, &marquee);
+    animationProgram.putAnimation(12, &diceAnimation);
+    PLUG(Party, party, 13)
+    PLUG(Weather, weather, 14)
+    PLUG(MiscellanyAnimation, miscellany, 15)
+    PLUG(FunBit64, funbit, 16)
+    PLUG(PaintPixel, paintPixel, 17)
+    PLUG(Alphabet, alphabet, 18);
 
 //    testJson.loadJson();
 
