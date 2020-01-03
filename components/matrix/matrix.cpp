@@ -82,13 +82,19 @@ Matrix::Matrix(gpio_num_t gpioPin, size_t size) : size(size) {
 
     // experimental
     // divider 4 = 20 Mhz = 50 ns
-//    clk_div = 4;
-//    ws2812_t0h_ticks = 7;
-//    ws2812_t0l_ticks = 14;
-//    ws2812_t1h_ticks = 11;
-//    ws2812_t1l_ticks = 10;
+    clk_div = 4;
+    ws2812_t0h_ticks = 8;
+    ws2812_t0l_ticks = 17;
+    ws2812_t1h_ticks = 16;
+    ws2812_t1l_ticks = 9;
+    // mimic the outputs
+    ws2812_t0h_ticks = 7;
+    ws2812_t0l_ticks = 18;
+    ws2812_t1h_ticks = 14;
+    ws2812_t1l_ticks = 11;
 
     rmt_config_t config = RMT_DEFAULT_CONFIG_TX(gpioPin, channel);
+//    config.mem_block_num = 1; // use all 8 to reduce overhead?
     config.clk_div = clk_div;
     config.tx_config.loop_en = false;
 //    config.tx_config.idle_level = RMT_IDLE_LEVEL_HIGH;
@@ -145,7 +151,7 @@ void Matrix::show() {
         return;
     }
 
-    sendReset();
+//    sendReset();
 
     bool wait_tx_done = true;
     status = rmt_write_sample(channel, grbPixels, size * bytesPerPixel, wait_tx_done);

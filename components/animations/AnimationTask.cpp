@@ -6,7 +6,7 @@ static const char *TAG = "AniumationTask";
 
 AnimationTask::AnimationTask() {
     semaphoreHandle = xSemaphoreCreateBinary();
-    currentIntervalTicks = 1000 / portTICK_PERIOD_MS;
+    currentIntervalTicks = 300 / portTICK_PERIOD_MS;
 }
 
 AnimationTask::~AnimationTask() {
