@@ -1,5 +1,8 @@
 .DS_Store
 build/
+.cproject
+.project
 .settings/
+.idea/
 sdkconfig.old
 
