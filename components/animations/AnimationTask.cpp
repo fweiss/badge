@@ -18,7 +18,8 @@ void AnimationTask::start() {
     static char name[] = "animator task";
     uint16_t stackDepth = 8096;
     UBaseType_t priority = tskIDLE_PRIORITY + 4;
-    BaseType_t status = xTaskCreate(AnimationTask::taskCode, name, stackDepth, this, priority, &taskHandle);
+    BaseType_t coreId = 1; // assume that BT runs on core 0
+    BaseType_t status = xTaskCreatePinnedToCore(AnimationTask::taskCode, name, stackDepth, this, priority, &taskHandle, coreId);
     if (status != pdPASS) {
         ESP_LOGE(TAG, "Create task failed: %d", status);
     }
