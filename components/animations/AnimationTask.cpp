@@ -18,7 +18,7 @@ void AnimationTask::start() {
     static char name[] = "animator task";
     uint16_t stackDepth = 8096;
     UBaseType_t priority = tskIDLE_PRIORITY + 4;
-    BaseType_t coreId = 1; // assume that BT runs on core 0
+    BaseType_t coreId = 0; // assume that BT runs on core 1
     BaseType_t status = xTaskCreatePinnedToCore(AnimationTask::taskCode, name, stackDepth, this, priority, &taskHandle, coreId);
     if (status != pdPASS) {
         ESP_LOGE(TAG, "Create task failed: %d", status);
@@ -27,7 +27,7 @@ void AnimationTask::start() {
 }
 
 void AnimationTask::setIntervalSecs(float secs) {
-    currentIntervalTicks = (TickType_t)(secs / 1000 / portTICK_PERIOD_MS);
+    currentIntervalTicks = (TickType_t)(secs * 1000 / portTICK_PERIOD_MS);
 
     // signal the animation loop that a change is requested
     BaseType_t success = xSemaphoreGive(semaphoreHandle);
@@ -59,7 +59,7 @@ void AnimationTask::run() {
             // the animation task interval expired
         }
 
-        vTaskDelay(300 / portTICK_PERIOD_MS);
+//        vTaskDelay(300 / portTICK_PERIOD_MS);
 
         //  check task status
     }

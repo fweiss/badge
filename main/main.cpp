@@ -120,7 +120,7 @@ void app_main(void) {
     );
 
     display.setBrightness(5);
-
+    animationProgram.setProgram(0);
     animator.start();
 }
 
