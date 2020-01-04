@@ -76,7 +76,21 @@ The data events can be initiated from the service or from the client.
 - receive the event ``ESP_GAP_BLE_ADV_DATA_SET_COMPLETE_EVT``
 - start advertising with ``esp_ble_gap_start_advertising``
 
+## Bugs
 Restart advertising upon receiving the event ``ESP_GATTS_DISCONNECT_EVT``.
+
+Problems coexisting with RMT
+
+No solve:
+Component config > Bluetooth > Bluetooth controller > Coexistence Bluetooth Side Options
+
+Looks good so far:
+Component config > Bluetooth > Bluetooth controller > The cpu core which bluetooth controller run = 1
+was 0
+but bluedroid on core 0
+
+
+
 
 
 
