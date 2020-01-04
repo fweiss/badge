@@ -80,6 +80,8 @@ Details TODO
 
 https://www.esp32.com/viewtopic.php?t=576
 
+Conversation about reliably driving WS2812B with ESP32 RMT with Bluetooth: https://www.reddit.com/r/esp32/comments/e7ixoh/adjust_ble_priority_or_synchronize_advertising/
+
 ### Receive stream data from client
 
 C++ example code: https://openlabpro.com/guide/ble-uart-on-esp32-controller/
