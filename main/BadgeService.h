@@ -31,6 +31,7 @@ private:
     BLECharacteristic programCharacteristic;
     BLECharacteristic downloadCharacteristic;
     BLECharacteristic paintPixelCharacteristic;
+    BLECharacteristic paintFrameCharacteristic;
 
     static void batteryTask(void *parameters);
     TaskHandle_t taskHandle;

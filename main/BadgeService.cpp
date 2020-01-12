@@ -56,7 +56,15 @@ BLECharacteristicConfig downloadCharacteristicConfig = {
 };
 
 BLECharacteristicConfig paintPixelCharacteristicConfig = {
-    .uuid = UUID16(0x0046 ),
+    .uuid = UUID16(0x0046),
+    .permissions = ESP_GATT_PERM_WRITE,
+    .properties = ESP_GATT_CHAR_PROP_BIT_WRITE,
+    .control = { .auto_rsp = ESP_GATT_AUTO_RSP },
+    .descriptorConfigs = {}
+};
+
+BLECharacteristicConfig paintFrameCharacteristicConfig = {
+    .uuid = UUID16(0x0047),
     .permissions = ESP_GATT_PERM_WRITE,
     .properties = ESP_GATT_CHAR_PROP_BIT_WRITE,
     .control = { .auto_rsp = ESP_GATT_AUTO_RSP },
@@ -73,7 +81,8 @@ BadgeService::BadgeService(Display &display, AnimationProgram &animationProgram)
     brightnessCharacteristic(this, brighnessCharacteristicConfig),
     programCharacteristic(this, programCharacteristicConfig),
     downloadCharacteristic(this, downloadCharacteristicConfig),
-    paintPixelCharacteristic(this, paintPixelCharacteristicConfig) {
+    paintPixelCharacteristic(this, paintPixelCharacteristicConfig),
+    paintFrameCharacteristic(this, paintFrameCharacteristicConfig) {
 
     ::adc1_config_width(ADC_WIDTH_12Bit);
     ::adc1_config_channel_atten(ADC1_CHANNEL_7, ADC_ATTEN_11db); // Measure up to 2.2V
@@ -130,6 +139,22 @@ void BadgeService::init() {
             Color color = (value[2] << 16) | (value[3] << 8) | (value[4]);
             ESP_LOGI(LOG_TAG, "paint pixel: %d, %d: %xl", x, y, color);
             paintPixel->setPixelColor(x, y, color);
+        }
+    );
+    paintFrameCharacteristic.setWriteCallback(
+        [this](uint16_t len, uint8_t *value) {
+            if (len != 64 * 3) {
+                ESP_LOGW(LOG_TAG, "paint frame: invalid length: %d", len);
+                return;
+            }
+            ESP_LOGI(LOG_TAG, "paint frame");
+            for (int i=0; i<64; i++) {
+                uint16_t x = i % 8;
+                uint16_t y = i / 8;
+                Color color = (value[3 * i + 0] << 16) | (value[3 * i + 1] << 8) | (value[3 * i +2]);
+                ESP_LOGW(LOG_TAG, "paint frame: %d color: %0x", i, color);
+                paintPixel->setPixelColor(x, y, color);
+            }
         }
     );
 }
