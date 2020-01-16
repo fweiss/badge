@@ -190,7 +190,7 @@ void BLECore::addService(BLEService *service, esp_gatt_if_t gatts_if) {
     service_id.id.inst_id = 0x00;
     service_id.id.uuid.len = ESP_UUID_LEN_16;
     service_id.id.uuid.uuid.uuid16 = 0x00ff;
-    uint16_t num_handle = 14;
+    uint16_t num_handle = 20;
     esp_ble_gatts_create_service(gatts_if, &service_id, num_handle);
 }
 

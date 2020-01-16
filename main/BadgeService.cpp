@@ -2,8 +2,8 @@
 
 #include "esp_log.h"
 #include "freertos/task.h"
-
 #include "driver/adc.h"
+#include "esp_ota_ops.h"
 
 #include <string>
 
@@ -71,6 +71,14 @@ BLECharacteristicConfig paintFrameCharacteristicConfig = {
     .descriptorConfigs = {}
 };
 
+BLECharacteristicConfig appVersionCharacteristicConfig = {
+    .uuid = UUID16(0x0048),
+    .permissions = ESP_GATT_PERM_READ,
+    .properties = ESP_GATT_CHAR_PROP_BIT_READ,
+    .control = { .auto_rsp = ESP_GATT_AUTO_RSP },
+    .descriptorConfigs = { }
+};
+
 // END OF CHARACTERISTIC CONFIGURATIONS
 
 BadgeService::BadgeService(Display &display, AnimationProgram &animationProgram) :
@@ -82,11 +90,17 @@ BadgeService::BadgeService(Display &display, AnimationProgram &animationProgram)
     programCharacteristic(this, programCharacteristicConfig),
     downloadCharacteristic(this, downloadCharacteristicConfig),
     paintPixelCharacteristic(this, paintPixelCharacteristicConfig),
-    paintFrameCharacteristic(this, paintFrameCharacteristicConfig) {
+    paintFrameCharacteristic(this, paintFrameCharacteristicConfig),
+    appVersionCharacteristic(this, appVersionCharacteristicConfig) {
 
     ::adc1_config_width(ADC_WIDTH_12Bit);
     ::adc1_config_channel_atten(ADC1_CHANNEL_7, ADC_ATTEN_11db); // Measure up to 2.2V
     taskHandle = NULL;
+
+//    const esp_app_desc_t *app_description = esp_ota_get_app_description();
+//            ESP_LOGI(TAG, "version: %32s", app_description->version);
+//    appVersionCharacteristic.setValue(bytes)
+
 }
 
 BadgeService::~BadgeService() {
@@ -94,6 +108,13 @@ BadgeService::~BadgeService() {
 }
 
 void BadgeService::init() {
+
+    appVersionCharacteristic.setReadCallback(
+        [](uint16_t len, uint8_t *value){
+//            const esp_app_desc_t *app_description = esp_ota_get_app_description();
+//            ESP_LOGI(TAG, "version: %32s", app_description->version);
+        }
+    );
 
     batteryCharacteristic.setReadCallback(
         [this](uint16_t len, uint8_t *value) {
