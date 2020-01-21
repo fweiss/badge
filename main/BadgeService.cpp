@@ -169,13 +169,17 @@ void BadgeService::init() {
                 return;
             }
             ESP_LOGI(LOG_TAG, "paint frame");
+            std::vector<uint32_t> frame;
             for (int i=0; i<64; i++) {
-                uint16_t x = i % 8;
-                uint16_t y = i / 8;
                 Color color = (value[3 * i + 0] << 16) | (value[3 * i + 1] << 8) | (value[3 * i +2]);
-                ESP_LOGW(LOG_TAG, "paint frame: %d color: %0x", i, color);
-                paintPixel->setPixelColor(x, y, color);
+                frame.push_back(color);
+//                uint16_t x = i % 8;
+//                uint16_t y = i / 8;
+//                ESP_LOGW(LOG_TAG, "paint frame: %d color: %0x", i, color);
+//                paintPixel->setPixelColor(x, y, color);
             }
+            paintPixel->clearFrames();
+            paintPixel->setFrame(frame);
         }
     );
 }
