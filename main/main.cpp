@@ -50,58 +50,38 @@ static const char* TAG = "BADGE";
 #define LED_STRIP_LENGTH 64U
 #define LED_STRIP_RMT_INTR_NUM 19U
 
-static Display display( GPIO_NUM_14);
 
 #define PLUG(clazz, name, index) \
     static clazz name(display); \
     animationProgram.putAnimation(index, &name);
 
-
-static SpiralAnimation spiralAnimation(display);
-static MeteorShowerAnimation meteorShowerAnimation(display);
-static SmearAnimation smearAnimation(display);
-static Felix felix(display);
-static HeartAnimation heart1Animation(display);
-static JsonAnimation testJson(display);
-static SpinBottleAnimation spinBottle(display);
-static WormholeAnimation wormhole(display);
-static SpinBottle2 spinBottle2(display);
-static EmojiAnimation emoji(display);
-static Kaleidascope kaleidascope(display);
-static MarqueeAnimation marquee(display);
-static DiceAnimation diceAnimation(display);
-
-AnimationTask animator; // todo parameterize
-AnimationProgram animationProgram(animator);
-
-/* static */
-BadgeService badgeService(display, animationProgram);
-
 TaskHandle_t mainTaskHandle;
 
+// initialize the app on a task pinned to the APP core
 void mainTask(void *parameters) {
     ESP_LOGI(TAG, "main task running on core: %d", xPortGetCoreID());
-    for (;;) {
 
-    }
-}
+    static Display display( GPIO_NUM_14);
 
-void app_main(void) {
-    // fixme check error
-    nvs_flash_init();
+    static SpiralAnimation spiralAnimation(display);
+    static MeteorShowerAnimation meteorShowerAnimation(display);
+    static SmearAnimation smearAnimation(display);
+    static Felix felix(display);
+    static HeartAnimation heart1Animation(display);
+    static JsonAnimation testJson(display);
+    static SpinBottleAnimation spinBottle(display);
+    static WormholeAnimation wormhole(display);
+    static SpinBottle2 spinBottle2(display);
+    static EmojiAnimation emoji(display);
+    static Kaleidascope kaleidascope(display);
+    static MarqueeAnimation marquee(display);
+    static DiceAnimation diceAnimation(display);
 
-    ESP_LOGI(TAG, "app_main running on core: %d", xPortGetCoreID());
-    ESP_LOGI(TAG, "initializing");
+    AnimationTask animator; // todo parameterize
+    static AnimationProgram animationProgram(animator);
 
-    static char name[] = "main task";
-    uint16_t stackDepth = 4092;
-    UBaseType_t priority = tskIDLE_PRIORITY + 0;
-    BaseType_t coreId = 1; // assume that BT runs on core 0
-    BaseType_t status = xTaskCreatePinnedToCore(mainTask, name, stackDepth, NULL, priority, &mainTaskHandle, coreId);
-    if (status != pdPASS) {
-        ESP_LOGE(TAG, "Create task failed: %d", status);
-    }
-
+    /* static */
+    BadgeService badgeService(display, animationProgram);
 
     // fixme check duplicate index error
     animationProgram.putAnimation(0, &spiralAnimation);
@@ -142,5 +122,29 @@ void app_main(void) {
     display.setBrightness(5);
     animationProgram.setProgram(0);
     animator.start();
+
+    // main task does nothing but initialize app on core 1
+    for (;;) {
+
+    }
+}
+
+void app_main(void) {
+    // fixme check error
+    nvs_flash_init();
+
+    ESP_LOGI(TAG, "app_main running on core: %d", xPortGetCoreID());
+    ESP_LOGI(TAG, "initializing");
+
+    // run main task on APP core so that RMT interrupts don't collide with BT
+    static char name[] = "main task";
+    uint16_t stackDepth = 4092;
+    UBaseType_t priority = tskIDLE_PRIORITY + 0;
+    BaseType_t coreId = 1; // assume that BT runs on core 0
+    BaseType_t status = xTaskCreatePinnedToCore(mainTask, name, stackDepth, NULL, priority, &mainTaskHandle, coreId);
+    if (status != pdPASS) {
+        ESP_LOGE(TAG, "Create task failed: %d", status);
+    }
+
 }
 
