@@ -33,6 +33,7 @@ private:
     BLECharacteristic paintPixelCharacteristic;
     BLECharacteristic paintFrameCharacteristic;
     BLECharacteristic appVersionCharacteristic;
+    BLECharacteristic frameDumpCharacteristic;
 
     static void batteryTask(void *parameters);
     TaskHandle_t taskHandle;

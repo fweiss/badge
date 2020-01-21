@@ -27,3 +27,7 @@ void AnimationProgram::setProgram(uint8_t index) {
         ESP_LOGW(TAG, "set program ignored: out of range: 0-%d", programs.size() - 1);
     }
 }
+
+const Animation *AnimationProgram::getCurrentAnimation() {
+    return programs[index];
+}

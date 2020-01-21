@@ -13,6 +13,7 @@ public:
     void drawFrame();
     void putAnimation(uint8_t index, Animation *animation);
     void setProgram(uint8_t index);
+    const Animation *getCurrentAnimation();
 
 private:
     std::map<uint8_t,Animation*> programs;

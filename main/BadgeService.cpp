@@ -79,6 +79,14 @@ BLECharacteristicConfig appVersionCharacteristicConfig = {
     .descriptorConfigs = { }
 };
 
+BLECharacteristicConfig frameDumpCharacteristicConfig = {
+    .uuid = UUID16(0x0049),
+    .permissions = ESP_GATT_PERM_READ,
+    .properties = ESP_GATT_CHAR_PROP_BIT_READ,
+    .control = { .auto_rsp = ESP_GATT_AUTO_RSP },
+    .descriptorConfigs = { }
+};
+
 // END OF CHARACTERISTIC CONFIGURATIONS
 
 BadgeService::BadgeService(Display &display, AnimationProgram &animationProgram) :
@@ -91,7 +99,8 @@ BadgeService::BadgeService(Display &display, AnimationProgram &animationProgram)
     downloadCharacteristic(this, downloadCharacteristicConfig),
     paintPixelCharacteristic(this, paintPixelCharacteristicConfig),
     paintFrameCharacteristic(this, paintFrameCharacteristicConfig),
-    appVersionCharacteristic(this, appVersionCharacteristicConfig) {
+    appVersionCharacteristic(this, appVersionCharacteristicConfig),
+    frameDumpCharacteristic(this, frameDumpCharacteristicConfig) {
 
     ::adc1_config_width(ADC_WIDTH_12Bit);
     ::adc1_config_channel_atten(ADC1_CHANNEL_7, ADC_ATTEN_11db); // Measure up to 2.2V
@@ -182,6 +191,15 @@ void BadgeService::init() {
             paintPixel->setFrame(frame);
         }
     );
+
+    frameDumpCharacteristic.setReadCallback(
+        [this](uint16_t len, uint8_t *value){
+            const Animation *currentAnimation = animationProgram.getCurrentAnimation();
+            const std::vector<uint32_t> *frame = currentAnimation->frameDump();
+            ESP_LOGI(LOG_TAG, "frame dump");
+        }
+    );
+
 }
 
 void BadgeService::onConnect() {

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include "Display.h"
 
 class Animation {
@@ -9,6 +11,7 @@ public:
 
     virtual ~Animation() {};
     virtual void drawFrame() = 0;
+    virtual const std::vector<uint32_t> *frameDump() const;
     uint16_t getFramePeriodMillis() { return this->framePeriodMillis; }
 protected:
     Display &display;
