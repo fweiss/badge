@@ -77,12 +77,31 @@ AnimationProgram animationProgram(animator);
 /* static */
 BadgeService badgeService(display, animationProgram);
 
+TaskHandle_t mainTaskHandle;
+
+void mainTask(void *parameters) {
+    ESP_LOGI(TAG, "main task running on core: %d", xPortGetCoreID());
+    for (;;) {
+
+    }
+}
+
 void app_main(void) {
     // fixme check error
     nvs_flash_init();
 
     ESP_LOGI(TAG, "app_main running on core: %d", xPortGetCoreID());
     ESP_LOGI(TAG, "initializing");
+
+    static char name[] = "main task";
+    uint16_t stackDepth = 4092;
+    UBaseType_t priority = tskIDLE_PRIORITY + 0;
+    BaseType_t coreId = 1; // assume that BT runs on core 0
+    BaseType_t status = xTaskCreatePinnedToCore(mainTask, name, stackDepth, NULL, priority, &mainTaskHandle, coreId);
+    if (status != pdPASS) {
+        ESP_LOGE(TAG, "Create task failed: %d", status);
+    }
+
 
     // fixme check duplicate index error
     animationProgram.putAnimation(0, &spiralAnimation);
