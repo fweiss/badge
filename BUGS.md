@@ -2,6 +2,9 @@
 Current bugs that are being resolved
 
 ## Long startup after fixing led glitching bug
+This was resolved by initializing RMT in a task pinned to APP core.
+Originally, RMT was initialized via app_main, which was running on PRO core.
+The app_main function now starts a pinned task to initialize the app.
 
 Status: (BT-bluetooth, BD=bluedroid, AT=AnimationTask)
 - run BT and BD on APP stops glitching, but adds HCI timeout error
