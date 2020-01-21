@@ -81,6 +81,7 @@ void app_main(void) {
     // fixme check error
     nvs_flash_init();
 
+    ESP_LOGI(TAG, "app_main running on core: %d", xPortGetCoreID());
     ESP_LOGI(TAG, "initializing");
 
     // fixme check duplicate index error
