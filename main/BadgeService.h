@@ -16,6 +16,7 @@ public:
     void init();
     void setPaintPixel(PaintPixel *paintPixel) { this->paintPixel = paintPixel; }
 
+    void onStarted() override;
     void onConnect() override;
     void onDisconnect() override;
 

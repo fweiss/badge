@@ -18,7 +18,10 @@ public:
     BLEService *getService() { return this->service; }
 
     void setWriteCallback(std::function<void(uint16_t len, uint8_t *value)> func);
-    void setReadCallback(std::function<void(uint16_t len, uint8_t *value)> func);
+    void setReadCallback(std::function<void(uint16_t *len, uint8_t **value)> func);
+
+    // should be protected and allowed access from BLESerive subclass
+    void setValue(const uint16_t length, const uint8_t *value);
 
 protected:
     friend class BLEService;
@@ -29,5 +32,6 @@ protected:
 
     virtual void addToService(BLEService &service) = 0;
     std::function<void(uint16_t len, uint8_t *value)> writeCallback;
-    std::function<void(uint16_t len, uint8_t *value)> readCallback;
+    std::function<void(uint16_t *len, uint8_t **value)> readCallback;
+
 };

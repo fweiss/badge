@@ -84,6 +84,7 @@ public:
 
     void handleGattsEvent(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param);
 
+    virtual void onStarted() {}
     virtual void onConnect() {}
     virtual void onDisconnect() {}
 

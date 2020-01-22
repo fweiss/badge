@@ -133,7 +133,7 @@ void Matrix::setPixelRgb(uint32_t index, uint8_t red, uint8_t green, uint8_t blu
         return;
     }
     if (index >= size) {
-        ESP_LOGW(TAG, "setRgbPixel: index out of range %d", index);
+        ESP_LOGW(TAG, "setPixelRgb: index out of range %d", index);
         return;
     }
     uint32_t start = index * 3;
@@ -141,6 +141,22 @@ void Matrix::setPixelRgb(uint32_t index, uint8_t red, uint8_t green, uint8_t blu
     grbPixels[start + 0] = green & 0xFF;
     grbPixels[start + 1] = red & 0xFF;
     grbPixels[start + 2] = blue & 0xFF;
+}
+
+uint32_t Matrix::getPixelRgb(uint16_t index) {
+    if (grbPixels == 0) {
+        ESP_LOGW(TAG, "could not get pixel, no rgbPixels allocated");
+        return 0;
+    }
+    if (index >= size) {
+        ESP_LOGW(TAG, "getPixelRgb: index out of range %d", index);
+        return 0;
+    }
+    uint32_t start = index * 3;
+    const uint8_t r = grbPixels[start + 1];
+    const uint8_t g = grbPixels[start + 0];
+    const uint8_t b = grbPixels[start + 2];
+    return (r << 16) | (g << 8) | (b << 0);
 }
 
 void Matrix::show() {

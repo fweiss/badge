@@ -27,3 +27,7 @@ void BitmapAnimation::drawFrame(uint16_t frameIndex) {
     }
     display.update();
 }
+
+//const <std::vector<uint32_t> *frameDump() const {
+//    return display.
+//}

@@ -83,7 +83,7 @@ BLECharacteristicConfig frameDumpCharacteristicConfig = {
     .uuid = UUID16(0x0049),
     .permissions = ESP_GATT_PERM_READ,
     .properties = ESP_GATT_CHAR_PROP_BIT_READ,
-    .control = { .auto_rsp = ESP_GATT_AUTO_RSP },
+    .control = { .auto_rsp = ESP_GATT_RSP_BY_APP },
     .descriptorConfigs = { }
 };
 
@@ -106,9 +106,6 @@ BadgeService::BadgeService(Display &display, AnimationProgram &animationProgram)
     ::adc1_config_channel_atten(ADC1_CHANNEL_7, ADC_ATTEN_11db); // Measure up to 2.2V
     taskHandle = NULL;
 
-//    const esp_app_desc_t *app_description = esp_ota_get_app_description();
-//            ESP_LOGI(TAG, "version: %32s", app_description->version);
-//    appVersionCharacteristic.setValue(bytes)
 
 }
 
@@ -119,14 +116,14 @@ BadgeService::~BadgeService() {
 void BadgeService::init() {
 
     appVersionCharacteristic.setReadCallback(
-        [](uint16_t len, uint8_t *value){
+        [](uint16_t *len, uint8_t **value){
 //            const esp_app_desc_t *app_description = esp_ota_get_app_description();
 //            ESP_LOGI(TAG, "version: %32s", app_description->version);
         }
     );
 
     batteryCharacteristic.setReadCallback(
-        [this](uint16_t len, uint8_t *value) {
+        [this](uint16_t *len, uint8_t **value) {
             ESP_LOGI(LOG_TAG, "read battery");
         }
     );
@@ -193,10 +190,23 @@ void BadgeService::init() {
     );
 
     frameDumpCharacteristic.setReadCallback(
-        [this](uint16_t len, uint8_t *value){
+        [this](uint16_t *len, uint8_t **value){
+        static char map[] = "0123456789ABCDEF";
             const Animation *currentAnimation = animationProgram.getCurrentAnimation();
             const std::vector<uint32_t> *frame = currentAnimation->frameDump();
             ESP_LOGI(LOG_TAG, "frame dump");
+            std::string json;
+            json += "[";
+            for (const uint32_t &color : *frame) {
+                json += "\"0x";
+                for (int i=20; i>=0; i-=4) {
+//                for (int i=0; i<24; i+=4) {
+                    json += map[(color >> i) & 0x0f];
+                }
+                json += "\",";
+            }
+            json += "]";
+            ESP_LOGI(LOG_TAG, "frame dump: %s", json.c_str());
         }
     );
 
@@ -214,6 +224,12 @@ void BadgeService::onDisconnect() {
         vTaskDelete(taskHandle);
         taskHandle = NULL;
     }
+}
+
+void BadgeService::onStarted() {
+    const esp_app_desc_t *app_description = esp_ota_get_app_description();
+    ESP_LOGI(LOG_TAG, "version: %32s", app_description->version);
+    appVersionCharacteristic.setValue(sizeof(app_description->version), (const uint8_t*)app_description->version);
 }
 
 void BadgeService::batteryTask(void *parameters) {

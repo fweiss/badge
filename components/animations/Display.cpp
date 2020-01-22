@@ -67,3 +67,7 @@ void Display::show() {
 void Display::setBrightness(uint8_t brightness) {
     this->brightness = brightness;
 }
+
+uint32_t Display::getPixel(uint16_t index) {
+    return matrix.getPixelRgb(index);
+}

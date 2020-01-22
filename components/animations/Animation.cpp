@@ -9,6 +9,11 @@ Animation::Animation(Display &display, uint16_t framePeriodMillis) : display(dis
 }
 
 const std::vector<uint32_t> *Animation::frameDump() const {
-    static const std::vector<uint32_t>emptyFrame;
-    return &emptyFrame;
+    static std::vector<uint32_t>frame;
+    frame.clear();
+    for (int i=0; i<64; i++) {
+        const uint32_t color = display.getPixel(i);
+        frame.push_back(color);
+    }
+    return &frame;
 }
