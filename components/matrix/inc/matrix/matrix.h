@@ -12,6 +12,8 @@ public:
     const size_t bytesPerPixel = 3;
 
     void setPixelRgb(uint32_t index, uint8_t r, uint8_t g, uint8_t b);
+    uint32_t getPixelRgb(uint16_t index);
+
     void show();
 private:
     const rmt_channel_t channel = RMT_CHANNEL_0;

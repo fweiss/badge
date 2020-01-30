@@ -16,6 +16,7 @@ public:
     void init();
     void setPaintPixel(PaintPixel *paintPixel) { this->paintPixel = paintPixel; }
 
+    void onStarted() override;
     void onConnect() override;
     void onDisconnect() override;
 
@@ -32,6 +33,8 @@ private:
     BLECharacteristic downloadCharacteristic;
     BLECharacteristic paintPixelCharacteristic;
     BLECharacteristic paintFrameCharacteristic;
+    BLECharacteristic appVersionCharacteristic;
+    BLECharacteristic frameDumpCharacteristic;
 
     static void batteryTask(void *parameters);
     TaskHandle_t taskHandle;

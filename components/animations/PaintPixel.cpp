@@ -9,6 +9,14 @@
      drawFrame();
  }
 
+ void PaintPixel::clearFrames() {
+     frames.clear();
+ }
+
+ void PaintPixel::setFrame(std::vector<uint32_t> frame) {
+     frames.push_back(frame);
+ }
+
 std::vector<std::vector<uint32_t>> PaintPixel::frames = {
     {
       0, 0, 0, 0, 0, 0, 0, 0,

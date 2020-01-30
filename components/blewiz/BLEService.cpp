@@ -74,7 +74,13 @@ void BLEService::handleGattsEvent(esp_gatts_cb_event_t event, esp_gatt_if_t gatt
             ESP_LOGW(GATTS_TAG, "gatts read: not found: characteristic handle: %0x", read.handle);
             break;
         }
+
         ESP_LOGI(GATTS_TAG, "received read event %0x, %0x", characteristic->uuid.uuid.uuid16, read.need_rsp);
+        esp_gatt_rsp_t rsp;
+
+        uint16_t length;
+        uint8_t *value;
+        characteristic->readCallback(&length, &value);
 
         if (read.need_rsp) {
 
@@ -84,7 +90,6 @@ void BLEService::handleGattsEvent(esp_gatts_cb_event_t event, esp_gatt_if_t gatt
 //                        .len = 2,
 //                };
 //        };
-            esp_gatt_rsp_t rsp;
             rsp.handle = read.handle;
             rsp.attr_value.len = 1;
             rsp.attr_value.value[0] = 0x22;

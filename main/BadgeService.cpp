@@ -2,8 +2,8 @@
 
 #include "esp_log.h"
 #include "freertos/task.h"
-
 #include "driver/adc.h"
+#include "esp_ota_ops.h"
 
 #include <string>
 
@@ -71,6 +71,22 @@ BLECharacteristicConfig paintFrameCharacteristicConfig = {
     .descriptorConfigs = {}
 };
 
+BLECharacteristicConfig appVersionCharacteristicConfig = {
+    .uuid = UUID16(0x0048),
+    .permissions = ESP_GATT_PERM_READ,
+    .properties = ESP_GATT_CHAR_PROP_BIT_READ,
+    .control = { .auto_rsp = ESP_GATT_AUTO_RSP },
+    .descriptorConfigs = { }
+};
+
+BLECharacteristicConfig frameDumpCharacteristicConfig = {
+    .uuid = UUID16(0x0049),
+    .permissions = ESP_GATT_PERM_READ,
+    .properties = ESP_GATT_CHAR_PROP_BIT_READ,
+    .control = { .auto_rsp = ESP_GATT_RSP_BY_APP },
+    .descriptorConfigs = { }
+};
+
 // END OF CHARACTERISTIC CONFIGURATIONS
 
 BadgeService::BadgeService(Display &display, AnimationProgram &animationProgram) :
@@ -82,11 +98,15 @@ BadgeService::BadgeService(Display &display, AnimationProgram &animationProgram)
     programCharacteristic(this, programCharacteristicConfig),
     downloadCharacteristic(this, downloadCharacteristicConfig),
     paintPixelCharacteristic(this, paintPixelCharacteristicConfig),
-    paintFrameCharacteristic(this, paintFrameCharacteristicConfig) {
+    paintFrameCharacteristic(this, paintFrameCharacteristicConfig),
+    appVersionCharacteristic(this, appVersionCharacteristicConfig),
+    frameDumpCharacteristic(this, frameDumpCharacteristicConfig) {
 
     ::adc1_config_width(ADC_WIDTH_12Bit);
     ::adc1_config_channel_atten(ADC1_CHANNEL_7, ADC_ATTEN_11db); // Measure up to 2.2V
     taskHandle = NULL;
+
+
 }
 
 BadgeService::~BadgeService() {
@@ -95,8 +115,15 @@ BadgeService::~BadgeService() {
 
 void BadgeService::init() {
 
+    appVersionCharacteristic.setReadCallback(
+        [](uint16_t *len, uint8_t **value){
+//            const esp_app_desc_t *app_description = esp_ota_get_app_description();
+//            ESP_LOGI(TAG, "version: %32s", app_description->version);
+        }
+    );
+
     batteryCharacteristic.setReadCallback(
-        [this](uint16_t len, uint8_t *value) {
+        [this](uint16_t *len, uint8_t **value) {
             ESP_LOGI(LOG_TAG, "read battery");
         }
     );
@@ -148,15 +175,41 @@ void BadgeService::init() {
                 return;
             }
             ESP_LOGI(LOG_TAG, "paint frame");
+            std::vector<uint32_t> frame;
             for (int i=0; i<64; i++) {
-                uint16_t x = i % 8;
-                uint16_t y = i / 8;
                 Color color = (value[3 * i + 0] << 16) | (value[3 * i + 1] << 8) | (value[3 * i +2]);
-                ESP_LOGW(LOG_TAG, "paint frame: %d color: %0x", i, color);
-                paintPixel->setPixelColor(x, y, color);
+                frame.push_back(color);
+//                uint16_t x = i % 8;
+//                uint16_t y = i / 8;
+//                ESP_LOGW(LOG_TAG, "paint frame: %d color: %0x", i, color);
+//                paintPixel->setPixelColor(x, y, color);
             }
+            paintPixel->clearFrames();
+            paintPixel->setFrame(frame);
         }
     );
+
+    frameDumpCharacteristic.setReadCallback(
+        [this](uint16_t *len, uint8_t **value){
+        static char map[] = "0123456789ABCDEF";
+            const Animation *currentAnimation = animationProgram.getCurrentAnimation();
+            const std::vector<uint32_t> *frame = currentAnimation->frameDump();
+            ESP_LOGI(LOG_TAG, "frame dump");
+            std::string json;
+            json += "[";
+            for (const uint32_t &color : *frame) {
+                json += "\"0x";
+                for (int i=20; i>=0; i-=4) {
+//                for (int i=0; i<24; i+=4) {
+                    json += map[(color >> i) & 0x0f];
+                }
+                json += "\",";
+            }
+            json += "]";
+            ESP_LOGI(LOG_TAG, "frame dump: %s", json.c_str());
+        }
+    );
+
 }
 
 void BadgeService::onConnect() {
@@ -171,6 +224,12 @@ void BadgeService::onDisconnect() {
         vTaskDelete(taskHandle);
         taskHandle = NULL;
     }
+}
+
+void BadgeService::onStarted() {
+    const esp_app_desc_t *app_description = esp_ota_get_app_description();
+    ESP_LOGI(LOG_TAG, "version: %32s", app_description->version);
+    appVersionCharacteristic.setValue(sizeof(app_description->version), (const uint8_t*)app_description->version);
 }
 
 void BadgeService::batteryTask(void *parameters) {
