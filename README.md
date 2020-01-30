@@ -76,6 +76,25 @@ Full access to the GATT characteristics.
 
 Details TODO
 
+## Development
+
+Update firmware on device from bin file.
+On Windows.
+Download the [ESP GUI](http://espressif.com/en/products/hardware/esp32/resources)
+
+- run "flash_download_tools_vn.n.n"
+- select SPIDownload tab
+- in first row, click "..."
+- navigate to and select "badge.bin" file
+- after the "@", enter "0x10000"
+- select the checkbox for the first row
+- power up the badge device
+- connect the device to the computer via USB
+- select the COM port
+- click Start
+- wait until "Finish" is displayed in the Download Panel 1
+
+
 ## Links and References
 
 https://www.esp32.com/viewtopic.php?t=576
