@@ -38,4 +38,6 @@ private:
 
     static void batteryTask(void *parameters);
     TaskHandle_t taskHandle;
+
+    std::vector<uint8_t> paintFrame;
 };

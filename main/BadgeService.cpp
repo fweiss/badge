@@ -170,22 +170,21 @@ void BadgeService::init() {
     );
     paintFrameCharacteristic.setWriteCallback(
         [this](uint16_t len, uint8_t *value) {
-            if (len != 64 * 3) {
-                ESP_LOGW(LOG_TAG, "paint frame: invalid length: %d", len);
-                return;
+            for (int j=0; j<len; j++) {
+                paintFrame.emplace_back(value[j]);
             }
-            ESP_LOGI(LOG_TAG, "paint frame");
-            std::vector<uint32_t> frame;
-            for (int i=0; i<64; i++) {
-                Color color = (value[3 * i + 0] << 16) | (value[3 * i + 1] << 8) | (value[3 * i +2]);
-                frame.push_back(color);
-//                uint16_t x = i % 8;
-//                uint16_t y = i / 8;
-//                ESP_LOGW(LOG_TAG, "paint frame: %d color: %0x", i, color);
-//                paintPixel->setPixelColor(x, y, color);
+            ESP_LOGI(LOG_TAG, "paint frame data: %d, size: %d", len, paintFrame.size());
+            if (paintFrame.size() >= 64 * 3) {
+                std::vector<uint32_t> frame;
+                for (int i=0; i<64; i++) {
+                    Color color = (paintFrame[3 * i + 0] << 16) | (paintFrame[3 * i + 1] << 8) | (paintFrame[3 * i +2]);
+                    frame.push_back(color);
+                }
+                ESP_LOGI(LOG_TAG, "paint frame execute");
+                paintPixel->clearFrames();
+                paintPixel->setFrame(frame);
+                paintFrame.clear();
             }
-            paintPixel->clearFrames();
-            paintPixel->setFrame(frame);
         }
     );
 
