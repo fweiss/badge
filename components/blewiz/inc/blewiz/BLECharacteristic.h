@@ -26,6 +26,8 @@ public:
     const esp_gatt_char_prop_t &properties;
     esp_attr_control_t &control; // fixme not const to comply with API
 
+    void writeValue(uint16_t len, const uint8_t *value);
+
 
 protected:
     friend class BLEService;

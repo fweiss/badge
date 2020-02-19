@@ -75,7 +75,7 @@ BLECharacteristicConfig appVersionCharacteristicConfig = {
     .uuid = UUID16(0x0048),
     .permissions = ESP_GATT_PERM_READ,
     .properties = ESP_GATT_CHAR_PROP_BIT_READ,
-    .control = { .auto_rsp = ESP_GATT_AUTO_RSP },
+    .control = { .auto_rsp = ESP_GATT_RSP_BY_APP },
     .descriptorConfigs = { }
 };
 
@@ -116,9 +116,10 @@ BadgeService::~BadgeService() {
 void BadgeService::init() {
 
     appVersionCharacteristic.setReadCallback(
-        [](uint16_t *len, uint8_t **value){
-//            const esp_app_desc_t *app_description = esp_ota_get_app_description();
-//            ESP_LOGI(TAG, "version: %32s", app_description->version);
+        [this](uint16_t *len, uint8_t **value){
+            const esp_app_desc_t *app_description = esp_ota_get_app_description();
+            ESP_LOGI(LOG_TAG, "version: %-16s", app_description->version);
+//            appVersionCharacteristic.writeValue((uint16_t)16, (const uint8_t*)app_description);
         }
     );
 
