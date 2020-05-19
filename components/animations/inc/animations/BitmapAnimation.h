@@ -16,7 +16,7 @@ public:
 protected:
     void nextFrame() { frameIndex = (frameIndex + 1) % frames.size(); }
     void drawFrame() override;
-    void drawFrame(uint16_t frameIndex);
+    virtual void drawFrame(uint16_t frameIndex);
 
     uint16_t frameIndex;
     std::vector<std::vector<uint32_t>> &frames;

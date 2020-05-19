@@ -32,6 +32,7 @@
 #include "animations/FunBit64.h"
 #include "animations/PaintPixel.h"
 #include "animations/Alphabet.h"
+#include "animations/Tween.h"
 
 #include "animations/AnimationTask.h"
 
@@ -103,6 +104,7 @@ void mainTask(void *parameters) {
     PLUG(FunBit64, funbit, 16)
     PLUG(PaintPixel, paintPixel, 17)
     PLUG(Alphabet, alphabet, 18);
+    PLUG(Tween, tween, 19);
 
 //    testJson.loadJson();
 
@@ -120,7 +122,7 @@ void mainTask(void *parameters) {
     );
 
     display.setBrightness(5);
-    animationProgram.setProgram(0);
+    animationProgram.setProgram(19);
     animator.start();
 
     // main task does nothing but initialize app on core 1
