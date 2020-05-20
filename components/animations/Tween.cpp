@@ -5,15 +5,13 @@ Tween::Tween(Display &display) : BitmapAnimation(display, frames, 20) {
 }
 
 static void compose(std::vector<uint32_t> &target, std::vector<std::vector<uint32_t>> &frames) {
-	const uint16_t segments = 1;
+	const uint16_t segments = 26;
 	target.clear();
 	for (int i=0; i<8; i++) {
 		for (int j=0; j<segments; j++) {
 //			uint16_t targetOffset = i * segments * 8 + j * 8;
-			target.insert(target.end(), frames[j].begin() + i*16, frames[j].begin() + i*16+16);
-//			target.insert(target.end(), frames[0].begin() + i*8, frames[0].begin() + i*8+8);
-//			target.insert(target.end(), frames[1].begin() + i*8, frames[1].begin() + i*8+8);
-//			target.insert(target.end(), frames[1].begin() + i*8, frames[1].begin() + i*8+8);
+//			target.insert(target.end(), frames[j].begin() + i*16, frames[j].begin() + i*16+16);
+			target.insert(target.end(), frames[j+1].begin() + i*8, frames[j+1].begin() + i*8+8);
 		}
 	}
 }
