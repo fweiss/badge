@@ -74,12 +74,14 @@ void Tween::drawFrame(uint16_t frameIndex) {
 //    frame.insert(frame.end(), frames.at(2).begin(), frames.at(2).end());
     compose(frame, frames);
 
-    uint16_t shift = smoothFrameOffset % 24;
+    uint16_t shift = smoothFrameOffset % 8;
     for (int16_t i=0; i<64; i++) {
     	uint16_t row = i / 8;
     	uint16_t col = i % 8;
     	uint16_t index = row * 8 + ((col + shift) % 8);
-//    	index = i;
+//    	uint16_t row = i / 8;
+//    	uint16_t col = (i - shift) % 8;
+//    	uint16_t index = i;
         display.setPixel(index, tween(frame, trans[smoothFrameFraction], row, col));
     }
     display.update();

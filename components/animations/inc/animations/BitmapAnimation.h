@@ -14,7 +14,7 @@ public:
 
 //    const std::vector<uint32_t> *frameDump() const override;
 protected:
-    void nextFrame() { frameIndex = (frameIndex + 1) % frames.size(); }
+    virtual void nextFrame() { frameIndex = (frameIndex + 1) % frames.size(); }
     void drawFrame() override;
     virtual void drawFrame(uint16_t frameIndex);
 
