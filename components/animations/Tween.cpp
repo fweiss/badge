@@ -54,21 +54,24 @@ static uint32_t tween(std::vector<uint32_t> frame, float trans[][3], uint16_t r,
 }
 
 void Tween::drawFrame(uint16_t frameIndex) {
-	uint16_t smoothFrame = frameIndex;
-	uint16_t smoothFrameOffset = smoothFrame / 4;
-	uint16_t smoothFrameFraction = smoothFrame % 4;
+	float trans[4][3][3] = {
+		{ 0, 0, 0, 0.00, 1.00, 0, 0, 0, 0 },
+		{ 0, 0, 0, 0.25, 0.75, 0, 0, 0, 0 },
+		{ 0, 0, 0, 0.50, 0.50, 0, 0, 0, 0 },
+		{ 0, 0, 0, 0.75, 0.25, 0, 0, 0, 0 }
+	};
 //	float trans[4][3][3] = {
+//		0, 0, 0, 0.00, 0.75, 0.25, 0, 0, 0,
 //		0, 0, 0, 0.00, 1.00, 0, 0, 0, 0,
 //		0, 0, 0, 0.25, 0.75, 0, 0, 0, 0,
-//		0, 0, 0, 0.50, 0.50, 0, 0, 0, 0,
-//		0, 0, 0, 0.75, 0.25, 0, 0, 0, 0
+//		0, 0, 0, 0.50, 0.50, 0.00, 0, 0
 //	};
-	float trans[4][3][3] = {
-		0, 0, 0, 0.00, 0.75, 0.25, 0, 0, 0,
-		0, 0, 0, 0.00, 1.00, 0, 0, 0, 0,
-		0, 0, 0, 0.25, 0.75, 0, 0, 0, 0,
-		0, 0, 0, 0.50, 0.50, 0.00, 0, 0
-	};
+
+	const int tweenCount = sizeof(trans) / sizeof(trans[0]);
+
+	uint16_t smoothFrame = frameIndex;
+	uint16_t smoothFrameOffset = smoothFrame / tweenCount;
+	uint16_t smoothFrameFraction = smoothFrame % tweenCount;
 
     std::vector<uint32_t> frame(0);
     compose(frame, frames);
@@ -79,7 +82,7 @@ void Tween::drawFrame(uint16_t frameIndex) {
     	uint16_t row = i / 8;
     	uint16_t col = (i % 8 + shift) % cols;
     	uint16_t index = i;
-        display.setPixel(index, tween(frame, trans[3 - smoothFrameFraction], row, col));
+        display.setPixel(index, tween(frame, trans[(tweenCount - 1) - smoothFrameFraction], row, col));
     }
     display.update();
 }
