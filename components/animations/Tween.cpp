@@ -62,11 +62,17 @@ void Tween::drawFrame(uint16_t frameIndex) {
 	uint16_t smoothFrame = frameIndex;
 	uint16_t smoothFrameOffset = smoothFrame / 4;
 	uint16_t smoothFrameFraction = smoothFrame % 4;
+//	float trans[4][3][3] = {
+//		0, 0, 0, 0.00, 1.00, 0, 0, 0, 0,
+//		0, 0, 0, 0.25, 0.75, 0, 0, 0, 0,
+//		0, 0, 0, 0.50, 0.50, 0, 0, 0, 0,
+//		0, 0, 0, 0.75, 0.25, 0, 0, 0, 0
+//	};
 	float trans[4][3][3] = {
+		0, 0, 0, 0.00, 0.75, 0.25, 0, 0, 0,
 		0, 0, 0, 0.00, 1.00, 0, 0, 0, 0,
 		0, 0, 0, 0.25, 0.75, 0, 0, 0, 0,
-		0, 0, 0, 0.50, 0.50, 0, 0, 0, 0,
-		0, 0, 0, 0.75, 0.25, 0, 0, 0, 0
+		0, 0, 0, 0.50, 0.50, 0.00, 0, 0
 	};
 
 //    std::vector<uint32_t> frame = frames.at(0);
