@@ -9,8 +9,11 @@ static void compose(std::vector<uint32_t> &target, std::vector<std::vector<uint3
 	target.clear();
 	for (int i=0; i<8; i++) {
 		for (int j=0; j<segments; j++) {
-			uint16_t targetOffset = i * segments * 8 + j * 8;
-			target.insert(target.begin() + targetOffset, frames[j].begin() + i*8, frames[j].begin() + i*8+8);
+//			uint16_t targetOffset = i * segments * 8 + j * 8;
+			target.insert(target.end(), frames[j].begin() + i*8, frames[j].begin() + i*8+8);
+//			target.insert(target.end(), frames[0].begin() + i*8, frames[0].begin() + i*8+8);
+//			target.insert(target.end(), frames[1].begin() + i*8, frames[1].begin() + i*8+8);
+//			target.insert(target.end(), frames[1].begin() + i*8, frames[1].begin() + i*8+8);
 		}
 	}
 }
@@ -23,12 +26,13 @@ uint32_t scale(uint32_t source, float factor) {
 }
 
 static uint32_t tween(std::vector<uint32_t> frame, float trans[][3], uint16_t r, uint16_t c) {
+	const uint16_t cols = frame.size() / 8;
 	// pointers to the source pixels
 	uint32_t *qq[3][3] = { };
 	for (int i=-1; i<2; i++) {
 		for (int j=-1; j<2; j++) {
-			bool bounds = r + i >= 0 && r + i < 8 && c + j >= 0 && c + j < 8;
-			qq[i+1][j+1] = bounds ? &frame[8 * (r + i) + (c + j)] : 0;
+			bool bounds = r + i >= 0 && r + i < 8 && c + j >= 0 && c + j < cols;
+			qq[i+1][j+1] = bounds ? &frame[cols * (r + i) + (c + j)] : 0;
 		}
 	}
 
@@ -73,14 +77,15 @@ void Tween::drawFrame(uint16_t frameIndex) {
 //    frame.insert(frame.end(), frames.at(1).begin(), frames.at(1).end());
 //    frame.insert(frame.end(), frames.at(2).begin(), frames.at(2).end());
     compose(frame, frames);
+    const uint16_t cols = frame.size() / 8;
 
-    uint16_t shift = smoothFrameOffset % 8;
+    uint16_t shift = smoothFrameOffset % cols;
     for (int16_t i=0; i<64; i++) {
 //    	uint16_t row = i / 8;
 //    	uint16_t col = i % 8;
 //    	uint16_t index = row * 8 + ((col + shift) % 8);
     	uint16_t row = i / 8;
-    	uint16_t col = (i + shift) % 8;
+    	uint16_t col = (i + shift) % cols;
     	uint16_t index = i;
         display.setPixel(index, tween(frame, trans[3 - smoothFrameFraction], row, col));
     }
