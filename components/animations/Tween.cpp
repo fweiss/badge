@@ -1,6 +1,6 @@
 #include "Tween.h"
 
-Tween::Tween(Display &display) : BitmapAnimation(display, frames, 20) {
+Tween::Tween(Display &display) : BitmapAnimation(display, frames, 5) {
 
 }
 
@@ -54,18 +54,27 @@ static uint32_t tween(std::vector<uint32_t> frame, float trans[][3], uint16_t r,
 }
 
 void Tween::drawFrame(uint16_t frameIndex) {
-	float trans[4][3][3] = {
-		{ 0, 0, 0, 0.00, 1.00, 0, 0, 0, 0 },
-		{ 0, 0, 0, 0.25, 0.75, 0, 0, 0, 0 },
-		{ 0, 0, 0, 0.50, 0.50, 0, 0, 0, 0 },
-		{ 0, 0, 0, 0.75, 0.25, 0, 0, 0, 0 }
-	};
+//	float trans[4][3][3] = {
+//		{ 0, 0, 0, 0.00, 1.00, 0, 0, 0, 0 },
+//		{ 0, 0, 0, 0.25, 0.75, 0, 0, 0, 0 },
+//		{ 0, 0, 0, 0.50, 0.50, 0, 0, 0, 0 },
+//		{ 0, 0, 0, 0.75, 0.25, 0, 0, 0, 0 }
+//	};
 //	float trans[4][3][3] = {
 //		0, 0, 0, 0.00, 0.75, 0.25, 0, 0, 0,
 //		0, 0, 0, 0.00, 1.00, 0, 0, 0, 0,
 //		0, 0, 0, 0.25, 0.75, 0, 0, 0, 0,
 //		0, 0, 0, 0.50, 0.50, 0.00, 0, 0
 //	};
+	float trans[][3][3] = {
+		{ 0, 0, 0, 3/6., 3/6., 0.00, 0, 0, 0 },
+		{ 0, 0, 0, 2/6., 4/6., 0.00, 0, 0, 0 },
+		{ 0, 0, 0, 1/6., 5/6., 0.00, 0, 0, 0 },
+		{ 0, 0, 0, 0/6., 0.88, 0.00, 0, 0, 0 },
+		{ 0, 0, 0, 0/6., 5/6., 1/6., 0, 0, 0 },
+		{ 0, 0, 0, 0/6., 4/6., 2/6., 0, 0, 0 },
+//		{ 0, 0, 0, 0/6., 3/6., 3/6., 0, 0, 0 },
+	};
 
 	const int tweenCount = sizeof(trans) / sizeof(trans[0]);
 
@@ -82,7 +91,7 @@ void Tween::drawFrame(uint16_t frameIndex) {
     	uint16_t row = i / 8;
     	uint16_t col = (i % 8 + shift) % cols;
     	uint16_t index = i;
-        display.setPixel(index, tween(frame, trans[(tweenCount - 1) - smoothFrameFraction], row, col));
+        display.setPixel(index, tween(frame, trans[smoothFrameFraction], row, col));
     }
     display.update();
 }
