@@ -10,4 +10,5 @@ public:
 	virtual void nextFrame() { frameIndex = (frameIndex + 1); } // let it wrap!
 private:
     static BitmapAnimation::Frames frames;
+    std::vector<uint32_t> compositeFrame;
 };

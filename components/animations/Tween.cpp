@@ -1,8 +1,5 @@
 #include "Tween.h"
 
-Tween::Tween(Display &display) : BitmapAnimation(display, frames, 5) {
-
-}
 
 static void compose(std::vector<uint32_t> &target, std::vector<std::vector<uint32_t>> &frames) {
 	const uint16_t segments = 26;
@@ -12,6 +9,11 @@ static void compose(std::vector<uint32_t> &target, std::vector<std::vector<uint3
 			target.insert(target.end(), frames[j].begin() + i*8, frames[j].begin() + i*8+8);
 		}
 	}
+}
+
+Tween::Tween(Display &display) : BitmapAnimation(display, frames, 5), compositeFrame() {
+//	this->compositeFrame = new std::vector<uint32_t>(0);
+	compose(this->compositeFrame, frames);
 }
 
 uint32_t scale(uint32_t source, float factor) {
@@ -72,17 +74,14 @@ void Tween::drawFrame(uint16_t frameIndex) {
 	uint16_t smoothFrameOffset = smoothFrame / tweenCount;
 	uint16_t smoothFrameFraction = smoothFrame % tweenCount;
 
-	// todo do this in th constructor, not each frame!
-	std::vector<uint32_t> frame(0);
-    compose(frame, frames);
-    const uint16_t cols = frame.size() / 8;
+    const uint16_t cols = compositeFrame.size() / 8;
 
     uint16_t shift = smoothFrameOffset % cols;
     for (int16_t i=0; i<64; i++) {
     	const uint16_t row = i / 8;
     	const uint16_t col = (i % 8 + shift) % cols;
     	const uint16_t index = i;
-        display.setPixel(index, tween(frame, trans[smoothFrameFraction], row, col));
+        display.setPixel(index, tween(compositeFrame, trans[smoothFrameFraction], row, col));
     }
     display.update();
 }
