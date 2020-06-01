@@ -35,6 +35,7 @@
 #include "animations/Tween.h"
 
 #include "animations/AnimationTask.h"
+#include "animations/TimerAnimationTask.h"
 
 #include <stdio.h>
 
@@ -78,7 +79,7 @@ void mainTask(void *parameters) {
     static MarqueeAnimation marquee(display);
     static DiceAnimation diceAnimation(display);
 
-    AnimationTask animator; // todo parameterize
+    TimerAnimationTask animator; // todo parameterize
     static AnimationProgram animationProgram(animator);
 
     /* static */

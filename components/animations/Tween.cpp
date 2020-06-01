@@ -29,7 +29,7 @@ static void composeText(std::vector<uint32_t> &target, std::vector<std::vector<u
 
 }
 
-Tween::Tween(Display &display) : BitmapAnimation(display, frames, 5), compositeFrame() {
+Tween::Tween(Display &display) : BitmapAnimation(display, frames, 35), compositeFrame() {
 //	this->compositeFrame = new std::vector<uint32_t>(0);
 	composeText(this->compositeFrame, frames);
 }
@@ -77,7 +77,7 @@ void Tween::drawFrame(uint16_t frameIndex) {
 	// a smooth effect from six subframes
 	// a gamma correction is required, since effective brightness of (1/6,5/6) is less than (0/6, 6/6)
 	// for now manual correction of the 6/6
-	float trans[][3][3] = {
+	static float trans[][3][3] = {
 		{ 0, 0, 0, 3/6., 3/6., 0.00, 0, 0, 0 },
 		{ 0, 0, 0, 2/6., 4/6., 0.00, 0, 0, 0 },
 		{ 0, 0, 0, 1/6., 5/6., 0.00, 0, 0, 0 },
@@ -88,9 +88,9 @@ void Tween::drawFrame(uint16_t frameIndex) {
 
 	const int tweenCount = sizeof(trans) / sizeof(trans[0]);
 
-	uint16_t smoothFrame = frameIndex;
-	uint16_t smoothFrameOffset = smoothFrame / tweenCount;
-	uint16_t smoothFrameFraction = smoothFrame % tweenCount;
+	const uint16_t smoothFrame = frameIndex;
+	const uint16_t smoothFrameOffset = smoothFrame / tweenCount;
+	const uint16_t smoothFrameFraction = smoothFrame % tweenCount;
 
     const uint16_t cols = compositeFrame.size() / 8;
 
