@@ -4,7 +4,7 @@
 
 static const char* TAG = "AnimationProgram";
 
-AnimationProgram::AnimationProgram(AnimationTask &animator) : programs(), animator(animator) {
+AnimationProgram::AnimationProgram(BaseAnimationTask &animator) : programs(), animator(animator) {
 
 }
 

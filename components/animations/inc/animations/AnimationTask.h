@@ -1,19 +1,20 @@
 #pragma once
 
 #include "Animation.h"
+#include "BaseAnimationTask.h"
 
 #include "freertos/task.h"
 #include "freertos/semphr.h"
 
 #include <functional>
 
-class AnimationTask {
+class AnimationTask : public BaseAnimationTask {
 public:
     AnimationTask();
     ~AnimationTask();
 
     void start();
-    void setIntervalSecs(float secs);
+    void setIntervalSecs(float secs) override;
     void setCurrentAnimantion(Animation *animation) { this->currentAnimation = animation; }
     void setCallback(void lambda(void)) { this->func = lambda; }
 
