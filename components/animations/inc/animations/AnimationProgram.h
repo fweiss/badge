@@ -4,6 +4,7 @@
 
 #include "Animation.h"
 #include "AnimationTask.h"
+#include "Profiler.h"
 
 class AnimationProgram {
 public:
@@ -19,4 +20,5 @@ private:
     std::map<uint8_t,Animation*> programs;
     uint8_t index;
     BaseAnimationTask &animator;
+    Profiler profiler;
 };
