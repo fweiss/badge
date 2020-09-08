@@ -123,7 +123,7 @@ void mainTask(void *parameters) {
     );
 
     display.setBrightness(5);
-    animationProgram.setProgram(19);
+    animationProgram.setProgram(0);
     animator.start();
 
     // main task does nothing but initialize app on core 1
