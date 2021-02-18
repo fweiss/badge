@@ -4,7 +4,8 @@
 
 static const char* TAG = "AnimationProgram";
 
-AnimationProgram::AnimationProgram(AnimationTask &animator) : programs(), animator(animator) {
+AnimationProgram::AnimationProgram(BaseAnimationTask &animator)
+	: programs(), animator(animator), profiler() {
 
 }
 
@@ -13,8 +14,10 @@ void AnimationProgram::putAnimation(uint8_t index, Animation *animation) {
 }
 
 void AnimationProgram::drawFrame() {
+	profiler.startTime();
     // fixme check index
     programs[index]->drawFrame();
+    profiler.stopTime();
 }
 
 // The frame period is defined in each animations constructor, or the default from the Animation base class

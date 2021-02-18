@@ -32,8 +32,10 @@
 #include "animations/FunBit64.h"
 #include "animations/PaintPixel.h"
 #include "animations/Alphabet.h"
+#include "animations/Tween.h"
 
 #include "animations/AnimationTask.h"
+#include "animations/TimerAnimationTask.h"
 
 #include <stdio.h>
 
@@ -77,7 +79,7 @@ void mainTask(void *parameters) {
     static MarqueeAnimation marquee(display);
     static DiceAnimation diceAnimation(display);
 
-    AnimationTask animator; // todo parameterize
+    TimerAnimationTask animator; // todo parameterize
     static AnimationProgram animationProgram(animator);
 
     /* static */
@@ -103,6 +105,7 @@ void mainTask(void *parameters) {
     PLUG(FunBit64, funbit, 16)
     PLUG(PaintPixel, paintPixel, 17)
     PLUG(Alphabet, alphabet, 18);
+    PLUG(Tween, tween, 19);
 
 //    testJson.loadJson();
 

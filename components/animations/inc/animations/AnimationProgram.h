@@ -4,10 +4,11 @@
 
 #include "Animation.h"
 #include "AnimationTask.h"
+#include "Profiler.h"
 
 class AnimationProgram {
 public:
-    AnimationProgram(AnimationTask &animator);
+    AnimationProgram(BaseAnimationTask &animator);
     virtual ~AnimationProgram() {};
 
     void drawFrame();
@@ -18,5 +19,6 @@ public:
 private:
     std::map<uint8_t,Animation*> programs;
     uint8_t index;
-    AnimationTask &animator;
+    BaseAnimationTask &animator;
+    Profiler profiler;
 };
