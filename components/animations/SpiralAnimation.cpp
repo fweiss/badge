@@ -15,12 +15,13 @@ SpiralAnimation::SpiralAnimation(Display &display) : PathAnimation(display) {
     };
 
     // still debateable if the chaser or the path should be reversed
-//    for (ChaserPath cp : chaserPaths) {
-//        cp.chaser->setReverse(false);
-//    }
+    // this works, but needs to be simplified
+    for (ChaserPath cp : chaserPaths) {
+        cp.chaser->setReverse(false);
+    }
 
-//        for (ChaserPath cp : chaserPaths) {
-//            std::reverse(cp.path.begin(), cp.path.end());
-//        }
+    //    for (ChaserPath cp : chaserPaths) {
+    //        std::reverse(cp.path.begin(), cp.path.end());
+    //    }
 
 }

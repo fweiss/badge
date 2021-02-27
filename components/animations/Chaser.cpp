@@ -4,7 +4,7 @@ Chaser::Chaser(uint16_t size) : colors(size), step(1) {
 //	this->colors = new std::deque<uint32_t>(size);
     this->reverse = false;
 }
-\
+
 Chaser::Chaser(uint16_t size, uint16_t step) : colors(size), step(step) {
     this->reverse = false;
 }

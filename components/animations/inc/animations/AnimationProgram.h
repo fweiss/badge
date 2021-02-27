@@ -18,7 +18,7 @@ public:
 
 private:
     std::map<uint8_t,Animation*> programs;
-    uint8_t index;
+    uint8_t index = 0;
     BaseAnimationTask &animator;
     Profiler profiler;
 };
