@@ -16,6 +16,13 @@ void PathAnimation::drawFrame() {
     display.show();
 }
 
+// reverse the paths so that chaser gets applied reverse
+void PathAnimation::reverse() {
+    for (ChaserPath cp : chaserPaths) {
+        cp.chaser->setReverse(false);
+    }
+}
+
 void PathAnimation::drawPath(std::vector<uint16_t> path, Chaser *chaser) {
     uint16_t i = 0;
     for (int pixelIndex : path) {

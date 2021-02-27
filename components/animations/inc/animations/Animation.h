@@ -17,8 +17,4 @@ protected:
     Display &display;
     uint16_t framePeriodMillis;
     uint32_t frameIndex = 0;
-
-    // int matrix = 0;
-    // int lastTime = 0;
-    // int period = 0;
 };
