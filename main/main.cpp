@@ -33,6 +33,7 @@
 #include "animations/PaintPixel.h"
 #include "animations/Alphabet.h"
 #include "animations/Tween.h"
+#include "animations/Plasma.h"
 
 #include "animations/AnimationTask.h"
 #include "animations/TimerAnimationTask.h"
@@ -106,6 +107,8 @@ void mainTask(void *parameters) {
     PLUG(PaintPixel, paintPixel, 17)
     PLUG(Alphabet, alphabet, 18);
     PLUG(Tween, tween, 19);
+    PLUG(Plasma, plasma, 20)
+    const int defaultIndex = 20;
 
 //    testJson.loadJson();
 
@@ -123,7 +126,7 @@ void mainTask(void *parameters) {
     );
 
     display.setBrightness(5);
-    animationProgram.setProgram(0);
+    animationProgram.setProgram(defaultIndex);
     animator.start();
 
     // main task does nothing but initialize app on core 1

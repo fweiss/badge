@@ -21,6 +21,7 @@ idf_component_register(
 		PaintPixel.cpp
 		Party.cpp
 		PathAnimation.cpp
+		Plasma.cpp
 		Profiler.cpp
 		RainbowChaser.cpp
 		SmearAnimation.cpp
