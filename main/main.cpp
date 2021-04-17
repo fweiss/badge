@@ -43,6 +43,7 @@
 #include "blewiz/BLECore.h"
 
 #include "BadgeService.h"
+#include "motion/Motion.hpp"
 
 extern "C" {
 	void app_main(void);
@@ -141,6 +142,9 @@ void app_main(void) {
 
     ESP_LOGI(TAG, "app_main running on core: %d", xPortGetCoreID());
     ESP_LOGI(TAG, "initializing");
+
+    Motion motion;
+    motion.start();
 
     // run main task on APP core so that RMT interrupts don't collide with BT
     static char name[] = "main task";

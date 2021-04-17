@@ -4,9 +4,13 @@
 
 static const char* TAG = "Profiler";
 
-Profiler::Profiler() {
+Profiler::Profiler(bool enable) {
 	esp_err_t esp_err;
-	ESP_LOGI(TAG, "started");
+	if (enable) {
+		ESP_LOGI(TAG, "started");
+	} else {
+		ESP_LOGI(TAG, " not started");
+	}
 	reset();
 
 	const esp_timer_create_args_t create_args= {
@@ -20,9 +24,12 @@ Profiler::Profiler() {
 		ESP_LOGW(TAG, "esp_timer_create: %d", esp_err);
 	}
 	uint64_t dumpInterval = 2 * 1000 * 1000;
-	esp_err = esp_timer_start_periodic(timer, dumpInterval);
-	if (esp_err != ESP_OK) {
-		ESP_LOGW(TAG, "esp_timer_start_periodic: %d", esp_err);
+
+	if (enable) {
+		esp_err = esp_timer_start_periodic(timer, dumpInterval);
+		if (esp_err != ESP_OK) {
+			ESP_LOGW(TAG, "esp_timer_start_periodic: %d", esp_err);
+		}
 	}
 }
 
