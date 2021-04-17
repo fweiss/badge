@@ -8,7 +8,18 @@ The current prototype is built with a few inexpensive, readily available compone
 Development is via the Espressif [ESP-IDF](https://github.com/espressif/esp-idf) toolchain. The [Get Started](https://docs.espressif.com/projects/esp-idf/en/stable/get-started/) guide provides all the details
 for setting up the toolchain on Windows, Linux, or MacOS.
 
-### Project Setup
+## Hardware-specific settings
+Depending on the hardware, make the following configuraton settings using `idf.py menuconfig`
+
+#### Sparkfun ESP32 Thing
+
+#### Adafruit ESP32 Huzzah
+
+#### "LOIN32" clone
+- Serial flasher config > idf.py monitor baud rate: 115200 bps
+
+### Old Project Setup
+> As of April 2021, much of this is obsoleted.
 After the ESP_IDF toolchain is setup, this project can be flashed to an ESP32 device as follows:
 
 - open a command shell
