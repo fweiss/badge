@@ -65,6 +65,9 @@ TaskHandle_t mainTaskHandle;
 void mainTask(void *parameters) {
     ESP_LOGI(TAG, "main task running on core: %d", xPortGetCoreID());
 
+    Motion motion;
+    motion.start();
+
     static Display display( GPIO_NUM_14);
 
     static SpiralAnimation spiralAnimation(display);
@@ -142,9 +145,6 @@ void app_main(void) {
 
     ESP_LOGI(TAG, "app_main running on core: %d", xPortGetCoreID());
     ESP_LOGI(TAG, "initializing");
-
-    Motion motion;
-    motion.start();
 
     // run main task on APP core so that RMT interrupts don't collide with BT
     static char name[] = "main task";

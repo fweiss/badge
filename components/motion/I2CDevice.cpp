@@ -9,8 +9,10 @@ static const char* TAG = "I2CDEVICE";
 #define I2C_MASTER_ACK_EN   true    /*!< Enable ack check for master */
 #define I2C_MASTER_ACK_DIS  false   /*!< Disable ack check for master */
 
-I2CDevice::I2CDevice() {
+I2CDevice::I2CDevice(uint8_t busAddress) {
 	esp_err_t esp_err;
+
+	this->busAddress = busAddress;
 
 	// ESP32 i2c0
 	// MPU sda 21, scl 22
@@ -32,8 +34,10 @@ I2CDevice::I2CDevice() {
     esp_err = i2c_driver_install(i2c_master_port, conf.mode, I2C_MASTER_RX_BUF_DISABLE, I2C_MASTER_TX_BUF_DISABLE, 0);
 }
 
-esp_err_t I2CDevice::readBytes(uint8_t devAddr, uint8_t regAddr, size_t length, uint8_t *data, int32_t timeout) {
+esp_err_t I2CDevice::readBytes(uint8_t regAddr, size_t length, uint8_t *data, int32_t timeout) {
 	int port = 0;
+	uint8_t devAddr = busAddress;
+
 	int ticksToWait = 20;
     i2c_cmd_handle_t cmd = i2c_cmd_link_create();
     i2c_master_start(cmd);

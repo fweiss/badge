@@ -5,9 +5,9 @@
 
 #include "esp_timer.h"
 
-#include "I2CDevice.hpp"
+#include "MPU6050.hpp"
 
-class Motion : private I2CDevice {
+class Motion : private MPU6050 {
 public:
 	Motion();
 	virtual ~Motion() {};
@@ -15,6 +15,7 @@ public:
 	void start();
 private:
 	esp_timer_handle_t timer;
+
 	static void callback(void* arg);
 	void setupSensor();
 	void sample();

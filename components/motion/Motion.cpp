@@ -6,7 +6,7 @@ static const char* TAG = "MOTION";
 
 #define E(x) (esp_err = (x))
 
-Motion::Motion() {
+Motion::Motion() : MPU6050(0x68) {
 	esp_err_t esp_err;
 	bool enable = true;
 
@@ -36,14 +36,13 @@ void Motion::start() {
 }
 
 void Motion::sample() {
+	esp_err_t esp_err;
+
 	ESP_LOGI(TAG, "sample");
-	// reg 3B-40
-	// X,Y,X
-	// HL - bigendian
-	uint8_t buffer[6];
-	uint8_t devAddr = 0x68;
-	readBytes(devAddr, 0x3B, sizeof(buffer), buffer, 10);
-	ESP_LOGI(TAG, "some data %d", buffer[1]);
+
+	accel_t accel;
+	E( readAccelerometer(&accel) );
+	ESP_LOGI(TAG, "accel xyz %d %d %d", accel.x, accel.y, accel.z);
 
 }
 
@@ -57,10 +56,13 @@ void Motion::callback(void* arg) {
 }
 
 void Motion::setupSensor() {
-	esp_err_t esp_err;
-
-	E( writeBit(regs::PWR_MGMT1, regs::PWR1_DEVICE_RESET_BIT, 1) ); // reset
+	reset();
 	// delay
-
+	// setSleep(false)
+	// setClockSource(CLOCK_PLL)
+	// setGyroFullScale(GYRO_FS_500DPS)
+	// setAccelFullScale(ACCEL_FS_4G)
+	// setDigitalLowPassFilter(DLPF_5HZ)
+	// setSampleRate(100)
 }
 
