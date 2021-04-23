@@ -12,10 +12,16 @@ for setting up the toolchain on Windows, Linux, or MacOS.
 Depending on the hardware, make the following configuraton settings using `idf.py menuconfig`
 
 #### Sparkfun ESP32 Thing
+- Component config > ESP32 specific > CPU frequency: 240 MHz
+- Component config > ESP32 specific > Main XTAL frequency: 26 MHz
+- Serial flasher config > Flash SPI speed: 40 MHz
 
 #### Adafruit ESP32 Huzzah
 
-#### "LOIN32" clone
+#### WeMos D1 clone "LOIN32" 
+- Component config > ESP32 specific > CPU frequency: 240 MHz
+- Component config > ESP32 specific > Main XTAL frequency: 40 MHz
+- Serial flasher config > Flash SPI speed: 80 MHz
 - Serial flasher config > idf.py monitor baud rate: 115200 bps
 
 ### Old Project Setup

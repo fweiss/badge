@@ -1,8 +1,13 @@
 #pragma once
 
+#include <stdio.h>
+#include <stdint.h>
+
 #include "esp_timer.h"
 
-class Motion {
+#include "I2CDevice.hpp"
+
+class Motion : private I2CDevice {
 public:
 	Motion();
 	virtual ~Motion() {};
@@ -11,5 +16,6 @@ public:
 private:
 	esp_timer_handle_t timer;
 	static void callback(void* arg);
+	void setupSensor();
 	void sample();
 };

@@ -1,6 +1,7 @@
 idf_component_register(
 	SRCS
-		motion.cpp
+		Motion.cpp
+		I2CDevice
     INCLUDE_DIRS 
     	inc/motion
     	inc
