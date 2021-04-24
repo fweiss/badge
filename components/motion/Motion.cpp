@@ -20,7 +20,7 @@ Motion::Motion() : MPU6050(0x68) {
 	if (esp_err != ESP_OK) {
 		ESP_LOGW(TAG, "esp_timer_create: %d", esp_err);
 	}
-	uint64_t dumpInterval = 2 * 1000 * 1000;
+	uint64_t dumpInterval = 200 * 1000;
 
 	if (enable) {
 		esp_err = esp_timer_start_periodic(timer, dumpInterval);
@@ -32,18 +32,25 @@ Motion::Motion() : MPU6050(0x68) {
 
 void Motion::start() {
     ESP_LOGI(TAG, "initializing");
-//    setupSensor();
+	setupSensor();
 }
+
+// float scale(int16_t reg) {
+// 	// const float s = 16385; // 0 2g
+// 	const float s = (float)4 / 32767; // 4g
+// 	return reg * s;
+// }
 
 void Motion::sample() {
 	esp_err_t esp_err;
 
-	ESP_LOGI(TAG, "sample");
-
 	accel_t accel;
 	E( readAccelerometer(&accel) );
-	ESP_LOGI(TAG, "accel xyz %d %d %d", accel.x, accel.y, accel.z);
-
+	float accelFactor = getAccelFactor();
+	float fx = accel.x * accelFactor;
+	float fy = accel.y * accelFactor;
+	float fz = accel.z * accelFactor;
+	printf("accel: [%+6.2f %+6.2f %+6.2f ] (G)\n", fx, fy, fz);
 }
 
 namespace regs {
@@ -56,12 +63,12 @@ void Motion::callback(void* arg) {
 }
 
 void Motion::setupSensor() {
-	reset();
+	// reset();
 	// delay
 	// setSleep(false)
 	// setClockSource(CLOCK_PLL)
 	// setGyroFullScale(GYRO_FS_500DPS)
-	// setAccelFullScale(ACCEL_FS_4G)
+	setAccelFullScale(0); // ACCEL_FS_4G
 	// setDigitalLowPassFilter(DLPF_5HZ)
 	// setSampleRate(100)
 }
