@@ -43,10 +43,9 @@ I2CDevice::~I2CDevice() {
 	// esp_err = i2c_driver_delete(i2c_port_ti2c_num)
 }
 
-esp_err_t I2CDevice::readBytes(uint8_t regAddr, uint8_t *data, size_t length, int32_t timeout) {
+esp_err_t I2CDevice::readBytes(uint8_t regAddr, uint8_t *data, size_t length) {
 	esp_err_t esp_err;
 
-	int ticksToWait = 20;
     i2c_cmd_handle_t cmd = i2c_cmd_link_create();
     i2c_master_start(cmd);
     i2c_master_write_byte(cmd, (address << 1) | I2C_MASTER_WRITE, I2C_MASTER_ACK_EN);
@@ -55,7 +54,8 @@ esp_err_t I2CDevice::readBytes(uint8_t regAddr, uint8_t *data, size_t length, in
     i2c_master_write_byte(cmd, (address << 1) | I2C_MASTER_READ, I2C_MASTER_ACK_EN);
     i2c_master_read(cmd, data, length, I2C_MASTER_LAST_NACK);
     i2c_master_stop(cmd);
-    esp_err = i2c_master_cmd_begin(port, cmd, (timeout < 0 ? ticksToWait : pdMS_TO_TICKS(timeout)));
+    // esp_err = i2c_master_cmd_begin(port, cmd, (timeout < 0 ? ticksToWait : pdMS_TO_TICKS(timeout)));
+    esp_err = i2c_master_cmd_begin(port, cmd, ticks);
     i2c_cmd_link_delete(cmd);
     return esp_err;
 }
@@ -84,7 +84,7 @@ esp_err_t I2CDevice::writeBits(uint8_t reg, uint8_t data, uint8_t offset, uint8_
 
 		uint8_t buf;
 
-		E( readBytes(reg, &buf, (size_t) 1, ticks) );
+		E( readBytes(reg, &buf, (size_t) 1) );
 
 		// clever, but not very fast
 		// can probably do at compile time for the register definitions

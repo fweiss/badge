@@ -42,7 +42,7 @@ void Motion::start() {
 // }
 
 void Motion::sample() {
-	esp_err_t esp_err;
+	__attribute__((unused)) esp_err_t esp_err;
 
 	accel_t accel;
 	E( readAccelerometer(&accel) );
@@ -53,23 +53,18 @@ void Motion::sample() {
 	printf("accel: [%+6.2f %+6.2f %+6.2f ] (G)\n", fx, fy, fz);
 }
 
-namespace regs {
-	constexpr uint8_t PWR_MGMT1             = (0x6B);
-	constexpr uint8_t PWR1_DEVICE_RESET_BIT = (7);
-}
-
 void Motion::callback(void* arg) {
 	((Motion*)arg)->sample();
 }
 
 void Motion::setupSensor() {
-	// reset();
-	// delay
-	// setSleep(false)
-	// setClockSource(CLOCK_PLL)
+	reset();
+	vTaskDelay(500 / portTICK_PERIOD_MS);
+	setSleep(false);
+	setClockSource(1); // 1 = PLL with X axis gyroscope reference
 	// setGyroFullScale(GYRO_FS_500DPS)
+	performAccelSelfTest();
 	setAccelFullScale(0); // ACCEL_FS_4G
 	// setDigitalLowPassFilter(DLPF_5HZ)
 	// setSampleRate(100)
 }
-

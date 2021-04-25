@@ -16,11 +16,15 @@ public:
 	virtual ~MPU6050() {}
 
 	void reset();
+	esp_err_t setSleep(bool sleep);
+	esp_err_t setClockSource(uint8_t source);
 	esp_err_t setAccelFullScale(accel_fs_t fsr);
 	esp_err_t readAccelerometer(accel_t *accel);
 
 	float getAccelFactor() { return accelFactor; }
 	void setAccelFactor(accel_fs_t fsr) { accelFactor = (2 << fsr) / (float)32768; }
+
+	esp_err_t performAccelSelfTest();
 private:
 	float accelFactor;
 };
