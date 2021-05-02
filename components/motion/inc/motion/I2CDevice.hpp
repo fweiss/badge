@@ -10,6 +10,7 @@ public:
 	I2CDevice(uint8_t address);
 	virtual ~I2CDevice();
 
+	esp_err_t readByte(uint8_t reg, uint8_t *data) { return readBytes(reg, data, (size_t)1); }
 	esp_err_t readBytes(uint8_t reg, uint8_t *data, size_t length);
 
 	esp_err_t writeBit(uint8_t reg, uint8_t data, uint8_t offset);

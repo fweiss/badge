@@ -88,7 +88,9 @@ esp_err_t I2CDevice::writeBits(uint8_t reg, uint8_t data, uint8_t offset, uint8_
 
 		// clever, but not very fast
 		// can probably do at compile time for the register definitions
-		const uint8_t mask = ((1 << (length + offset)) - 1) & ~((1 << (offset)) - 1);
+		// const uint8_t mask = ((1 << (length + offset)) - 1) & ~((1 << (offset)) - 1);
+		const uint8_t mask = ((1 << length) - 1) << offset;
+		// ESP_LOGI(TAG, "data: %x mask: %x offset: %d length: %d", data, mask, offset, length);
 		buf &= ~mask;
 		buf |= (data << offset) & mask;
 

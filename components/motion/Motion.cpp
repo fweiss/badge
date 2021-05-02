@@ -50,7 +50,7 @@ void Motion::sample() {
 	float fx = accel.x * accelFactor;
 	float fy = accel.y * accelFactor;
 	float fz = accel.z * accelFactor;
-	printf("accel: [%+6.2f %+6.2f %+6.2f ] (G)\n", fx, fy, fz);
+	printf("accel: [%+6.2f %+6.2f %+6.2f ] (g)\n", fx, fy, fz);
 }
 
 void Motion::callback(void* arg) {
@@ -58,13 +58,18 @@ void Motion::callback(void* arg) {
 }
 
 void Motion::setupSensor() {
+	esp_err_t esp_err;
 	reset();
 	vTaskDelay(500 / portTICK_PERIOD_MS);
 	setSleep(false);
 	setClockSource(1); // 1 = PLL with X axis gyroscope reference
 	// setGyroFullScale(GYRO_FS_500DPS)
-	performAccelSelfTest();
-	setAccelFullScale(0); // ACCEL_FS_4G
+	// performAccelSelfTest();
+	esp_err = setAccelFullScale(2); // 0=2g, 1=4g, 2=8g, 3=16g
+	printf("accelFactor: %d, %f\n", esp_err, getAccelFactor());
+	uint8_t fsr;
+	fsr = getAccelFullScale();
+	printf("fsr %x\n", fsr);
 	// setDigitalLowPassFilter(DLPF_5HZ)
 	// setSampleRate(100)
 }

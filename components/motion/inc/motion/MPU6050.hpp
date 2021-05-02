@@ -19,6 +19,7 @@ public:
 	esp_err_t setSleep(bool sleep);
 	esp_err_t setClockSource(uint8_t source);
 	esp_err_t setAccelFullScale(accel_fs_t fsr);
+	uint8_t getAccelFullScale();
 	esp_err_t readAccelerometer(accel_t *accel);
 
 	float getAccelFactor() { return accelFactor; }

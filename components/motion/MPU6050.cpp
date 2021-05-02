@@ -59,6 +59,16 @@ esp_err_t MPU6050::readAccelerometer(accel_t *accel) {
 
     E( readBytes(reg, buffer, sizeof(buffer)) );
 
+	// at fullscale 1/4g, 0x20->1.0, 0xE0->-1.0
+	// with aceelFactor accelFactor = (2 << fsr) / (float)32768
+	// fake=0x20/0xE0 0x2000=8192
+	// fake=0x40/0xC0 0x4000=16384
+	// fake=0x7FFF/0x8000 32768
+	// fsr=0  2G 16384 accel=0.50
+	// fsr=1  4G  8192 aceel=1.00
+	// fsr=2  8G  4096 accel=2.00
+	// fsr=3 16G  2048 accel=4.00
+
     accel->x = buffer[0] << 8 | buffer[1];
     accel->y = buffer[2] << 8 | buffer[3];
     accel->z = buffer[4] << 8 | buffer[5];
@@ -75,7 +85,7 @@ esp_err_t MPU6050::setAccelFullScale(accel_fs_t fsr) {
 	uint8_t AFS_SEL_F_B = 3;
 	uint8_t AFS_SEL_F_L = 2;
 
-	const uint8_t data = AFS_SEL_2G;
+	const uint8_t data = fsr;
 	const uint8_t length = AFS_SEL_F_L;
 	const uint8_t offset = AFS_SEL_F_B;
 
@@ -83,6 +93,14 @@ esp_err_t MPU6050::setAccelFullScale(accel_fs_t fsr) {
 
 	setAccelFactor(fsr);
 	return esp_err;
+}
+
+// for testing
+uint8_t MPU6050::getAccelFullScale() {
+	const uint8_t reg = 0x1C;
+	uint8_t buf;
+	readByte(reg, &buf);
+	return buf;
 }
 
 esp_err_t MPU6050::performAccelSelfTest() {
