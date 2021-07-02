@@ -12,6 +12,7 @@ idf_component_register(
 		EmojiAnimation.cpp
 		Felix.cpp
 		Funbit64.cpp
+		Gravity.cpp
 		HeartAnimation.cpp
 		JsonAnimation.cpp
 		Kaleidascope.cpp
@@ -39,4 +40,5 @@ idf_component_register(
     	matrix
     	led_strip
     	json
+		motion
 )

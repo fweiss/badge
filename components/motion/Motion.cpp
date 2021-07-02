@@ -1,6 +1,9 @@
 #include "inc/motion/Motion.hpp"
 
 #include "esp_log.h"
+#include <stdlib.h>
+#include <math.h>
+
 
 static const char* TAG = "MOTION";
 
@@ -9,9 +12,10 @@ static const char* TAG = "MOTION";
 Motion::Motion() : MPU6050(0x68) {
 	esp_err_t esp_err;
 	bool enable = true;
+	this->motionCallback = [](MotionData){};
 
 	const esp_timer_create_args_t create_args= {
-		.callback = &Motion::callback,
+		.callback = &Motion::timerCallback,
 		.arg = this,
 		.dispatch_method = ESP_TIMER_TASK,
 		.name = "motion timer"
@@ -28,6 +32,10 @@ Motion::Motion() : MPU6050(0x68) {
 			ESP_LOGW(TAG, "esp_timer_start_periodic: %d", esp_err);
 		}
 	}
+}
+
+void Motion::setListeners(MotionCallback motionCallback) {
+	this->motionCallback =  motionCallback;
 }
 
 void Motion::start() {
@@ -50,10 +58,15 @@ void Motion::sample() {
 	float fx = accel.x * accelFactor;
 	float fy = accel.y * accelFactor;
 	float fz = accel.z * accelFactor;
-	printf("accel: [%+6.2f %+6.2f %+6.2f ] (g)\n", fx, fy, fz);
+	// printf("accel: [%+6.2f %+6.2f %+6.2f ] (g)\n", fx, fy, fz);
+
+	const MotionData motionData = {
+		fx, fy, fz
+	};
+	this->motionCallback(motionData);
 }
 
-void Motion::callback(void* arg) {
+void Motion::timerCallback(void* arg) {
 	((Motion*)arg)->sample();
 }
 

@@ -34,6 +34,7 @@
 #include "animations/Alphabet.h"
 #include "animations/Tween.h"
 #include "animations/Plasma.h"
+#include "animations/Gravity.h"
 
 #include "animations/AnimationTask.h"
 #include "animations/TimerAnimationTask.h"
@@ -112,7 +113,9 @@ void mainTask(void *parameters) {
     PLUG(Alphabet, alphabet, 18);
     PLUG(Tween, tween, 19);
     PLUG(Plasma, plasma, 20)
-    const int defaultIndex = 20;
+    PLUG(Gravity, gravity, 21);
+
+    const int defaultIndex = 21;
 
 //    testJson.loadJson();
 
@@ -128,6 +131,9 @@ void mainTask(void *parameters) {
             animationProgram.drawFrame();
         }
     );
+    motion.setListeners([](MotionData motionData){
+        gravity.setMotion(motionData);
+    });
 
     display.setBrightness(5);
     animationProgram.setProgram(defaultIndex);
