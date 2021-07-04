@@ -7,6 +7,7 @@
 
 #include "MPU6050.hpp"
 
+// lazy calculation of atan, etc
 typedef struct {
 	float ax, ay, az;
 } MotionData;
