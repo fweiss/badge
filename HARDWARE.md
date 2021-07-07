@@ -39,3 +39,8 @@ Reference USB at right top of device.
 X axis = right
 Y axis = top
 Z axis = up
+
+using the dlpf at 5 Hz, there's a slight signal that oscillates some of the leds
+it may be at 2.5 hz
+Turned out to be the drop limit was < 0.1
+changing to < fixed it

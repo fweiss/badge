@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <math.h>
 
-
 static const char* TAG = "MOTION";
 
 #define E(x) (esp_err = (x))
@@ -83,6 +82,7 @@ void Motion::setupSensor() {
 	uint8_t fsr;
 	fsr = getAccelFullScale();
 	printf("fsr %x\n", fsr);
-	// setDigitalLowPassFilter(DLPF_5HZ)
+	const int DLPF_5HZ = 6;
+	setDigitalLowPassFilter(DLPF_5HZ);
 	// setSampleRate(100)
 }

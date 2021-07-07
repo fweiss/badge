@@ -24,6 +24,7 @@ public:
 
 	float getAccelFactor() { return accelFactor; }
 	void setAccelFactor(accel_fs_t fsr) { accelFactor = (2 << fsr) / (float)32768; }
+	void setDigitalLowPassFilter(int setting);
 
 	esp_err_t performAccelSelfTest();
 private:

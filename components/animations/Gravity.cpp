@@ -4,6 +4,9 @@
 #include <algorithm>
 #include <random>
 
+#include "esp_log.h"
+const char* TAG = "Gravity";
+
 Gravity::Gravity(Display &display) : Animation(display, 100) {
     this->motionData = { 0.0, 0.0, 0.0 };
     this->board = std::vector<std::vector<Cell*>>(8, std::vector<Cell*>(8, NULL));
@@ -70,7 +73,7 @@ void Gravity::drawFrame() {
     display.update();
 }
 
-void Gravity::drawBoard() { // need updateBoard()
+void Gravity::drawBoard() {
     updateBoardMotion(this->motionData);
     display.clear();
     const int rows = 8;
@@ -103,11 +106,19 @@ typedef struct {
     std::vector<GCost> choices;
 } Move;
 
+static float pangle;
+
 // use board distance/gravity gradient
 // to rearrange cells
 void Gravity::updateBoardMotion(MotionData motionData) {
     // adjust for
     float angle = atan2(motionData.ay, -motionData.ax);
+    if (angle == pangle) {
+        return;
+    }
+    pangle = angle;
+    ESP_LOGI(TAG, "angle %f", angle);
+
     std::vector<Move> moves;
     for (auto & pf : this->allPoints) {
         if (this->board[pf.r][pf.c] != NULL) {
@@ -120,11 +131,12 @@ void Gravity::updateBoardMotion(MotionData motionData) {
                     const float phi = atan2(dy, dx);
                     const float cost = ds * cos(angle - phi);
                     // balloons (>) or marbles (<)
-                    if (cost < 0.1) {
+                    if (cost < 0.0) { // only the falling ones
                         costs.push_back({ pe, cost });
                     }
                 }
             }
+            // < note that comparision returns boolean, not -/+/0
             std::sort(costs.begin(), costs.end(), [](GCost a, GCost b) { return a.cost < b.cost; });
             moves.push_back({ pf, costs });
         }

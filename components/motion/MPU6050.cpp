@@ -125,3 +125,12 @@ esp_err_t MPU6050::performAccelSelfTest() {
 	return esp_err;
 }
 
+void MPU6050::setDigitalLowPassFilter(int data) {
+	esp_err_t esp_err;
+
+	const uint8_t reg = 0x1a;
+	const uint8_t offset = 0;
+	const uint8_t length = 3;
+
+	E( writeBits(reg, data, offset, length) );
+}
