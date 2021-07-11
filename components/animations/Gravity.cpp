@@ -1,6 +1,7 @@
 #include "Gravity.h"
 
 #include <math.h>
+#include <cmath>
 #include <algorithm>
 #include <random>
 
@@ -99,12 +100,12 @@ void Gravity::paintPixel(uint16_t row, uint16_t col, ZColor& color) {
 typedef struct {
     CPoint point;
     float cost;
-} GCost;
+} TargetCost;
 
 typedef struct {
     CPoint point;
-    std::vector<GCost> choices;
-} Move;
+    std::vector<TargetCost> choices;
+} SourceChoices;
 
 static float pangle;
 
@@ -114,22 +115,29 @@ void Gravity::updateBoardMotion(MotionData motionData) {
     // adjust for
     float angle = atan2(motionData.ay, -motionData.ax);
     if (angle == pangle) {
-        return;
+        // optional optimize to avoid recalculation
+        // but for slow drops, need to converge
+        // return;
     }
     pangle = angle;
-    ESP_LOGI(TAG, "angle %f", angle);
+    // ESP_LOGI(TAG, "angle %f", angle);
 
-    std::vector<Move> moves;
+    std::vector<SourceChoices> moves;
     for (auto & pf : this->allPoints) {
-        if (this->board[pf.r][pf.c] != NULL) {
-            std::vector<GCost> costs;
+        const bool picked = true; //pf.c == 4 && pf.r == 2;
+        if (this->board[pf.r][pf.c] != NULL && picked) {
+            std::vector<TargetCost> costs;
             for (auto & pe : this->allPoints) {
                 if (this->board[pe.r][pe.c] == NULL) {
                     const float dx = pe.c - pf.c;
                     const float dy = pe.r - pf.r;
                     const float ds = sqrt(dx * dx + dy * dy);
                     const float phi = atan2(dy, dx);
-                    const float cost = ds * cos(angle - phi);
+                    // consider not only the direct projection on the gradient
+                    // but also the deviation of the direction
+                    // take a penalty when the angles diverge too much
+                    const float cost =  ds * cos(angle - phi);
+                    // const float cost =  ds * cos(angle - phi) - 0.0 * abs(ds * sin(angle - phi));
                     // balloons (>) or marbles (<)
                     if (cost < 0.0) { // only the falling ones
                         costs.push_back({ pe, cost });
@@ -137,23 +145,79 @@ void Gravity::updateBoardMotion(MotionData motionData) {
                 }
             }
             // < note that comparision returns boolean, not -/+/0
-            std::sort(costs.begin(), costs.end(), [](GCost a, GCost b) { return a.cost < b.cost; });
-            moves.push_back({ pf, costs });
+            // delay sorting to motion algorithm
+            // ensure only non-empty choices
+            // descending since "down" becomes more negative
+            if (costs.size() > 0) {
+                const auto descending = [](TargetCost a, TargetCost b) { return a.cost > b.cost; };
+                std::sort(costs.begin(), costs.end(), descending);
+                moves.push_back({ pf, costs });
+                ESP_LOGI(TAG, "target length %d %f %f", costs.size(), costs[0].cost, costs[1].cost);
+            }
+        }
+    }
+
+    // pick the farthest drop for given source
+    // const auto selectTarget = [](SourceChoices& move) -> TargetCost {
+    //     TargetCost target;
+    //     for ( auto & choice : move.choices) {
+    //         auto pe = choice.point;
+    //         if (this->board[pe.r][pe.c] == NULL) {
+    //             this->board[pe.r][pe.c] = this->board[pf.r][pf.c];
+    //             this->board[pf.r][pf.c] = NULL;
+    //             break;
+    //         }
+    //     }
+    //     return 
+    // }
+
+    // gentle drop
+    // remeber "down" is more negative
+    const float dropLimit = -1.0;
+    for ( auto & frank : moves) {
+        auto pf = frank.point;
+        // try to slow down drops
+        // why reverse the ascending?
+        // std::reverse(frank.choices.begin(), frank.choices.end());
+        TargetCost* targetChoice = NULL;
+        for (int i=0; i<frank.choices.size(); i++) {
+            TargetCost* choice = &frank.choices[i];
+            auto pe = choice->point;
+            // limit how far to drop
+            // try to pick not the nearest nor th farthest
+            if (this->board[pe.r][pe.c] == NULL) { // skip occupied targets
+                if (choice->cost > dropLimit) {
+                    targetChoice = choice;
+                } else {
+                    // fallback if none < dropLimit
+                    if (targetChoice == NULL) {
+                        targetChoice = choice;
+                    }
+                    break;
+                }
+            }
+        }
+        if (targetChoice != NULL) {
+            auto pe = targetChoice->point;
+            if (this->board[pe.r][pe.c] == NULL) {
+                this->board[pe.r][pe.c] = this->board[pf.r][pf.c];
+                this->board[pf.r][pf.c] = NULL;
+            }
         }
     }
 
     // swap as per cost
-    for ( auto & frank : moves) {
-        auto pf = frank.point;
-        for ( auto & choice : frank.choices) {
-            auto pe = choice.point;
-            if (this->board[pe.r][pe.c] == NULL) {
-                this->board[pe.r][pe.c] = this->board[pf.r][pf.c];
-                this->board[pf.r][pf.c] = NULL;
-                break;
-            }
-        }
-    }
+    // for ( auto & frank : moves) {
+    //     auto pf = frank.point;
+    //     for ( auto & choice : frank.choices) {
+    //         auto pe = choice.point;
+    //         if (this->board[pe.r][pe.c] == NULL) {
+    //             this->board[pe.r][pe.c] = this->board[pf.r][pf.c];
+    //             this->board[pf.r][pf.c] = NULL;
+    //             break;
+    //         }
+    //     }
+    // }
 }
 
 void Gravity::updateSimpleFrame() {
