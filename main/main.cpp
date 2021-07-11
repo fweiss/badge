@@ -81,6 +81,7 @@ void mainTask(void *parameters) {
     REGISTER(1, meteorShowerAnimation, MeteorShowerAnimation);
     REGISTER(2, smearAnimation, SmearAnimation);
     REGISTER(3, felix, Felix);
+#if 0
     REGISTER(4, heart1Animation, HeartAnimation);
     REGISTER(5, spinBottle, SpinBottleAnimation);
     REGISTER(6, spinBottle2, SpinBottle2);
@@ -97,6 +98,7 @@ void mainTask(void *parameters) {
     REGISTER(17, paintPixel, PaintPixel)
     REGISTER(18, alphabet, Alphabet);
     REGISTER(19, tween, Tween);
+#endif
     REGISTER(20, plasma, Plasma)
     REGISTER(21, gravity, Gravity);
 
@@ -104,7 +106,7 @@ void mainTask(void *parameters) {
 
 //    testJson.loadJson();
 
-    badgeService.setPaintPixel(&paintPixel);
+    // badgeService.setPaintPixel(&paintPixel);
     badgeService.init();
 
     BLECore core;

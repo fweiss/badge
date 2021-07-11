@@ -3,6 +3,7 @@
         "algorithm": "cpp",
         "vector": "cpp",
         "map": "cpp",
-        "queue": "cpp"
+        "queue": "cpp",
+        "utility": "cpp"
     }
 }
