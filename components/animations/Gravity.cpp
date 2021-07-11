@@ -152,7 +152,6 @@ void Gravity::updateBoardMotion(MotionData motionData) {
                 const auto descending = [](TargetCost a, TargetCost b) { return a.cost > b.cost; };
                 std::sort(costs.begin(), costs.end(), descending);
                 moves.push_back({ pf, costs });
-                ESP_LOGI(TAG, "target length %d %f %f", costs.size(), costs[0].cost, costs[1].cost);
             }
         }
     }
