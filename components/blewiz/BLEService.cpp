@@ -1,5 +1,7 @@
 #include "BLEService.h"
 
+#include <cstring>
+
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 
@@ -76,27 +78,18 @@ void BLEService::handleGattsEvent(esp_gatts_cb_event_t event, esp_gatt_if_t gatt
         }
 
         ESP_LOGI(GATTS_TAG, "received read event %0x, %0x", characteristic->uuid.uuid.uuid16, read.need_rsp);
-        esp_gatt_rsp_t rsp;
 
-        uint16_t length;
+        uint16_t length; // fixme s/b size_t
         uint8_t *value;
         characteristic->readCallback(&length, &value);
 
         if (read.need_rsp) {
-
-//        esp_gatt_rsp_t rsp = {
-//                .handle = read.handle,
-//                .attr_value = {
-//                        .len = 2,
-//                };
-//        };
-            rsp.handle = read.handle;
-            rsp.attr_value.len = 1;
-            rsp.attr_value.value[0] = 0x22;
-            esp_err_t err = ::esp_ble_gatts_send_response(gatts_if, read.conn_id, read.trans_id, ESP_GATT_OK, &rsp);
-            if (err != ESP_OK) {
-                ESP_LOGE(GATTS_TAG, "gatt read: response: error:  %0x", err);
-            }
+            esp_gatt_rsp_t rsp;
+            memset(&rsp, 0, sizeof(esp_gatt_rsp_t));
+            rsp.attr_value.len = std::min((unsigned int)22-1, (unsigned int) length);
+            memcpy(rsp.attr_value.value, value, rsp.attr_value.len);
+            esp_ble_gatts_send_response(gatts_if, param->read.conn_id, param->read.trans_id,
+                                    ESP_GATT_OK, &rsp);
         }
         break;
     }

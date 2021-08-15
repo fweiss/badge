@@ -14,8 +14,12 @@ void BLEAttribute::setReadCallback(std::function<void(uint16_t *len, uint8_t **v
     this->readCallback = func;
 }
 
-void BLEAttribute::setValue(const uint16_t length, const uint8_t *value) {
+// maybe const v?
+void BLEAttribute::setValue(const uint16_t length, const uint8_t *v) {
+    ESP_LOGI(TAG, "Setting gatts attr value %d", v[0]);
     esp_err_t esp_err;
-    esp_err = esp_ble_gatts_set_attr_value(handle, length, value);
-    ESP_LOGW(TAG, "Set attr value error: 0x%x", esp_err);
+    esp_err = ::esp_ble_gatts_set_attr_value(handle, length, v);
+    if (esp_err != ESP_OK) {
+        ESP_LOGW(TAG, "Set attr value error: 0x%x", esp_err);
+    }
 }
