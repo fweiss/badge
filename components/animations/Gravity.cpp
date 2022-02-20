@@ -83,27 +83,21 @@ void Gravity::paintPixel(uint16_t row, uint16_t col, ZColor& color) {
     // projected on gradient 
 }
 
-static float pangle;
-
 // use board distance/gravity gradient
 // to rearrange cells
 void Gravity::updateBoardMotion(MotionData motionData) {
-    // adjust for
+    // note sensor is rotated 180 around z
     float angle = atan2(motionData.ay, -motionData.ax);
-    if (angle == pangle) {
-        // optional optimize to avoid recalculation
-        // but for slow drops, need to converge
-        // return;
-    }
-    pangle = angle;
     // ESP_LOGI(TAG, "angle %f", angle);
 
     std::vector<SourceChoices> moves;
     for (auto & pf : this->allPoints) {
-        const bool picked = true; //pf.c == 4 && pf.r == 2;
+        const bool picked = true; //pf.c == 4 && pf.r == 2; // debug single cell
+        // only filled cells
         if (this->board[pf.r][pf.c] != NULL && picked) {
             std::vector<TargetCost> costs;
             for (auto & pe : this->allPoints) {
+                // only unfilled cells
                 if (this->board[pe.r][pe.c] == NULL) {
                     const float dx = pe.c - pf.c;
                     const float dy = pe.r - pf.r;
@@ -120,9 +114,8 @@ void Gravity::updateBoardMotion(MotionData motionData) {
                     }
                 }
             }
-            // < note that comparision returns boolean, not -/+/0
-            // delay sorting to motion algorithm
             // ensure only non-empty choices
+            // note that comparision returns boolean, not -/+/0
             // descending since "down" becomes more negative
             if (costs.size() > 0) {
                 const auto descending = [](TargetCost a, TargetCost b) { return a.cost > b.cost; };
