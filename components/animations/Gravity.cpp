@@ -127,45 +127,43 @@ void Gravity::updateBoardMotion(MotionData motionData) {
             if (costs.size() > 0) {
                 const auto descending = [](TargetCost a, TargetCost b) { return a.cost > b.cost; };
                 std::sort(costs.begin(), costs.end(), descending);
-                moves.push_back({ pf, costs });
+
+                SourceChoices move{ pf, costs };
+                gentleDrop(move);
             }
         }
     }
-
-    gentleDrop(moves);
 }
 
-void Gravity::gentleDrop(std::vector<SourceChoices> &moves) {
-    // gentle drop
+void Gravity::gentleDrop(SourceChoices &move) {
+    // gentle drop, try to slow down drops
     // note "down" is more negative
     const float dropLimit = -1.0;
-    for ( auto & frank : moves) {
-        auto pf = frank.point;
-        // try to slow down drops
-        TargetCost* targetChoice = NULL;
-        for (int i=0; i<frank.choices.size(); i++) {
-            TargetCost* choice = &frank.choices[i];
-            auto pe = choice->point;
-            // limit how far to drop
-            // try to pick not the nearest nor th farthest
-            if (this->board[pe.r][pe.c] == NULL) { // skip occupied targets
-                if (choice->cost > dropLimit) {
+    TargetCost* targetChoice = NULL;
+
+    for (int i=0; i<move.choices.size(); i++) {
+        TargetCost* choice = &move.choices[i];
+        auto pe = choice->point;
+        // limit how far to drop
+        // try to pick not the nearest nor the farthest
+        if (this->board[pe.r][pe.c] == NULL) { // skip occupied targets
+            if (choice->cost > dropLimit) {
+                targetChoice = choice;
+            } else {
+                // fallback if none < dropLimit
+                if (targetChoice == NULL) {
                     targetChoice = choice;
-                } else {
-                    // fallback if none < dropLimit
-                    if (targetChoice == NULL) {
-                        targetChoice = choice;
-                    }
-                    break;
                 }
+                break;
             }
         }
-        if (targetChoice != NULL) {
-            auto pe = targetChoice->point;
-            if (this->board[pe.r][pe.c] == NULL) {
-                this->board[pe.r][pe.c] = this->board[pf.r][pf.c];
-                this->board[pf.r][pf.c] = NULL;
-            }
+    }
+    if (targetChoice != NULL) {
+        auto pf = move.point;
+        auto pe = targetChoice->point;
+        if (this->board[pe.r][pe.c] == NULL) {
+            this->board[pe.r][pe.c] = this->board[pf.r][pf.c];
+            this->board[pf.r][pf.c] = NULL;
         }
     }
 }
