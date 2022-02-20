@@ -25,20 +25,6 @@ Gravity::Gravity(Display &display) : Animation(display, 100) {
 Gravity::~Gravity() {
 }
 
-// old
-int b(float x) {
-    if (x > 7) x = 7;
-    if (x < 0) x = 0;
-    return x;
-}
-
-// different than updateBoard
-void Gravity::initBoard() {
-    ZColor color = { .flat = 0xa04040ff };
-    Cell* cell = new Cell(color);
-    this->board[2][3] = cell;
-}
-
 void Gravity::initBoardRandom() {
     std::vector<ZColor> colorPallette = {
         // { .comp = { 160, 160, 20, 255 } }
@@ -171,7 +157,7 @@ void Gravity::updateBoardMotion(MotionData motionData) {
     // }
 
     // gentle drop
-    // remeber "down" is more negative
+    // note "down" is more negative
     const float dropLimit = -1.0;
     for ( auto & frank : moves) {
         auto pf = frank.point;
@@ -217,41 +203,6 @@ void Gravity::updateBoardMotion(MotionData motionData) {
     //         }
     //     }
     // }
-}
-
-void Gravity::updateSimpleFrame() {
-    display.clear();
-
-    // debug verify addressing
-    // int p = this->x + (8 * this->y);
-    // display.setPixel(p, 10, 10, 160);
-    // this->x = (this->x + 1) % 8;
-    // if (this->x == 0) {
-    //     this->y = (this->y + 1) % 8;
-    // }
-
-    const float ax = this->motionData.ax;
-    const float ay = this->motionData.ay;
-
-    // float r = sqrt(ax * ax + ay * ay);
-    // float angle = atan2(this->motionData.ay, this->motionData.ax);
-    // float r *= 4.2; // empirical to reach corners 
-    // float dx = r * cos(angle);
-    // float dy = r * - sin(angle); // top-down
-
-    float r = 4.7;
-    float dx = r * ax;
-    float dy = r * - ay;
-
-    int ox = b(3.5 + dx);
-    int oy = b(3.5 + dy);
-    printf("offsets %d, %d\n", ox, oy);
-
-    int offset = ox + 8 * oy;
-    if (offset > 63) {
-        offset = 63;
-    }
-    display.setPixel(offset, 160, 160, 10);
 }
 
 void Gravity::setMotion(MotionData motionData) {

@@ -13,12 +13,14 @@ typedef union {
     } comp;
 } ZColor;
 
+/** A cell, which has a color */
 class Cell {
 public:
     Cell(ZColor color) { this->color = color; }
     ZColor color;
 };
 
+/** A point as row and column */
 typedef struct {
     int r;
     int c;
@@ -35,11 +37,11 @@ public:
 private:
     MotionData motionData;
     std::vector<std::vector<Cell*>> board;
+    /** A linear list of all the cells. */
     std::vector<CPoint> allPoints;
 
     void updateSimpleFrame();
     uint8_t x,y;
-    void initBoard();  // @deprecate
     void initBoardRandom();
     void drawBoard();
     void paintPixel(uint16_t r, uint16_t c, ZColor& color);
