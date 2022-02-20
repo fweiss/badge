@@ -31,6 +31,7 @@ private:
     void initDevice();
     void initBluedroid();
     void initCallbacks();
+    void initSpp();
     void registerApp();
 
     static void addService(BLEService *service, esp_gatt_if_t gatts_if);

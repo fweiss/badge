@@ -31,6 +31,7 @@ I2CDevice::I2CDevice(uint8_t address) {
 //	    .master.clk_speed = I2C_MASTER_FREQ_HZ,  // select frequency specific to your project
 	    // .clk_flags = 0,          /*!< Optional, you can use I2C_SCLK_SRC_FLAG_* flags to choose i2c source clock here. */
 	conf.master.clk_speed = 400000;
+	conf.clk_flags = 0;
 	esp_err = i2c_param_config(i2c_master_port, &conf);
     if (esp_err != ESP_OK) {
 		ESP_LOGW(TAG, "i2c param: %d", esp_err);
