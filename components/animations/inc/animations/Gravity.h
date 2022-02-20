@@ -26,6 +26,18 @@ typedef struct {
     int c;
 } CPoint;
 
+/** Associate cost with a point */
+typedef struct {
+    CPoint point;
+    float cost;
+} TargetCost;
+
+/** Associate the list of target costs with a source point */
+typedef struct {
+    CPoint point;
+    std::vector<TargetCost> choices;
+} SourceChoices;
+
 class Gravity : public Animation {
 public:
     Gravity(Display &display);
@@ -46,4 +58,5 @@ private:
     void drawBoard();
     void paintPixel(uint16_t r, uint16_t c, ZColor& color);
     void updateBoardMotion(MotionData motionData);
+    void gentleDrop(std::vector<SourceChoices> &moves);
 };

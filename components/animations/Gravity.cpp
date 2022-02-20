@@ -83,16 +83,6 @@ void Gravity::paintPixel(uint16_t row, uint16_t col, ZColor& color) {
     // projected on gradient 
 }
 
-typedef struct {
-    CPoint point;
-    float cost;
-} TargetCost;
-
-typedef struct {
-    CPoint point;
-    std::vector<TargetCost> choices;
-} SourceChoices;
-
 static float pangle;
 
 // use board distance/gravity gradient
@@ -142,28 +132,16 @@ void Gravity::updateBoardMotion(MotionData motionData) {
         }
     }
 
-    // pick the farthest drop for given source
-    // const auto selectTarget = [](SourceChoices& move) -> TargetCost {
-    //     TargetCost target;
-    //     for ( auto & choice : move.choices) {
-    //         auto pe = choice.point;
-    //         if (this->board[pe.r][pe.c] == NULL) {
-    //             this->board[pe.r][pe.c] = this->board[pf.r][pf.c];
-    //             this->board[pf.r][pf.c] = NULL;
-    //             break;
-    //         }
-    //     }
-    //     return 
-    // }
+    gentleDrop(moves);
+}
 
+void Gravity::gentleDrop(std::vector<SourceChoices> &moves) {
     // gentle drop
     // note "down" is more negative
     const float dropLimit = -1.0;
     for ( auto & frank : moves) {
         auto pf = frank.point;
         // try to slow down drops
-        // why reverse the ascending?
-        // std::reverse(frank.choices.begin(), frank.choices.end());
         TargetCost* targetChoice = NULL;
         for (int i=0; i<frank.choices.size(); i++) {
             TargetCost* choice = &frank.choices[i];
@@ -190,19 +168,6 @@ void Gravity::updateBoardMotion(MotionData motionData) {
             }
         }
     }
-
-    // swap as per cost
-    // for ( auto & frank : moves) {
-    //     auto pf = frank.point;
-    //     for ( auto & choice : frank.choices) {
-    //         auto pe = choice.point;
-    //         if (this->board[pe.r][pe.c] == NULL) {
-    //             this->board[pe.r][pe.c] = this->board[pf.r][pf.c];
-    //             this->board[pf.r][pf.c] = NULL;
-    //             break;
-    //         }
-    //     }
-    // }
 }
 
 void Gravity::setMotion(MotionData motionData) {
