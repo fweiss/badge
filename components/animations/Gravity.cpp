@@ -11,12 +11,19 @@ const char* TAG = "Gravity";
 Gravity::Gravity(Display &display) : Animation(display, 100) {
     this->motionData = { 0.0, 0.0, 0.0 };
     this->board = std::vector<std::vector<Cell*>>(8, std::vector<Cell*>(8, NULL));
+    this->concaveBias = std::vector<std::vector<float>>(8, std::vector<float>(8, 0.0));
     for (int r=0; r<8; r++) {
         for (int c=0; c<8; c++) {
+            // linear list of points
             CPoint cp;
-            cp.r =r;
+            cp.r = r;
             cp.c = c;
             this->allPoints.push_back(cp);
+
+            // concave bias
+            float radius = sqrt((3.5 - r) * (3.5 - r) + (3.5 - c) * (3.5 - c));
+            float bias = 0.0; //radius * 0.5;
+            this->concaveBias[r][c] = bias;
         }
     }
     this->initBoardRandom();
@@ -99,6 +106,7 @@ void Gravity::updateBoardMotion(MotionData motionData) {
             for (auto & pe : this->allPoints) {
                 // only unfilled cells
                 if (this->board[pe.r][pe.c] == NULL) {
+                    float bias = concaveBias[pe.r][pe.c];
                     const float dx = pe.c - pf.c;
                     const float dy = pe.r - pf.r;
                     const float ds = sqrt(dx * dx + dy * dy);
@@ -106,7 +114,7 @@ void Gravity::updateBoardMotion(MotionData motionData) {
                     // consider not only the direct projection on the gradient
                     // but also the deviation of the direction
                     // take a penalty when the angles diverge too much
-                    const float cost =  ds * cos(angle - phi);
+                    const float cost =  ds * cos(angle - phi) + bias;
                     // const float cost =  ds * cos(angle - phi) - 0.0 * abs(ds * sin(angle - phi));
                     // balloons (>) or marbles (<)
                     if (cost < 0.0) { // only the falling ones

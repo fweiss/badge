@@ -51,6 +51,8 @@ private:
     std::vector<std::vector<Cell*>> board;
     /** A linear list of all the cells. */
     std::vector<CPoint> allPoints;
+    /** Concave potential gradient */
+    std::vector<std::vector<float>> concaveBias;
 
     void updateSimpleFrame();
     uint8_t x,y;
