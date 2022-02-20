@@ -20,7 +20,10 @@ class PathAnimation : public Animation {
 public:
     PathAnimation(Display &display);
     PathAnimation(Display &display, uint16_t framePeriodMilis);
+    virtual ~PathAnimation() {}
+
     virtual void drawFrame() override;
+    void reverse();
 protected:
     std::vector<ChaserPath> chaserPaths;
     void drawPath(std::vector<uint16_t> spiral, Chaser *chaser);

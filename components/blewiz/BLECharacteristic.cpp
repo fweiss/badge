@@ -38,10 +38,12 @@ void BLECharacteristic::addToService(BLEService &service) {
     }
 }
 
+// fixme still being used?
 void BLECharacteristic::writeValue(uint16_t length, const uint8_t *value) {
     esp_err_t esp_err;
     const uint8_t value2 = 0x58;
     esp_err = ::esp_ble_gatts_set_attr_value(handle, 1, &value2);
+    // esp_err = ::esp_ble_gatts_send_response(handle, 1, &value2); // app_rsp?
 //    esp_err = ::esp_ble_gatts_set_attr_value(handle, length, value);
     if (esp_err != ESP_OK) {
         ESP_LOGE(LOG_TAG, "write characterisitc: err: %0x", esp_err);

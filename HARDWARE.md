@@ -3,8 +3,9 @@
 The current prototype is built with a few inexpensive, readily available components.
 
 ## CJMCU-8x8
-
 This is an inexpensive 8 by 8 RGB LED array based on the WS2812 component.
+
+> Current display uses WS2812B 4-pin neopixels and has the corrected silk screen.
 
 The front silk screen has "WS28128B-64 RGB LEDS", but note that it's not actually a WS2812B IC, but a WS2812
 with 6 pins. This is not really a problem for this project.
@@ -15,6 +16,10 @@ the serial input to the DOUT pin.
 
 Current tests. Hue
 All green at 150 value: 647 mA
+
+### Orientation and addressing
+The display is zig-zag. Looking at the fron of the display, the first pixel is at the
+top left, pixel 8 is at the left of the second row, and so forth.
 
 ## ESP32
 
@@ -27,3 +32,15 @@ project the following packages were evaluated.
 - Sparkfun ESP32 Thing
 - Adafruit Feather HUZZAH32
 
+# MPU6050
+### Orientation
+Reference USB at right top of device.
+
+X axis = right
+Y axis = top
+Z axis = up
+
+using the dlpf at 5 Hz, there's a slight signal that oscillates some of the leds
+it may be at 2.5 hz
+Turned out to be the drop limit was < 0.1
+changing to < fixed it

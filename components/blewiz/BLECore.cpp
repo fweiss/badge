@@ -1,6 +1,7 @@
 #include "BLECore.h"
 
 #include "BLEService.h"
+#include "BLESpp.h"
 
 #include "esp_log.h"
 #include "esp_bt_device.h"
@@ -26,6 +27,7 @@ void BLECore::init() {
     initDevice();
     initBluedroid();
     initCallbacks();
+    initSpp(); // to do optional
     registerApp();
 }
 
@@ -170,6 +172,12 @@ void BLECore::initBluedroid() {
 void BLECore::initCallbacks() {
 
 }
+
+void BLECore::initSpp() {
+    // BLESpp::registerCallbacks();
+    // BLESpp::init();
+ }
+
 void BLECore::registerApp() {
     esp_err_t ret;
     ESP_LOGI(LOG_TAG, "registering app server");

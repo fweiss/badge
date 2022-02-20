@@ -4,7 +4,7 @@
 
 class Profiler {
 public:
-	Profiler();
+	Profiler(bool enable);
 	void startTime();
 	void stopTime();
 private:

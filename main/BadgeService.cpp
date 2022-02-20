@@ -5,7 +5,7 @@
 #include "driver/adc.h"
 #include "esp_ota_ops.h"
 
-#include <string>
+#include <cstring>
 
 static const char* LOG_TAG = "BADGE";
 
@@ -119,10 +119,11 @@ void BadgeService::init() {
         [this](uint16_t *len, uint8_t **value){
             const esp_app_desc_t *app_description = esp_ota_get_app_description();
             ESP_LOGI(LOG_TAG, "version: %-16s", app_description->version);
-//            appVersionCharacteristic.writeValue((uint16_t)16, (const uint8_t*)app_description);
+            *len = strlen(app_description->version);
+            *value = (uint8_t*) app_description->version;
         }
     );
-
+    
     batteryCharacteristic.setReadCallback(
         [this](uint16_t *len, uint8_t **value) {
             ESP_LOGI(LOG_TAG, "read battery");

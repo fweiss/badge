@@ -33,6 +33,8 @@
 #include "animations/PaintPixel.h"
 #include "animations/Alphabet.h"
 #include "animations/Tween.h"
+#include "animations/Plasma.h"
+#include "animations/Gravity.h"
 
 #include "animations/AnimationTask.h"
 #include "animations/TimerAnimationTask.h"
@@ -42,6 +44,7 @@
 #include "blewiz/BLECore.h"
 
 #include "BadgeService.h"
+#include "motion/Motion.hpp"
 
 extern "C" {
 	void app_main(void);
@@ -52,8 +55,7 @@ static const char* TAG = "BADGE";
 #define LED_STRIP_LENGTH 64U
 #define LED_STRIP_RMT_INTR_NUM 19U
 
-
-#define PLUG(clazz, name, index) \
+#define REGISTER(index, name, clazz) \
     static clazz name(display); \
     animationProgram.putAnimation(index, &name);
 
@@ -63,21 +65,10 @@ TaskHandle_t mainTaskHandle;
 void mainTask(void *parameters) {
     ESP_LOGI(TAG, "main task running on core: %d", xPortGetCoreID());
 
-    static Display display( GPIO_NUM_14);
+    Motion motion;
+    motion.start();
 
-    static SpiralAnimation spiralAnimation(display);
-    static MeteorShowerAnimation meteorShowerAnimation(display);
-    static SmearAnimation smearAnimation(display);
-    static Felix felix(display);
-    static HeartAnimation heart1Animation(display);
-    static JsonAnimation testJson(display);
-    static SpinBottleAnimation spinBottle(display);
-    static WormholeAnimation wormhole(display);
-    static SpinBottle2 spinBottle2(display);
-    static EmojiAnimation emoji(display);
-    static Kaleidascope kaleidascope(display);
-    static MarqueeAnimation marquee(display);
-    static DiceAnimation diceAnimation(display);
+    static Display display( GPIO_NUM_14);
 
     TimerAnimationTask animator; // todo parameterize
     static AnimationProgram animationProgram(animator);
@@ -86,30 +77,36 @@ void mainTask(void *parameters) {
     BadgeService badgeService(display, animationProgram);
 
     // fixme check duplicate index error
-    animationProgram.putAnimation(0, &spiralAnimation);
-    animationProgram.putAnimation(1, &meteorShowerAnimation);
-    animationProgram.putAnimation(2, &smearAnimation);
-    animationProgram.putAnimation(3, &felix);
-    animationProgram.putAnimation(4, &heart1Animation);
-    animationProgram.putAnimation(5, &spinBottle);
-    animationProgram.putAnimation(6, &spinBottle2);
-    animationProgram.putAnimation(7, &wormhole);
-    animationProgram.putAnimation(8, &testJson);
-    animationProgram.putAnimation(9, &emoji);
-    animationProgram.putAnimation(10, &kaleidascope);
-    animationProgram.putAnimation(11, &marquee);
-    animationProgram.putAnimation(12, &diceAnimation);
-    PLUG(Party, party, 13)
-    PLUG(Weather, weather, 14)
-    PLUG(MiscellanyAnimation, miscellany, 15)
-    PLUG(FunBit64, funbit, 16)
-    PLUG(PaintPixel, paintPixel, 17)
-    PLUG(Alphabet, alphabet, 18);
-    PLUG(Tween, tween, 19);
+    REGISTER(0, spiralAnimation, SpiralAnimation);
+    REGISTER(1, meteorShowerAnimation, MeteorShowerAnimation);
+    REGISTER(2, smearAnimation, SmearAnimation);
+    REGISTER(3, felix, Felix);
+#if 0
+    REGISTER(4, heart1Animation, HeartAnimation);
+    REGISTER(5, spinBottle, SpinBottleAnimation);
+    REGISTER(6, spinBottle2, SpinBottle2);
+    REGISTER(7, wormhole, WormholeAnimation);
+    REGISTER(8, testJson, JsonAnimation);
+    REGISTER(9, emoji, EmojiAnimation);
+    REGISTER(10, kaleidascope, Kaleidascope);
+    REGISTER(11, marquee, MarqueeAnimation);
+    REGISTER(12, diceAnimation, DiceAnimation);
+    REGISTER(13, party, Party)
+    REGISTER(14, weather, Weather)
+    REGISTER(15, miscellany, MiscellanyAnimation)
+    REGISTER(16, funbit, FunBit64)
+    REGISTER(17, paintPixel, PaintPixel)
+    REGISTER(18, alphabet, Alphabet);
+    REGISTER(19, tween, Tween);
+#endif
+    REGISTER(20, plasma, Plasma)
+    REGISTER(21, gravity, Gravity);
+
+    const int defaultIndex = 21;
 
 //    testJson.loadJson();
 
-    badgeService.setPaintPixel(&paintPixel);
+    // badgeService.setPaintPixel(&paintPixel);
     badgeService.init();
 
     BLECore core;
@@ -121,9 +118,12 @@ void mainTask(void *parameters) {
             animationProgram.drawFrame();
         }
     );
+    motion.setListeners([](MotionData motionData){
+        gravity.setMotion(motionData);
+    });
 
     display.setBrightness(5);
-    animationProgram.setProgram(0);
+    animationProgram.setProgram(defaultIndex);
     animator.start();
 
     // main task does nothing but initialize app on core 1

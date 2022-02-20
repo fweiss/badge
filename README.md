@@ -8,7 +8,24 @@ The current prototype is built with a few inexpensive, readily available compone
 Development is via the Espressif [ESP-IDF](https://github.com/espressif/esp-idf) toolchain. The [Get Started](https://docs.espressif.com/projects/esp-idf/en/stable/get-started/) guide provides all the details
 for setting up the toolchain on Windows, Linux, or MacOS.
 
-### Project Setup
+## Hardware-specific settings
+Depending on the hardware, make the following configuraton settings using `idf.py menuconfig`
+
+#### Sparkfun ESP32 Thing
+- Component config > ESP32 specific > CPU frequency: 240 MHz
+- Component config > ESP32 specific > Main XTAL frequency: 26 MHz
+- Serial flasher config > Flash SPI speed: 40 MHz
+
+#### Adafruit ESP32 Huzzah
+
+#### WeMos D1 clone "LOIN32" 
+- Component config > ESP32 specific > CPU frequency: 240 MHz
+- Component config > ESP32 specific > Main XTAL frequency: 40 MHz
+- Serial flasher config > Flash SPI speed: 80 MHz
+- Serial flasher config > idf.py monitor baud rate: 115200 bps
+
+### Old Project Setup
+> As of April 2021, much of this is obsoleted.
 After the ESP_IDF toolchain is setup, this project can be flashed to an ESP32 device as follows:
 
 - open a command shell

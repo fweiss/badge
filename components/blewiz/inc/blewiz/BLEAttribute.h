@@ -21,6 +21,7 @@ public:
     void setReadCallback(std::function<void(uint16_t *len, uint8_t **value)> func);
 
     // should be protected and allowed access from BLESerive subclass
+    // maybe const value?
     void setValue(const uint16_t length, const uint8_t *value);
 
 protected:

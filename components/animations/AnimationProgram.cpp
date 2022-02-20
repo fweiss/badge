@@ -5,7 +5,7 @@
 static const char* TAG = "AnimationProgram";
 
 AnimationProgram::AnimationProgram(BaseAnimationTask &animator)
-	: programs(), animator(animator), profiler() {
+	: programs(), animator(animator), profiler(false) {
 
 }
 
@@ -23,11 +23,13 @@ void AnimationProgram::drawFrame() {
 // The frame period is defined in each animations constructor, or the default from the Animation base class
 void AnimationProgram::setProgram(uint8_t index) {
     ESP_LOGI(TAG, "set program %d", index);
-    if (index < programs.size()) {
-        this->index = index;
-        animator.setIntervalSecs((float)programs[index]->getFramePeriodMillis() / 1000.0);
-    } else {
+    auto search = programs.find(index);
+    if (search == programs.end()) {
         ESP_LOGW(TAG, "set program ignored: out of range: 0-%d", programs.size() - 1);
+    } else {
+        this->index = index;
+        auto framePeriodMillis = search->second->getFramePeriodMillis();
+        animator.setIntervalSecs(framePeriodMillis / 1000.0);
     }
 }
 

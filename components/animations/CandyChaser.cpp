@@ -11,9 +11,9 @@ CandyChaser::CandyChaser(uint16_t size) : Chaser(size) {
     this->db = -5;
     preroll(size);
     for (int i=0; i<16; i++) {
-        this->colors.push_front(nextColor());
+    	const uint32_t next = nextColor();
+        this->colors.push_front(next);
     }
-    this->setReverse(true);
 }
 
 CandyChaser::CandyChaser(uint8_t r, uint8_t g, uint8_t b) : Chaser(16) {
