@@ -98,7 +98,14 @@ C++ example code: https://openlabpro.com/guide/ble-uart-on-esp32-controller/
 ### Nordic BLE UART example
 https://infocenter.nordicsemi.com/index.jsp?topic=%2Fcom.nordic.infocenter.sdk5.v14.2.0%2Fble_sdk_app_nus_eval.html&cp=4_0_0_4_2_2_22
 
-###Eclipse GDB Hardware Debugging
+### Eclipse GDB Hardware Debugging
 https://docs.espressif.com/projects/esp-idf/en/latest/api-guides/jtag-debugging/using-debugger.html#jtag-debugging-using-debugger-eclipse
+
+### An RMT led_strip library
+https://github.com/Lucas-Bruder/ESP32_LED_STRIP
+
+I think components/matrix uses the example code from Esperessif.
+
+https://github.com/espressif/esp-idf/tree/master/examples/peripherals/rmt/led_strip
 
  
