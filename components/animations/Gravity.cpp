@@ -22,7 +22,7 @@ Gravity::Gravity(Display &display) : Animation(display, 100) {
 
             // concave bias
             float radius = sqrt((3.5 - r) * (3.5 - r) + (3.5 - c) * (3.5 - c));
-            float bias = 0.0; //radius * 0.5;
+            float bias = radius;
             this->concaveBias[r][c] = bias;
         }
     }
@@ -114,7 +114,9 @@ void Gravity::updateBoardMotion(MotionData motionData) {
                     // consider not only the direct projection on the gradient
                     // but also the deviation of the direction
                     // take a penalty when the angles diverge too much
-                    const float cost =  ds * cos(angle - phi) + bias;
+                    const float cost =  ds * cos(angle - phi); // + bias;
+                    // const float cost = 1.0;
+
                     // const float cost =  ds * cos(angle - phi) - 0.0 * abs(ds * sin(angle - phi));
                     // balloons (>) or marbles (<)
                     if (cost < 0.0) { // only the falling ones
