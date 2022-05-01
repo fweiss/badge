@@ -44,6 +44,7 @@
 #include "blewiz/BLECore.h"
 
 #include "BadgeService.h"
+#include "UartService.h"
 #include "motion/Motion.hpp"
 
 extern "C" {
@@ -109,8 +110,12 @@ void mainTask(void *parameters) {
     // badgeService.setPaintPixel(&paintPixel);
     badgeService.init();
 
+    UartService uartService;
+
+    // start the BT stack
     BLECore core;
     core.registerService(&badgeService);
+    // core.registerService(&uartService);
     core.init();
 
     animator.setCallback(

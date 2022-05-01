@@ -7,7 +7,8 @@
 
 #include "esp_gatts_api.h"
 
-#define UUID16(x) { .len = ESP_UUID_LEN_16, .uuid = { .uuid16 = x } }
+#define UUID16(x) { .len = ESP_UUID_LEN_16, .uuid = { .uuid16 = (x) } }
+#define UUID128(x) { .len = ESP_UUID_LEN_16, .uuid = { .uuid128 = x } }
 
 #include "BLEAttribute.h"
 //class BLEAttribute;
@@ -17,7 +18,6 @@
 // specialization for std::unordered_map
 struct uuid_hash {
     size_t operator()(const esp_bt_uuid_t &uuid ) const {
-        size_t hash;
         switch (uuid.len) {
         case ESP_UUID_LEN_16:
             return std::hash<unsigned short>{}((unsigned short)uuid.uuid.uuid16);
@@ -26,10 +26,10 @@ struct uuid_hash {
             return std::hash<unsigned int>{}((unsigned int)uuid.uuid.uuid32);
             break;
         case ESP_UUID_LEN_128:
-//            return std::hash<uint8_t*>{}(uuid.uuid.uuid128);
-            hash = 0;
-            return hash;
-           break;
+            // very simplistic just to get uart service to work
+            // 3 is the changed byte
+            return std::hash<unsigned int>{}(uuid.uuid.uuid32 ^ uuid.uuid.uuid128[3]);
+            break;
         default:
             return 0; //undefined
         }
