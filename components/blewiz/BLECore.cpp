@@ -199,26 +199,18 @@ void BLECore::addService(BLEService *service, esp_gatt_if_t gatts_if) {
     esp_gatt_srvc_id_t service_id;
     service_id.is_primary = true;
     service_id.id.inst_id = 0x00;
-    const bool hardwire = true;
-    if (hardwire) {
-        service_id.id.uuid.len = ESP_UUID_LEN_16;
-        service_id.id.uuid.uuid.uuid16 = 0x00ff;
-    } else {
-        std::vector<uint8_t> bare{ 0x6E, 0x40, 0x00, 0x01, 0xB5, 0xA3, 0xF3, 0x93, 0xE0, 0xA9, 0xE5, 0x0E, 0x24, 0xDC, 0xCA, 0x9E };
+
+    service_id.id.uuid = service->uuid;  // copy
+    // todo move this to BLEAttribute constructor
+    if (service_id.id.uuid.len == ESP_UUID_LEN_128) {
+        std::vector<uint8_t> bare(service->uuid.uuid.uuid128, service->uuid.uuid.uuid128 + 128/8);
         std::reverse(bare.begin(), bare.end());
-        esp_bt_uuid_t uuid = {
-            .len = ESP_UUID_LEN_128,
-            .uuid = {
-                .uuid128 = { },
-            // { 0x6E, 0x40, 0x00, 0x01, 0xB5, 0xA3, 0xF3, 0x93, 0xE0, 0xA9, 0xE5, 0x0E, 0x24, 0xDC, 0xCA, 0x9E },
-            }
-        };
-        service_id.id.uuid = uuid;
         int i = 0;
         for (auto byte : bare) {
             service_id.id.uuid.uuid.uuid128[i++] = byte;
         }
     }
+
     uint16_t num_handle = 20;
     esp_ble_gatts_create_service(gatts_if, &service_id, num_handle);
 }

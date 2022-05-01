@@ -25,11 +25,13 @@ public:
     // maybe const value?
     void setValue(const uint16_t length, const uint8_t *value);
 
+    // fixme make protected or private
+    const esp_bt_uuid_t &uuid;
+
 protected:
     friend class BLEService;
 
     uint16_t handle = 0;
-    const esp_bt_uuid_t &uuid;
     BLEService *service;
 
     virtual void addToService(BLEService &service) = 0;

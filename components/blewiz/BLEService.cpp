@@ -24,6 +24,11 @@ BLEService::BLEService(const esp_bt_uuid_t &uuid) :
     this->serviceHandle = 0;
 }
 
+// event having handle parameter
+// sometimes pairs, e.g. included service, add char, add char desc
+// ESP_GATTS_READ_EVT, ESP_GATTS_WRITE_EVT, ESP_GATTS_CONF_EVT, ESP_GATTS_CREATE_EVT,
+// ESP_GATTS_ADD_CHAR_EVT, ESP_GATTS_DELETE_EVT, ESP_GATTS_START_EVT, ESP_GATTS_STOP_EVT,
+// ESP_GATTS_SET_ATTR_VAL_EVT, , 
 void BLEService::handleGattsEvent(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param) {
     switch (event) {
     case ESP_GATTS_CREATE_EVT:
