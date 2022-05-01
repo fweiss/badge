@@ -14,8 +14,6 @@ public:
     BLEDescriptor(BLEService *service, BLEDescriptorConfig &config);
     virtual ~BLEDescriptor() {}
 
-    esp_bt_uuid_t uuid;
-    uint16_t handle = 0;
     const esp_gatt_perm_t &permissions;
     esp_attr_control_t &control; // fixme not const to comply with API
 

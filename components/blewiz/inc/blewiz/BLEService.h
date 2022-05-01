@@ -27,7 +27,7 @@ struct BLEUuid {
 
 class BLEService : public BLEAttribute {
 public:
-    BLEService();
+    BLEService(const esp_bt_uuid_t &uuid);
     virtual ~BLEService() {}
 
     esp_gatt_if_t gatt_if;

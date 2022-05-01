@@ -16,7 +16,11 @@
 
 static const char* GATTS_TAG = "BLEService";
 
-BLEService::BLEService() : characteristicByHandle(), characteristicQueue() {
+BLEService::BLEService(const esp_bt_uuid_t &uuid) :
+    BLEAttribute(uuid),
+    characteristicByHandle(), 
+    characteristicQueue() {
+
     this->serviceHandle = 0;
 }
 

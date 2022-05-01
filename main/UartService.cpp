@@ -1,5 +1,14 @@
 #include "UartService.h"
 
+esp_bt_uuid_t serviceUuid = {
+        .len = ESP_UUID_LEN_128,
+        .uuid = {
+            .uuid128 = 
+                { 0x6E, 0x40, 0x00, 0x01, 0xB5, 0xA3, 0xF3, 0x93, 0xE0, 0xA9, 0xE5, 0x0E, 0x24, 0xDC, 0xCA, 0x9E },
+        }
+};
+
+
 BLECharacteristicConfig rxCharacteristicConfig = {
     .uuid = {
         .len = ESP_UUID_LEN_128,
@@ -29,6 +38,7 @@ BLECharacteristicConfig txCharacteristicConfig = {
 };
 
 UartService::UartService() :
+    BLEService(serviceUuid),
     rxCharacteristic(this, rxCharacteristicConfig),
     txCharacteristic(this, txCharacteristicConfig) {
 

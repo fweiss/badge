@@ -13,6 +13,8 @@ static const char* LOG_TAG = "BADGE";
 //.permissions = ESP_GATT_PERM_READ | ESP_GATT_PERM_WRITE,
 //.control = { .auto_rsp = ESP_GATT_RSP_BY_APP }
 
+const esp_bt_uuid_t serviceUuid = UUID16(0x00ff);
+
 BLECharacteristicConfig batteryCharacteristicConfig = {
     .uuid = UUID16(0x2a19),
     .permissions = ESP_GATT_PERM_READ | ESP_GATT_PERM_WRITE,
@@ -90,6 +92,7 @@ BLECharacteristicConfig frameDumpCharacteristicConfig = {
 // END OF CHARACTERISTIC CONFIGURATIONS
 
 BadgeService::BadgeService(Display &display, AnimationProgram &animationProgram) :
+    BLEService(serviceUuid),
     display(display),
     animationProgram(animationProgram),
     batteryCharacteristic(this, batteryCharacteristicConfig),

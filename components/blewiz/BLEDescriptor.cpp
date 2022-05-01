@@ -9,7 +9,7 @@
 #define LOG_TAG "BLEDescriptor"
 
 BLEDescriptor::BLEDescriptor(BLEService *service, BLEDescriptorConfig &config) :
-    uuid(config.uuid),
+    BLEAttribute(config.uuid),
     permissions(config.permissions),
     control(config.control) {
     service->attach(this);
@@ -27,9 +27,10 @@ void BLEDescriptor::addToService(BLEService &service) {
         .attr_len     = sizeof(v),
         .attr_value   = v,
     };
+    // todo duplicate code?
     ret = ::esp_ble_gatts_add_char_descr(
             service.getHandle(),
-            &uuid,
+            const_cast<esp_bt_uuid_t*>(&uuid),
             permissions,
             &value,
             &control);

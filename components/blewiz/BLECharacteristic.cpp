@@ -7,7 +7,7 @@
 #define LOG_TAG "BLECharacteristic"
 
 BLECharacteristic::BLECharacteristic(BLEService *service, BLECharacteristicConfig &config) :
-    uuid(config.uuid),
+    BLEAttribute(config.uuid),
     permissions(config.permissions),
     properties(config.properties),
     control(config.control) {
@@ -28,7 +28,7 @@ void BLECharacteristic::addToService(BLEService &service) {
     };
     ret = ::esp_ble_gatts_add_char(
             service.getHandle(),
-            &uuid,
+            const_cast<esp_bt_uuid_t*>(&uuid),
             permissions,
             properties,
             &value,
