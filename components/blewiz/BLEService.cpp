@@ -16,7 +16,7 @@
 
 static const char* GATTS_TAG = "BLEService";
 
-BLEService::BLEService() : characteristicByUuid(), characteristicByHandle(), characteristicQueue() {
+BLEService::BLEService() : characteristicByHandle(), characteristicQueue() {
     this->serviceHandle = 0;
 }
 
@@ -119,7 +119,6 @@ void BLEService::registerNextAttribute(uint16_t attr_handle) {
 // save the characteristic in a queue for later processing via ESP_GATTS_ADD_CHAR_EVT
 void BLEService::attach(BLEAttribute *attribute) {
     ESP_LOGI(GATTS_TAG, "attach: %d", attribute->uuid.uuid.uuid16);
-    characteristicByUuid.emplace(attribute->uuid, attribute);
     characteristicQueue.push(attribute);
 }
 
