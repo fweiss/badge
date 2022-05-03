@@ -10,7 +10,7 @@ class BLEService;
 class BLEAttribute {
 public:
     // maybe use config struct instead
-    BLEAttribute(const esp_bt_uuid_t &uuid) : uuid(uuid) {}
+    BLEAttribute(const esp_bt_uuid_t &uuid);
     virtual ~BLEAttribute() {}
 
     static const uint16_t ATTR_MAX_LEN = 16;

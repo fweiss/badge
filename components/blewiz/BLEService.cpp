@@ -88,8 +88,9 @@ void BLEService::handleGattsEvent(esp_gatts_cb_event_t event, esp_gatt_if_t gatt
 
         ESP_LOGI(GATTS_TAG, "received read event %0x, %0x", characteristic->uuid.uuid.uuid16, read.need_rsp);
 
-        uint16_t length; // fixme s/b size_t
-        uint8_t *value;
+        uint8_t buffer[10];
+        uint8_t *value = buffer;
+        uint16_t length = sizeof(buffer); // fixme s/b size_t
         characteristic->readCallback(&length, &value);
 
         if (read.need_rsp) {

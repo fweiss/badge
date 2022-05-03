@@ -61,4 +61,9 @@ maybe look in
 ``./examples/bluetooth/bluedroid/ble/ble_spp_client/README.md:  The server will receive this data in the ESP_GATTS_WRITE_EVT event and send data to the Uart terminal by `uart_wrire_bytes` function. For example:
 ``
 
+### others
+https://openlabpro.com/guide/ble-uart-on-esp32-controller/
+
+https://github.com/ThingEngineer/ESP32_BLE_client_uart
+
 

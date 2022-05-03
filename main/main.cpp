@@ -114,8 +114,8 @@ void mainTask(void *parameters) {
 
     // start the BT stack
     BLECore core;
-    core.registerService(&badgeService);
-    // core.registerService(&uartService);
+    // core.registerService(&badgeService);
+    core.registerService(&uartService);
     core.init();
 
     animator.setCallback(

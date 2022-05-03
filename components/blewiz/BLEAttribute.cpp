@@ -6,6 +6,17 @@
 
 static const char *TAG = "BLEAttribute";
 
+BLEAttribute::BLEAttribute(const esp_bt_uuid_t &uuid) :
+    uuid(uuid) {
+
+    setReadCallback([] (uint16_t *len, uint8_t **value) {
+        ESP_LOGW(TAG, "unimplemented: read callback");
+    });
+    setWriteCallback([] (uint16_t len, uint8_t *value) {
+        ESP_LOGW(TAG, "unimplemented: write callback");
+    });
+}
+
 void BLEAttribute::setWriteCallback(std::function<void(uint16_t len, uint8_t *value)> func) {
     this->writeCallback = func;
 }
