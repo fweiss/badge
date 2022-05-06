@@ -66,4 +66,21 @@ https://openlabpro.com/guide/ble-uart-on-esp32-controller/
 
 https://github.com/ThingEngineer/ESP32_BLE_client_uart
 
+## Schema
+Example: nRF52 DK (peer) - nRF UART app (app)
+
+For badge, the ESP32 is the peer and the phone has the app.
+> For testing, the app is nRF UART, etc.
+
+On the app, thus we need:
+
+- UART Service
+
+    - rx characteristic (peer send to device as write)
+    
+  - tx characteristic (app send to peer via notify)
+
+
+  > On nRF UART write data as command, not request.
+
 
