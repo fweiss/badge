@@ -9,11 +9,11 @@ static const char *TAG = "BLEAttribute";
 BLEAttribute::BLEAttribute(const esp_bt_uuid_t &uuid) :
     uuid(uuid) {
 
-    setReadCallback([] (uint16_t *len, uint8_t **value) {
-        ESP_LOGW(TAG, "unimplemented: read callback");
+    setReadCallback([this] (uint16_t *len, uint8_t **value) {
+        ESP_LOGW(TAG, "unimplemented: read callback: uuid: %s", uuidToString().value);
     });
-    setWriteCallback([] (uint16_t len, uint8_t *value) {
-        ESP_LOGW(TAG, "unimplemented: write callback");
+    setWriteCallback([this] (uint16_t len, uint8_t *value) {
+        ESP_LOGW(TAG, "unimplemented: write callback: uuid: %s", uuidToString().value);
     });
 }
 
@@ -33,4 +33,12 @@ void BLEAttribute::setValue(const uint16_t length, const uint8_t *v) {
     if (esp_err != ESP_OK) {
         ESP_LOGW(TAG, "Set attr value error: 0x%x", esp_err);
     }
+}
+
+uuidString BLEAttribute::uuidToString() {
+    uuidString uuidString;
+    char (&value)[37] = uuidString.value;
+    // todo branch for 16, 32, 128
+    snprintf(value, sizeof(value) - 1, "%0x", uuid.uuid.uuid16);
+    return uuidString;
 }

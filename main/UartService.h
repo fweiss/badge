@@ -21,4 +21,5 @@ public:
 
     BLECharacteristic rxCharacteristic;
     BLECharacteristic txCharacteristic;
+    BLEDescriptor txNotifyDescriptor;
 };

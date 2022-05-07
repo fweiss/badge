@@ -57,10 +57,18 @@ BLECharacteristicConfig txCharacteristicConfig = {
     }}
 };
 
+BLEDescriptorConfig txNotifyDescriptorConfig = {
+        .uuid = UUID16(0x2902),
+        .permissions = ESP_GATT_PERM_READ | ESP_GATT_PERM_WRITE,
+        .control = { .auto_rsp = ESP_GATT_AUTO_RSP }
+};
+
+
 UartService::UartService() :
     BLEService(serviceUuid),
     rxCharacteristic(this, rxCharacteristicConfig),
-    txCharacteristic(this, txCharacteristicConfig) {
+    txCharacteristic(this, txCharacteristicConfig),
+    txNotifyDescriptor(this, txNotifyDescriptorConfig) {
 
     txCharacteristic.setReadCallback([] (uint16_t *len, uint8_t **value) {
         ESP_LOGI(XTAG, "read");

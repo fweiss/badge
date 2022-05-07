@@ -7,6 +7,10 @@ class BLEService;
 
 #include "esp_gatts_api.h"
 
+typedef struct {
+    char value[32+4+1];
+} uuidString;
+
 class BLEAttribute {
 public:
     // maybe use config struct instead
@@ -17,6 +21,7 @@ public:
 
     uint16_t getHandle() { return this->handle; }
     BLEService *getService() { return this->service; }
+    uuidString uuidToString();
 
     void setWriteCallback(std::function<void(uint16_t len, uint8_t *value)> func);
     void setReadCallback(std::function<void(uint16_t *len, uint8_t **value)> func);
