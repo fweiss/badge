@@ -36,9 +36,10 @@ void BLEAttribute::setValue(const uint16_t length, const uint8_t *v) {
 }
 
 uuidString BLEAttribute::uuidToString() {
+    // could use std:string instead
     uuidString uuidString;
-    char (&value)[37] = uuidString.value;
+    char (&value)[sizeof(uuidString.value)] = uuidString.value;
     // todo branch for 16, 32, 128
-    snprintf(value, sizeof(value) - 1, "%0x", uuid.uuid.uuid16);
+    snprintf(value, sizeof(value), "%0x", uuid.uuid.uuid16);
     return uuidString;
 }
