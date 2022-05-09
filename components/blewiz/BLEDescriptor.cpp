@@ -37,5 +37,7 @@ void BLEDescriptor::addToService(BLEService &service) {
     if (ret) {
         ESP_LOGE(LOG_TAG, "add descriptor failed, error code: 0x%0x", ret);
     }
+    // todo better way?
+    this->service = &service;
 }
 

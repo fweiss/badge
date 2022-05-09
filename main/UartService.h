@@ -2,6 +2,7 @@
 
 #include "blewiz/BLEService.h"
 #include "blewiz/BLECharacteristic.h"
+#include <freertos/queue.h>
 
 class UartService: public BLEService  {
 public:
@@ -17,9 +18,17 @@ public:
         { 0x6E, 0x40, 0x00, 0x03, 0xB5, 0xA3, 0xF3, 0x93, 0xE0, 0xA9, 0xE5, 0x0E, 0x24, 0xDC, 0xCA, 0x9E };
 
     UartService();
-    virtual ~UartService();
+    virtual ~UartService() { }
 
     BLECharacteristic rxCharacteristic;
     BLECharacteristic txCharacteristic;
     BLEDescriptor txNotifyDescriptor;
+
+    void onConnect() override;
+    void onDisconnect() override;
+
+    QueueHandle_t rxQueue;
+    QueueHandle_t txQueue;
+    static void echoTask(void *parameters);
+    TaskHandle_t taskHandle;
 };
