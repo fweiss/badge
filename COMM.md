@@ -11,6 +11,8 @@ Need to use some kind of streaming or serial protocol. The AT has SPP, but GATT,
 [Discussion of serial over BLE, but not very conclusive](https://punchthrough.com/serial-over-ble/)
 
 ## SPP
+- 1101 service class
+- 0002 RFCOMM protocol
 
 ## Issues
 
