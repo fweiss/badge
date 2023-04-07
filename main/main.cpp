@@ -70,7 +70,9 @@ void mainTask(void *parameters) {
 
     static Display display( GPIO_NUM_14);
 
-    TimerAnimationTask animator; // todo parameterize
+    // the new AnimationTask is a replacement for the old TimerAnimationTask
+    // which uses an interruptable semaphore to time the animations
+    AnimationTask animator; // todo parameterize
     static AnimationProgram animationProgram(animator);
 
     /* static */
@@ -81,7 +83,7 @@ void mainTask(void *parameters) {
     REGISTER(1, meteorShowerAnimation, MeteorShowerAnimation);
     REGISTER(2, smearAnimation, SmearAnimation);
     REGISTER(3, felix, Felix);
-#if 0
+#if 1 // to conserve memory?
     REGISTER(4, heart1Animation, HeartAnimation);
     REGISTER(5, spinBottle, SpinBottleAnimation);
     REGISTER(6, spinBottle2, SpinBottle2);

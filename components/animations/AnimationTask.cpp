@@ -57,6 +57,7 @@ void AnimationTask::run() {
         BaseType_t notified = xSemaphoreTake(semaphoreHandle, currentIntervalTicks);
         if (notified) {
             // the animation task was interruoted
+            ESP_LOGI(TAG, "animation task interrupted");
         } else {
             // the animation task interval expired
         }
