@@ -1,5 +1,5 @@
 #include "display.h"
-#include "led_strip/led_strip.h"
+// #include "led_strip/led_strip.h"
 
 Display::Display(gpio_num_t gpio) : matrix(gpio, 64) {
 //    rmt_channel_t rmt_channel = RMT_CHANNEL_1;

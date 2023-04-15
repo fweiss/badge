@@ -7,7 +7,7 @@
 #include "nvs_flash.h"
 #include "driver/gpio.h"
 
-#include "led_strip/led_strip.h"
+// #include "led_strip/led_strip.h"
 #include "matrix/matrix.h"
 
 #include "animations/display.h"

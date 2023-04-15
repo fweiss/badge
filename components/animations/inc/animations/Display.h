@@ -1,7 +1,7 @@
 #pragma once
 
 #include "freertos/FreeRTOS.h"
-#include "led_strip/led_strip.h"
+// #include "led_strip/led_strip.h"
 #include "matrix/matrix.h"
 
 class Display {
@@ -20,9 +20,9 @@ public:
 
     const uint16_t pixelCount = 64;
 private:
-    struct led_color_t led_strip_buf_1[64];
-    struct led_color_t led_strip_buf_2[64];
-    struct led_strip_t *ledStrip;
+    // struct led_color_t led_strip_buf_1[64];
+    // struct led_color_t led_strip_buf_2[64];
+    // struct led_strip_t *ledStrip;
     uint8_t brightness;
     Matrix matrix;
 };

@@ -38,7 +38,6 @@ idf_component_register(
 	INCLUDE_DIRS inc inc/animations
     REQUIRES
     	matrix
-    	led_strip
     	json
 		motion
 )
