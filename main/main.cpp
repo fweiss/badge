@@ -7,7 +7,6 @@
 #include "nvs_flash.h"
 #include "driver/gpio.h"
 
-// #include "led_strip/led_strip.h"
 #include "matrix/matrix.h"
 
 #include "animations/display.h"
@@ -51,9 +50,6 @@ extern "C" {
 }
 
 static const char* TAG = "BADGE";
-
-#define LED_STRIP_LENGTH 64U
-#define LED_STRIP_RMT_INTR_NUM 19U
 
 #define REGISTER(index, name, clazz) \
     static clazz name(display); \
