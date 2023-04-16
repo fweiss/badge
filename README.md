@@ -24,6 +24,8 @@ Depending on the hardware, make the following configuraton settings using `idf.p
 - Serial flasher config > Flash SPI speed: 80 MHz
 - Serial flasher config > idf.py monitor baud rate: 115200 bps
 
+USB Silicon Labs CP210x USB to UART bridge
+
 ### Old Project Setup
 > As of April 2021, much of this is obsoleted.
 After the ESP_IDF toolchain is setup, this project can be flashed to an ESP32 device as follows:
@@ -39,6 +41,8 @@ After the ESP_IDF toolchain is setup, this project can be flashed to an ESP32 de
 - run ``make flash``
 - a lot of compiling is done the first time
 - eventually, the following output indicates the device is flashed: ``Hard resting via RTS pin...``
+
+> Since ESP_IDF 4.4.2, the flash command figures out the COM port on Windows 10.
 
 ### Development workflow
 Once the project is setup, the following elements comprise the workflow:
