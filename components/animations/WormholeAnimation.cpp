@@ -1,7 +1,10 @@
 #include "WormholeAnimation.h"
 
-WormholeAnimation::WormholeAnimation(Display &display) : PathAnimation(display, 200), chaser(4, 256 * 3 / 8) {
+const uint16_t framePeriod{100};
+const uint16_t chaserLength{4};
+const uint16_t chaserStep{256 * 3 / 8};
 
+WormholeAnimation::WormholeAnimation(Display &display) : PathAnimation(display, framePeriod), chaser(chaserLength, chaserStep) {
 }
 
 // need greater chaser granularity
