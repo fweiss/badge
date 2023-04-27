@@ -30,6 +30,7 @@ private:
     BLEDescriptor batteryNotifyDesciptor;
     BLECharacteristic brightnessCharacteristic;
     BLECharacteristic programCharacteristic;
+    BLEDescriptor programIndexDescriptor;
     BLECharacteristic downloadCharacteristic;
     BLECharacteristic paintPixelCharacteristic;
     BLECharacteristic paintFrameCharacteristic;
@@ -38,6 +39,8 @@ private:
 
     static void batteryTask(void *parameters);
     TaskHandle_t taskHandle;
+
+    void notifyCurrentProgram();
 
     std::vector<uint8_t> paintFrame;
 };

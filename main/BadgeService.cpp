@@ -36,7 +36,7 @@ BLECharacteristicConfig brighnessCharacteristicConfig = {
     .permissions = ESP_GATT_PERM_READ | ESP_GATT_PERM_WRITE,
     .properties = ESP_GATT_CHAR_PROP_BIT_READ | ESP_GATT_CHAR_PROP_BIT_WRITE | ESP_GATT_CHAR_PROP_BIT_NOTIFY,
     .control = { .auto_rsp = ESP_GATT_AUTO_RSP },
-    .descriptorConfigs = { }
+    .descriptorConfigs = {}
 };
 
 BLECharacteristicConfig programCharacteristicConfig = {
@@ -44,7 +44,17 @@ BLECharacteristicConfig programCharacteristicConfig = {
     .permissions = ESP_GATT_PERM_READ | ESP_GATT_PERM_WRITE,
     .properties = ESP_GATT_CHAR_PROP_BIT_READ | ESP_GATT_CHAR_PROP_BIT_WRITE | ESP_GATT_CHAR_PROP_BIT_NOTIFY,
     .control = { .auto_rsp = ESP_GATT_AUTO_RSP },
-    .descriptorConfigs = {}
+    .descriptorConfigs = {{
+        .uuid = UUID16(0x2902),
+        .permissions = ESP_GATT_PERM_READ | ESP_GATT_PERM_WRITE,
+        .control = { .auto_rsp = ESP_GATT_RSP_BY_APP }
+    }}
+};
+
+BLEDescriptorConfig programIndexDescriptorConfig = {
+        .uuid = UUID16(0x2902),
+        .permissions = ESP_GATT_PERM_READ | ESP_GATT_PERM_WRITE,
+        .control = { .auto_rsp = ESP_GATT_AUTO_RSP }
 };
 
 BLECharacteristicConfig downloadCharacteristicConfig = {
@@ -96,6 +106,7 @@ BadgeService::BadgeService(Display &display, AnimationProgram &animationProgram)
     batteryNotifyDesciptor(this, bd),
     brightnessCharacteristic(this, brighnessCharacteristicConfig),
     programCharacteristic(this, programCharacteristicConfig),
+    programIndexDescriptor(this, programIndexDescriptorConfig),
     downloadCharacteristic(this, downloadCharacteristicConfig),
     paintPixelCharacteristic(this, paintPixelCharacteristicConfig),
     paintFrameCharacteristic(this, paintFrameCharacteristicConfig),
@@ -217,6 +228,8 @@ void BadgeService::onConnect() {
     // fixme depends on connection
     ESP_LOGI(LOG_TAG, "starting battery notify task");
     ::xTaskCreate(batteryTask, "battery", 4096, &batteryCharacteristic, tskIDLE_PRIORITY, &taskHandle);
+    // vTaskDelay(1000 / portTICK_PERIOD_MS);
+    // notifyCurrentProgram();
 }
 
 void BadgeService::onDisconnect() {
@@ -272,4 +285,12 @@ void BadgeService::batteryTask(void *parameters) {
             return;
         }
     }
-};
+}
+
+void BadgeService::notifyCurrentProgram() {
+    ESP_LOGI(LOG_TAG, "notify current program");
+    uint8_t value[1]; // fixme const
+    value[0] = animationProgram.getProgramIndex();
+    programCharacteristic.setValue(sizeof(value), value);
+    notify(programCharacteristic, sizeof(value), value, true);
+}

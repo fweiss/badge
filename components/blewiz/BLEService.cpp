@@ -132,3 +132,21 @@ void BLEService::addCharacteristic(BLEAttribute* characteristic) {
 void BLEService::addToService(BLEService &service) {
 
 }
+
+// fixme const value?
+void BLEService::notify(BLECharacteristic & characteristic, uint16_t length, uint8_t *value, bool needConfirm) {
+    esp_gatt_if_t gatt_if = this->getGattIf();
+    uint16_t conn_id = this->getConnId();
+
+    esp_err_t esp_err;
+    esp_err = ::esp_ble_gatts_send_indicate(gatt_if,
+                                            conn_id,
+                                            characteristic.getHandle(),
+                                            length,
+                                            value,
+                                            needConfirm);
+    if (esp_err != ESP_OK) {
+        ESP_LOGW(GATTS_TAG, "Send indicate error: 0x%x", esp_err);
+    }
+}
+

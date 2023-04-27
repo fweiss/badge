@@ -14,6 +14,7 @@ public:
     void drawFrame();
     void putAnimation(uint8_t index, Animation *animation);
     void setProgram(uint8_t index);
+    uint8_t getProgramIndex() { return index; } 
     const Animation *getCurrentAnimation();
 
 private:

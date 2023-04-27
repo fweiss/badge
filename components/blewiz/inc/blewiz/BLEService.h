@@ -10,8 +10,9 @@
 #define UUID16(x) { .len = ESP_UUID_LEN_16, .uuid = { .uuid16 = x } }
 
 #include "BLEAttribute.h"
+// #include "BLECharacteristic.h"
 //class BLEAttribute;
-//class BLECharacteristic;
+class BLECharacteristic;
 //class BLECharacteristicConfig;
 
 // specialization for std::unordered_map
@@ -81,6 +82,8 @@ public:
     void attach(BLEAttribute *attribute);
     void registerNextAttribute(uint16_t attr_handle);
     void addToService(BLEService &service) override;
+
+    void notify(BLECharacteristic & characteristic, uint16_t length,  uint8_t *value, bool needConfirm);
 
     void handleGattsEvent(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param);
 
