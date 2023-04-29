@@ -38,7 +38,7 @@ private:
     BLECharacteristic frameDumpCharacteristic;
 
     static void batteryTask(void *parameters);
-    TaskHandle_t taskHandle;
+    TaskHandle_t batteryTaskHandle;
 
     void notifyCurrentProgram();
 

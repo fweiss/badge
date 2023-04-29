@@ -115,7 +115,7 @@ BadgeService::BadgeService(Display &display, AnimationProgram &animationProgram)
 
     ::adc1_config_width(ADC_WIDTH_12Bit);
     ::adc1_config_channel_atten(ADC1_CHANNEL_7, ADC_ATTEN_11db); // Measure up to 2.2V
-    taskHandle = NULL;
+    batteryTaskHandle = NULL;
 
 
 }
@@ -227,16 +227,16 @@ void BadgeService::init() {
 void BadgeService::onConnect() {
     // fixme depends on connection
     ESP_LOGI(LOG_TAG, "starting battery notify task");
-    ::xTaskCreate(batteryTask, "battery", 4096, &batteryCharacteristic, tskIDLE_PRIORITY, &taskHandle);
+    ::xTaskCreate(batteryTask, "battery", 4096, this, tskIDLE_PRIORITY, &batteryTaskHandle);
     // vTaskDelay(1000 / portTICK_PERIOD_MS);
     // notifyCurrentProgram();
 }
 
 void BadgeService::onDisconnect() {
-    if (taskHandle != NULL) {
+    if (batteryTaskHandle != NULL) {
         ESP_LOGI(LOG_TAG, "stopping battery notify task");
-        vTaskDelete(taskHandle);
-        taskHandle = NULL;
+        vTaskDelete(batteryTaskHandle);
+        batteryTaskHandle = NULL;
     }
 }
 
@@ -247,7 +247,9 @@ void BadgeService::onStarted() {
 }
 
 void BadgeService::batteryTask(void *parameters) {
-    BLECharacteristic *batteryCharacteristic = (BLECharacteristic*)parameters;
+    // BLECharacteristic *batteryCharacteristic = (BLECharacteristic*)parameters;
+    BadgeService * self = static_cast<BadgeService*>(parameters);
+    BLECharacteristic *batteryCharacteristic = &self->batteryCharacteristic;
     // todo check service, connect
     esp_gatt_if_t gatt_if = batteryCharacteristic->getService()->getGattIf();
     uint16_t conn_id = batteryCharacteristic->getService()->getConnId();

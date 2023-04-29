@@ -81,7 +81,7 @@ public:
     // todo make friend
     void attach(BLEAttribute *attribute);
     void registerNextAttribute(uint16_t attr_handle);
-    void addToService(BLEService &service) override { /* not applicatble */ }
+    void addToService(BLEService &service) override { /* not applicable */ }
 
     void notify(BLECharacteristic & characteristic, uint16_t length,  uint8_t *value, bool needConfirm);
 
