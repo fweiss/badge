@@ -7,10 +7,10 @@
 #define LOG_TAG "BLECharacteristic"
 
 BLECharacteristic::BLECharacteristic(BLEService *service, BLECharacteristicConfig &config) :
-    uuid(config.uuid),
-    permissions(config.permissions),
-    properties(config.properties),
-    control(config.control) {
+permissions(config.permissions),
+properties(config.properties),
+control(config.control) {
+    uuid = config.uuid;
     service->attach(this);
 }
 

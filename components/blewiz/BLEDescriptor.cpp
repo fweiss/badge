@@ -9,9 +9,9 @@
 #define LOG_TAG "BLEDescriptor"
 
 BLEDescriptor::BLEDescriptor(BLEService *service, BLEDescriptorConfig &config) :
-    uuid(config.uuid),
-    permissions(config.permissions),
-    control(config.control) {
+permissions(config.permissions),
+control(config.control) {
+    uuid= config.uuid;
     service->attach(this);
 }
 
