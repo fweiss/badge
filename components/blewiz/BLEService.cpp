@@ -22,13 +22,13 @@ BLEService::BLEService() : characteristicByUuid(), characteristicByHandle(), cha
 
 void BLEService::handleGattsEvent(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param) {
     switch (event) {
-    case ESP_GATTS_CREATE_EVT:
-        ESP_LOGI(GATTS_TAG, "creating service: %d", param->create.service_handle);
-        serviceHandle = param->create.service_handle;
-        if ( ! characteristicQueue.empty()) {
-            addCharacteristic(characteristicQueue.front());
-        }
-        break;
+    // case ESP_GATTS_CREATE_EVT:
+    //     ESP_LOGI(GATTS_TAG, "creating service: %d", param->create.service_handle);
+    //     serviceHandle = param->create.service_handle;
+    //     if ( ! characteristicQueue.empty()) {
+    //         addCharacteristic(characteristicQueue.front());
+    //     }
+    //     break;
     case ESP_GATTS_WRITE_EVT: {
         auto &write = param->write;
         ESP_LOGI(GATTS_TAG, "received write event: conn_id: %d handle: %d", write.conn_id, write.handle);
@@ -129,9 +129,9 @@ void BLEService::addCharacteristic(BLEAttribute* characteristic) {
     characteristic->addToService(*this);
 }
 
-void BLEService::addToService(BLEService &service) {
+// void BLEService::addToService(BLEService &service) {
 
-}
+// }
 
 // fixme const value?
 void BLEService::notify(BLECharacteristic & characteristic, uint16_t length, uint8_t *value, bool needConfirm) {
@@ -147,6 +147,14 @@ void BLEService::notify(BLECharacteristic & characteristic, uint16_t length, uin
                                             needConfirm);
     if (esp_err != ESP_OK) {
         ESP_LOGW(GATTS_TAG, "Send indicate error: 0x%x", esp_err);
+    }
+}
+
+void BLEService::create(uint16_t serviceHandle) {
+    ESP_LOGI(GATTS_TAG, "creating service: %d", serviceHandle);
+    this->serviceHandle = serviceHandle;
+    if ( ! characteristicQueue.empty()) {
+        addCharacteristic(characteristicQueue.front());
     }
 }
 

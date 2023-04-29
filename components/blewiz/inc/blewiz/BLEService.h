@@ -81,7 +81,7 @@ public:
     // todo make friend
     void attach(BLEAttribute *attribute);
     void registerNextAttribute(uint16_t attr_handle);
-    void addToService(BLEService &service) override;
+    void addToService(BLEService &service) override { /* not applicatble */ }
 
     void notify(BLECharacteristic & characteristic, uint16_t length,  uint8_t *value, bool needConfirm);
 
@@ -96,10 +96,13 @@ public:
 protected:
     std::unordered_map<esp_bt_uuid_t, BLEAttribute*, uuid_hash, uuid_equal> characteristicByUuid;
     std::unordered_map<uint16_t, BLEAttribute*> characteristicByHandle;
-    std::queue<BLEAttribute*> characteristicQueue;
+    std::queue<BLEAttribute*> characteristicQueue; // characteristics to be added to BLE stack
+
+    friend class BLECore;
+    void create(uint16_t serviceHandle);
 
 private:
-    uint16_t serviceHandle;
+    uint16_t serviceHandle; // shadow of handle in BLEAttribute?
 
     void addCharacteristic(BLEAttribute *characteristic);
 };
