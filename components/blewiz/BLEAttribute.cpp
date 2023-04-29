@@ -23,3 +23,12 @@ void BLEAttribute::setValue(const uint16_t length, const uint8_t *v) {
         ESP_LOGW(TAG, "Set attr value error: 0x%x", esp_err);
     }
 }
+
+// from ESP_IDF examples\bluetooth\bluedroid\ble\gatt_server\main\gatts_demo.c
+// used for adding characteristic and descriptor
+uint8_t dummyData[] = {0x11,0x22,0x33};
+esp_attr_value_t BLEAttribute::dummyValue = {
+    .attr_max_len = BLEAttribute::ATTR_MAX_LEN, // should be 0x40
+    .attr_len     = sizeof(dummyValue),
+    .attr_value   = dummyData,
+};

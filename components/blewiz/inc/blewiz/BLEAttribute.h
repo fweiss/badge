@@ -31,6 +31,8 @@ protected:
     esp_bt_uuid_t uuid;
     BLEService *service;
 
+    static esp_attr_value_t dummyValue;
+
     virtual void addToService(BLEService &service) = 0;
     std::function<void(uint16_t len, uint8_t *value)> writeCallback;
     std::function<void(uint16_t *len, uint8_t **value)> readCallback;
