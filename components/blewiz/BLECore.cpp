@@ -77,10 +77,6 @@ void BLECore::gatts_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t gatt
         service->onStarted();
         break;
     }
-    case ESP_GATTS_ADD_CHAR_EVT: {
-//        ESP_LOGI(GATTS_TAG, "characteristic added");
-        break;
-    }
     case ESP_GATTS_CONNECT_EVT: {
         esp_ble_gatts_cb_param_t::gatts_connect_evt_param &connect = param->connect;
         ESP_LOGI(LOG_TAG, "connect occurred: conn_id: %d", connect.conn_id);
