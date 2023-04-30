@@ -274,18 +274,22 @@ void BadgeService::batteryTask(void *parameters) {
 
         value[0] = percent;
         uint16_t length = sizeof(value);
+
+        batteryCharacteristic->setValue(length, value);
+        self->notify(*batteryCharacteristic, length, value, true);
+
         // subsequent ESP_GATTS_SET_ATTR_VAL_EVT
-        esp_err = ::esp_ble_gatts_set_attr_value(handle, length, value);
-        if (esp_err != ESP_OK) {
-            ESP_LOGE(LOG_TAG, "battery characteristic: set attribbte: err: %0x", esp_err);
-            return;
-        }
-        bool need_confirm = false;
-        esp_err = ::esp_ble_gatts_send_indicate(gatt_if, conn_id, handle, length, value, need_confirm);
-        if (esp_err != ESP_OK) {
-            ESP_LOGE(LOG_TAG, "battery characteristic: set attribbte: err: %0x", esp_err);
-            return;
-        }
+        // esp_err = ::esp_ble_gatts_set_attr_value(handle, length, value);
+        // if (esp_err != ESP_OK) {
+        //     ESP_LOGE(LOG_TAG, "battery characteristic: set attribbte: err: %0x", esp_err);
+        //     return;
+        // }
+        // bool need_confirm = false;
+        // esp_err = ::esp_ble_gatts_send_indicate(gatt_if, conn_id, handle, length, value, need_confirm);
+        // if (esp_err != ESP_OK) {
+        //     ESP_LOGE(LOG_TAG, "battery characteristic: set attribbte: err: %0x", esp_err);
+        //     return;
+        // }
     }
 }
 
