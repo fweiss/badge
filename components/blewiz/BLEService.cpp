@@ -86,6 +86,11 @@ void BLEService::handleGattsEvent(esp_gatts_cb_event_t event, esp_gatt_if_t gatt
         }
         break;
     }
+    case ESP_GATTS_CONF_EVT: {
+        esp_ble_gatts_cb_param_t::gatts_conf_evt_param &conf = param->conf;
+        ESP_LOGI(GATTS_TAG, "received confirm event: %0x", conf.handle);
+        break;
+    }
     default:
         break;
     }
