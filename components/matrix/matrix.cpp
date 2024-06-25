@@ -4,55 +4,6 @@
 
 static const char TAG[] = "Matrix";
 
-// these will be set by the construcotr
-static uint32_t ws2812_t0h_ticks = 0;
-static uint32_t ws2812_t0l_ticks = 0;
-static uint32_t ws2812_t1h_ticks = 0;
-static uint32_t ws2812_t1l_ticks = 0;
-
-//typedef void (*sample_to_rmt_t)(const void *src, rmt_item32_t *dest, size_t src_size, size_t wanted_num, size_t *translated_size, size_t *item_num)
-/**
- * @brief Conver RGB data to RMT format.
- *
- * @note For WS2812, R,G,B each contains 256 different choices (i.e. uint8_t)
- *
- * @param[in] src: source data, to converted to RMT format
- * @param[in] dest: place where to store the convert result
- * @param[in] src_size: size of source data
- * @param[in] wanted_num: number of RMT items that want to get
- * @param[out] translated_size: number of source data that got converted
- * @param[out] item_num: number of RMT items which are converted from source data
- */
-static void IRAM_ATTR ws2812_rmt_adapter(const void *src, rmt_item32_t *dest, size_t src_size, size_t wanted_num, size_t *translated_size, size_t *item_num) {
-    if (src == NULL || dest == NULL) {
-        *translated_size = 0;
-        *item_num = 0;
-        return;
-    }
-    const rmt_item32_t bit0 = {{{ ws2812_t0h_ticks, 1, ws2812_t0l_ticks, 0 }}}; //Logical 0
-    const rmt_item32_t bit1 = {{{ ws2812_t1h_ticks, 1, ws2812_t1l_ticks, 0 }}}; //Logical 1
-    size_t size = 0;
-    size_t num = 0;
-    uint8_t *psrc = (uint8_t *)src;
-    rmt_item32_t *pdest = dest;
-    while (size < src_size && num < wanted_num) {
-        for (int i = 0; i < 8; i++) {
-            // MSB first
-            if (*psrc & (1 << (7 - i))) {
-                pdest->val =  bit1.val;
-            } else {
-                pdest->val =  bit0.val;
-            }
-            num++;
-            pdest++;
-        }
-        size++;
-        psrc++;
-    }
-    *translated_size = size;
-    *item_num = num;
-}
-
 Matrix::Matrix(gpio_num_t gpioPin, size_t size) : size(size) {
     esp_err_t status;
 
@@ -62,66 +13,47 @@ Matrix::Matrix(gpio_num_t gpioPin, size_t size) : size(size) {
         return;
     }
 
-    // RMT timing for WS2812B
-    // 1=80 MHz,12.5 ns, etc
-    // 4=20 MHz, i.e. 50 ns
-    uint16_t clk_div = 4;
+    channel = NULL;
+    rmt_tx_channel_config_t config = {
+        .gpio_num = gpioPin,
+        .clk_src = RMT_CLK_SRC_DEFAULT,
+        .resolution_hz = tickResolutionHz,
+        .mem_block_symbols = 64,
+        .trans_queue_depth = 4,
+    };
+    // config.flags.with_dma = 1; // depends on chip
+    ESP_ERROR_CHECK(rmt_new_tx_channel(&config, &channel));
 
-    // original led_strip
-    clk_div = 8; // 100ns
-    ws2812_t0h_ticks = 3;
-    ws2812_t0l_ticks = 9;
-    ws2812_t1h_ticks = 9;
-    ws2812_t1l_ticks = 3;
+    rmt_bytes_encoder_config_t bytesEncoderConfig{
+        .bit0{
+            .duration0 = fromMicros(0.350),
+            .level0 = 1,
+            .duration1 = fromMicros(0.800),
+            .level1 = 0,
+        },
+        .bit1{
+            .duration0 = fromMicros(0.700),
+            .level0 = 1,
+            .duration1 = fromMicros(0.600),
+            .level1 = 0,
+        },
+        .flags = {
+            .msb_first = 1, // WS2812 data is sent MSB first
+        },
+    };
+    ESP_ERROR_CHECK(rmt_new_bytes_encoder(&bytesEncoderConfig, &encoder));
+    ESP_LOGI(TAG, "encoder created %p", encoder);
 
-
-    //    ws2812_t0h_ticks = 9;
-    //    ws2812_t0l_ticks = 18;
-    //    ws2812_t1h_ticks = 17;
-    //    ws2812_t1l_ticks = 10;
-
-    // experimental
-    // divider 4 = 20 Mhz = 50 ns
-    clk_div = 4;
-    ws2812_t0h_ticks = 8;
-    ws2812_t0l_ticks = 17;
-    ws2812_t1h_ticks = 16;
-    ws2812_t1l_ticks = 9;
-    // mimic the outputs
-    ws2812_t0h_ticks = 7;
-    ws2812_t0l_ticks = 18;
-    ws2812_t1h_ticks = 14;
-    ws2812_t1l_ticks = 11;
-
-    rmt_config_t config = RMT_DEFAULT_CONFIG_TX(gpioPin, channel);
-//    config.mem_block_num = 1; // use all 8 to reduce overhead?
-    config.clk_div = clk_div;
-    config.tx_config.loop_en = false;
-//    config.tx_config.idle_level = RMT_IDLE_LEVEL_HIGH;
-//    config.tx_config.idle_output_en = true;
-
-    status = rmt_config(&config);
-    if (status != ESP_OK) {
-        ESP_LOGE(TAG, "config failed: %d", status);
-    }
-
-    status = rmt_driver_install(channel, 0, 0);
-    if (status != ESP_OK) {
-        ESP_LOGE(TAG, "RMT drive install failed: %d", status);
-    }
-
-    status = rmt_translator_init(channel, &ws2812_rmt_adapter);
-    if (status != ESP_OK) {
-        ESP_LOGW(TAG, "RMT translator init failed: %d", status);
-    }
+    ESP_ERROR_CHECK(rmt_enable(channel));
 }
 
 // destructor
 Matrix::~Matrix() {
-    esp_err_t status = rmt_driver_uninstall(channel);
-    if (status != ESP_OK) {
-        ESP_LOGW(TAG, "RMT drive uninstall failed: %d", status);
-    }
+    // stop the channel
+    // free the channel
+    // free the channel
+    // free the encoder
+    //  free the pixel buffer
     if (grbPixels != 0) {
         free(grbPixels);
     }
@@ -133,7 +65,7 @@ void Matrix::setPixelRgb(uint32_t index, uint8_t red, uint8_t green, uint8_t blu
         return;
     }
     if (index >= size) {
-        ESP_LOGW(TAG, "setPixelRgb: index out of range %d", index);
+        ESP_LOGW(TAG, "setPixelRgb: index out of range %lu", index);
         return;
     }
     uint32_t start = index * 3;
@@ -170,30 +102,32 @@ void Matrix::show() {
 //    sendReset();
 
     bool wait_tx_done = true;
-    status = rmt_write_sample(channel, grbPixels, size * bytesPerPixel, wait_tx_done);
+    rmt_transmit_config_t transmitConfig{};
+    status = rmt_transmit(channel, encoder, grbPixels, size * bytesPerPixel, &transmitConfig);
     if (status != ESP_OK) {
         ESP_LOGW(TAG, "RMT write sample failed: %d", status);
     }
+    rmt_tx_wait_all_done(channel, 100);
 }
 
 // some have reported that since 2017, WS2812B requires 300 us reset low
 void Matrix::sendReset() {
-    esp_err_t status;
+    // esp_err_t status;
 
-    rmt_item32_t rmt_item[2];
-    rmt_item[0].duration0 = 1000;
-    rmt_item[0].level0 = 1;
-    rmt_item[0].duration1 = 10000; // 500 us
-    rmt_item[0].level1 = 0;
-    rmt_item[1].duration0 = 10000;
-    rmt_item[1].level0 = 0;
-    rmt_item[1].duration1 = 1000;
-    rmt_item[1].level1 = 1;
+    // rmt_item32_t rmt_item[2];
+    // rmt_item[0].duration0 = 1000;
+    // rmt_item[0].level0 = 1;
+    // rmt_item[0].duration1 = 10000; // 500 us
+    // rmt_item[0].level1 = 0;
+    // rmt_item[1].duration0 = 10000;
+    // rmt_item[1].level0 = 0;
+    // rmt_item[1].duration1 = 1000;
+    // rmt_item[1].level1 = 1;
 
-    bool wait_tx_done = true;
-    status = rmt_write_items(channel, rmt_item, 2, wait_tx_done);
-    if (status != ESP_OK) {
-        ESP_LOGW(TAG, "rmt write items failed: %d", status);
-    }
+    // bool wait_tx_done = true;
+    // status = rmt_write_items(channel, rmt_item, 2, wait_tx_done);
+    // if (status != ESP_OK) {
+    //     ESP_LOGW(TAG, "rmt write items failed: %d", status);
+    // }
 //    ESP_LOGI(TAG, "reset pulse sent");
 }

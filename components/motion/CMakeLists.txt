@@ -6,4 +6,5 @@ idf_component_register(
     INCLUDE_DIRS 
     	inc/motion
     	inc
+    REQUIRES driver esp_timer
 )

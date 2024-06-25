@@ -1,6 +1,7 @@
 #include "CandyChaser.h"
 
-#include "esp_system.h" // for esp_random()
+// #include "esp_system.h" // for esp_random()
+#include "esp_random.h"
 
 CandyChaser::CandyChaser(uint16_t size) : Chaser(size) {
     this->r = esp_random();

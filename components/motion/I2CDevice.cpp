@@ -14,7 +14,7 @@ static const char* TAG = "I2CDEVICE";
 I2CDevice::I2CDevice(uint8_t address) {
 	esp_err_t esp_err;
 
-	this->port = 0;
+	this->port = I2C_NUM_0;
 	this->address = address;
 	this->ticks = 1000;
 
@@ -32,12 +32,14 @@ I2CDevice::I2CDevice(uint8_t address) {
 	    // .clk_flags = 0,          /*!< Optional, you can use I2C_SCLK_SRC_FLAG_* flags to choose i2c source clock here. */
 	conf.master.clk_speed = 400000;
 	conf.clk_flags = 0;
-	esp_err = i2c_param_config(i2c_master_port, &conf);
+	// esp_err = i2c_param_config(i2c_master_port, &conf);
+    i2c_port_t port{I2C_NUM_0};
+	esp_err = i2c_param_config(port, &conf);
     if (esp_err != ESP_OK) {
 		ESP_LOGW(TAG, "i2c param: %d", esp_err);
     }
 
-    esp_err = i2c_driver_install(i2c_master_port, conf.mode, I2C_MASTER_RX_BUF_DISABLE, I2C_MASTER_TX_BUF_DISABLE, 0);
+    esp_err = i2c_driver_install(port, conf.mode, I2C_MASTER_RX_BUF_DISABLE, I2C_MASTER_TX_BUF_DISABLE, 0);
 }
 
 I2CDevice::~I2CDevice() {

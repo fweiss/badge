@@ -9,6 +9,7 @@ Timer::Timer() {
     timer_autoreload_t auto_reload = TIMER_AUTORELOAD_EN;
     double timer_interval_sec = 0.030;
     uint32_t timer_divider = 16.0;
+    const uint32_t TIMER_BASE_CLK = 80000000; // for ESP32S3 APB_CLK_FREQ
     this->timer_scale = (TIMER_BASE_CLK / timer_divider);
 
     // initialize the timer configuration
@@ -43,8 +44,8 @@ void Timer::setCallback(void func(void)) {
 
 void IRAM_ATTR Timer::timerIsr(void *data) {
     int timer_idx = (int) data;
-    TIMERG0.int_clr_timers.t0 = 1; // clear the interrupt
-    TIMERG0.hw_timer[timer_idx].config.alarm_en = TIMER_ALARM_EN; // retrigger alarm
+    TIMERG0.int_clr_timers.t0_int_clr = 1; // clear the interrupt
+    TIMERG0.hw_timer[timer_idx].config.tx_autoreload = 1; // retrigger alarm
     func();
 }
 

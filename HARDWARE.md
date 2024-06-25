@@ -1,6 +1,10 @@
 # Hardware
-
 The current prototype is built with a few inexpensive, readily available components.
+
+- CJMCU-8x8 CJMCU-8x8 array
+- MPU6050 IMU
+- ESP32 LiPo dev board
+- LiPo battery
 
 ## CJMCU-8x8
 This is an inexpensive 8 by 8 RGB LED array based on the WS2812 component.
@@ -16,6 +20,14 @@ the serial input to the DOUT pin.
 
 Current tests. Hue
 All green at 150 value: 647 mA
+
+## WS2812 addressable RGB LED
+This is the older 6-pin version of the 4-pin WS2812.
+- 400 kps data transmission rate, 2.5 us
+- 0 code high 350 ns low 800 ns
+- 1 code high 700 ns low 600 ns
+- tolerance +/- 150 ns
+- reset > 50 us
 
 ### Orientation and addressing
 The display is zig-zag. Looking at the fron of the display, the first pixel is at the
@@ -44,3 +56,6 @@ using the dlpf at 5 Hz, there's a slight signal that oscillates some of the leds
 it may be at 2.5 hz
 Turned out to be the drop limit was < 0.1
 changing to < fixed it
+
+## Links and references
+[WS2812 datasheet](https://cdn-shop.adafruit.com/datasheets/WS2812.pdf)

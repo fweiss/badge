@@ -6,6 +6,7 @@
 #include "esp_ota_ops.h"
 
 #include <cstring>
+#include <string>
 
 static const char* LOG_TAG = "BADGE";
 
@@ -113,8 +114,8 @@ BadgeService::BadgeService(Display &display, AnimationProgram &animationProgram)
     appVersionCharacteristic(this, appVersionCharacteristicConfig),
     frameDumpCharacteristic(this, frameDumpCharacteristicConfig) {
 
-    ::adc1_config_width(ADC_WIDTH_12Bit);
-    ::adc1_config_channel_atten(ADC1_CHANNEL_7, ADC_ATTEN_11db); // Measure up to 2.2V
+    ::adc1_config_width(ADC_WIDTH_BIT_12);
+    ::adc1_config_channel_atten(ADC1_CHANNEL_7, ADC_ATTEN_DB_11); // Measure up to 2.2V
     batteryTaskHandle = NULL;
 
 
@@ -177,7 +178,7 @@ void BadgeService::init() {
             uint16_t x = value[0];
             uint16_t y = value[1];
             Color color = (value[2] << 16) | (value[3] << 8) | (value[4]);
-            ESP_LOGI(LOG_TAG, "paint pixel: %d, %d: %xl", x, y, color);
+            // ESP_LOGI(LOG_TAG, "paint pixel: %d, %d: %xl", x, y, color);
             paintPixel->setPixelColor(x, y, color);
         }
     );
@@ -186,7 +187,7 @@ void BadgeService::init() {
             for (int j=0; j<len; j++) {
                 paintFrame.emplace_back(value[j]);
             }
-            ESP_LOGI(LOG_TAG, "paint frame data: %d, size: %d", len, paintFrame.size());
+            // ESP_LOGI(LOG_TAG, "paint frame data: %d, size: %d", len, paintFrame.size());
             if (paintFrame.size() >= 64 * 3) {
                 std::vector<uint32_t> frame;
                 for (int i=0; i<64; i++) {

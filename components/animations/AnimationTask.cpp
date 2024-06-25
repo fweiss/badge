@@ -29,7 +29,7 @@ void AnimationTask::start() {
 void AnimationTask::setIntervalSecs(float secs) {
     currentIntervalTicks = (TickType_t)(secs * 1000 / portTICK_PERIOD_MS);
 
-    ESP_LOGI(TAG, "requested %f sec, got %d ticks", secs, currentIntervalTicks);
+    ESP_LOGI(TAG, "requested %f sec, got %lu ticks", secs, currentIntervalTicks);
 
     // signal the animation loop that a change is requested
     BaseType_t success = xSemaphoreGive(semaphoreHandle);

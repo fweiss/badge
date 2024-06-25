@@ -4,4 +4,5 @@ idf_component_register(
     INCLUDE_DIRS 
     	inc/matrix
     	inc
+    REQUIRES driver
 )
