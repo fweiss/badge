@@ -6,18 +6,19 @@
 
 class BitmapAnimation : public Animation {
 public:
+    BitmapAnimation();
+    BitmapAnimation(std::vector<std::vector<uint32_t>> &frames): frames(frames), frameIndex(0) {};
+    BitmapAnimation(std::vector<std::vector<uint32_t>> &frames, uint16_t period): frames(frames), frameIndex(0) {
+        this->framePeriodMillis = period;
+    };
+
     typedef std::vector<std::vector<uint32_t>> Frames;
 
-    BitmapAnimation(Display &display);
-    BitmapAnimation(Display &display, std::vector<std::vector<uint32_t>> &frames);
-    BitmapAnimation(Display &display, std::vector<std::vector<uint32_t>> &frames, uint16_t framePeriodMilis);
-
-//    const std::vector<uint32_t> *frameDump() const override;
 protected:
     virtual void nextFrame() { frameIndex = (frameIndex + 1) % frames.size(); }
-    void drawFrame() override;
     virtual void drawFrame(uint16_t frameIndex);
+    virtual void drawFrame(Frame &frame);
 
-    uint16_t frameIndex;
     std::vector<std::vector<uint32_t>> &frames;
+    uint16_t frameIndex;
 };

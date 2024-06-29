@@ -1,24 +1,37 @@
 #include "MarqueeAnimation.h"
 
-MarqueeAnimation::MarqueeAnimation(Display &display) : PathAnimation(display, 100), chaser(8, 256 * 3 / 8) {
+MarqueeAnimation::MarqueeAnimation() : PathAnimation(100), chaser(8, 256 * 3 / 8) {
     chaser.preroll(8);
     chaser.setReverse(true);
 }
-
-void MarqueeAnimation::drawFrame() {
+void MarqueeAnimation::drawFrame(Frame &frame) {
     uint16_t row = 0;
     for (std::vector<uint16_t> path : paths) {
         uint16_t chaserIndex = 0;
         for (uint16_t pixelIndex : path) {
             uint32_t color = chaser.get(chaserIndex++);
             bool black = 0 == ((chaserIndex + frameIndex) % 3);
-            display.setPixel(pixelIndex, black ? 0 : color);
+            frame.setPixel(pixelIndex, black ? 0 : color);
         }
     }
-    display.update();
     chaser.roll();
     frameIndex++;
 }
+
+// void MarqueeAnimation::drawFrame() {
+    // uint16_t row = 0;
+    // for (std::vector<uint16_t> path : paths) {
+    //     uint16_t chaserIndex = 0;
+    //     for (uint16_t pixelIndex : path) {
+    //         uint32_t color = chaser.get(chaserIndex++);
+    //         bool black = 0 == ((chaserIndex + frameIndex) % 3);
+    //         display.setPixel(pixelIndex, black ? 0 : color);
+    //     }
+    // }
+    // display.update();
+    // chaser.roll();
+    // frameIndex++;
+// }
 
 std::vector<std::vector<uint16_t>> MarqueeAnimation::paths = {
         { 0, 1, 2, 3, 4, 5, 6, 7 },

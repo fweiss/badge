@@ -1,6 +1,6 @@
 #include "MiscellanyAnimation.h"
 
-MiscellanyAnimation::MiscellanyAnimation(Display &display) : BitmapAnimation(display, frames, 2000) {
+MiscellanyAnimation::MiscellanyAnimation() : BitmapAnimation(frames, 2000) {
 
 }
 

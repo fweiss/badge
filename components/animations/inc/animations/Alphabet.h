@@ -4,7 +4,7 @@
 
 class Alphabet : public BitmapAnimation {
 public:
-    Alphabet(Display &display);
+    Alphabet();
 private:
     static BitmapAnimation::Frames frames;
 };

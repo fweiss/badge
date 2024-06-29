@@ -1,6 +1,6 @@
 #include "Alphabet.h"
 
-Alphabet::Alphabet(Display &display) : BitmapAnimation(display, frames, 2000) {
+Alphabet::Alphabet() : BitmapAnimation(frames, 2000) {
 
 }
 

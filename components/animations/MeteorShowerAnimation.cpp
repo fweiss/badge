@@ -1,6 +1,6 @@
 #include "MeteorShowerAnimation.h"
 
-MeteorShowerAnimation::MeteorShowerAnimation(Display &display) : PathAnimation(display) {
+MeteorShowerAnimation::MeteorShowerAnimation() {
     // NE to SW
     // matrix DIN at top left, 8x8
     // todo: make this configurable and compute the paths based on the matrix orientation

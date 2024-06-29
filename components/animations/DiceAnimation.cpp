@@ -1,6 +1,6 @@
 #include "DiceAnimation.h"
 
-DiceAnimation::DiceAnimation(Display &display) : BitmapAnimation(display, frames, 2000) {
+DiceAnimation::DiceAnimation() : BitmapAnimation(frames, 2000) {
 
 }
 

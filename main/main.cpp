@@ -9,18 +9,17 @@
 
 #include "matrix/matrix.h"
 
-#include "animations/display.h"
+#include "player/Display.h"
 #include "animations/SmearAnimation.h"
 #include "animations/SpiralAnimation.h"
 #include "animations/MeteorShowerAnimation.h"
 #include "animations/Felix.h"
-#include "animations/AnimationProgram.h"
+#include "player/AnimationProgram.h"
 #include "animations/HeartAnimation.h"
 #include "animations/JsonAnimation.h"
 #include "animations/SpinBottleAnimation.h"
 #include "animations/WormholeAnimation.h"
 #include "animations/SpinBottle2.h"
-#include "animations/Timer.h"
 #include "animations/EmojiAnimation.h"
 #include "animations/Kaleidascope.h"
 #include "animations/MarqueeAnimation.h"
@@ -35,8 +34,7 @@
 #include "animations/Plasma.h"
 #include "animations/Gravity.h"
 
-#include "animations/AnimationTask.h"
-#include "animations/TimerAnimationTask.h"
+#include "player/AnimationTask.h"
 
 #include <stdio.h>
 
@@ -52,7 +50,7 @@ extern "C" {
 static const char* TAG = "BADGE";
 
 #define REGISTER(index, name, clazz) \
-    static clazz name(display); \
+    static clazz name; \
     animationProgram.putAnimation(index, &name);
 
 TaskHandle_t mainTaskHandle;
@@ -94,9 +92,9 @@ void mainTask(void *parameters) {
     REGISTER(15, miscellany, MiscellanyAnimation)
     REGISTER(16, funbit, FunBit64)
     REGISTER(17, paintPixel, PaintPixel)
+#endif
     REGISTER(18, alphabet, Alphabet);
     REGISTER(19, tween, Tween);
-#endif
     REGISTER(20, plasma, Plasma)
     REGISTER(21, gravity, Gravity);
 
@@ -113,7 +111,8 @@ void mainTask(void *parameters) {
 
     animator.setCallback(
         [] {
-            animationProgram.drawFrame();
+            animationProgram.drawFrame(display);
+            display.show();
         }
     );
     motion.setListeners([](MotionData motionData){

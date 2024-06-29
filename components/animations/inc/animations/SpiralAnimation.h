@@ -15,5 +15,5 @@ private:
     // static const std::vector<uint16_t> spiral3;
 protected:
 public:
-    SpiralAnimation(Display &display);
+    SpiralAnimation();
 };

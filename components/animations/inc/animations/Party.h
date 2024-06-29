@@ -4,7 +4,7 @@
 
 class Party : public BitmapAnimation {
 public:
-    Party(Display &display);
+    Party();
 protected:
     static Frames frames;
 };

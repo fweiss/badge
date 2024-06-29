@@ -18,11 +18,11 @@ public:
 // the animation class
 class PathAnimation : public Animation {
 public:
-    PathAnimation(Display &display);
-    PathAnimation(Display &display, uint16_t framePeriodMilis);
+    PathAnimation();
+    PathAnimation(uint16_t framePeriodMilis);
     virtual ~PathAnimation() {}
 
-    virtual void drawFrame() override;
+    virtual void drawFrame(Frame &frame) override;
     void reverse();
 protected:
     std::vector<ChaserPath> chaserPaths;

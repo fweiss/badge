@@ -258,7 +258,7 @@ void BadgeService::batteryTask(void *parameters) {
 
     uint8_t value[1];
     while (1) {
-        esp_err_t esp_err;
+        // esp_err_t esp_err;
         vTaskDelay(pdMS_TO_TICKS(2000));
         uint16_t handle = batteryCharacteristic->getHandle();
         if (handle == 0) {

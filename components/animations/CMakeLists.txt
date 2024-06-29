@@ -2,15 +2,13 @@ idf_component_register(
 	SRCS 
 		Alphabet.cpp
 		Animation.cpp
-		AnimationProgram.cpp
-		AnimationTask.cpp
 		BitmapAnimation.cpp
 		CandyChaser.cpp
 		Chaser.cpp
 		DiceAnimation.cpp
-		Display.cpp
 		EmojiAnimation.cpp
 		Felix.cpp
+        Frame.cpp
 		Funbit64.cpp
 		Gravity.cpp
 		HeartAnimation.cpp
@@ -23,14 +21,11 @@ idf_component_register(
 		Party.cpp
 		PathAnimation.cpp
 		Plasma.cpp
-		Profiler.cpp
 		RainbowChaser.cpp
 		SmearAnimation.cpp
 		SpinBottle2.cpp
 		SpinBottleAnimation.cpp
 		SpiralAnimation.cpp
-		Timer.cpp
-		TimerAnimationTask.cpp
 		Tween.cpp
 		Weather.cpp
 		WormholeAnimation.cpp

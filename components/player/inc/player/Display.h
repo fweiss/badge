@@ -2,8 +2,9 @@
 
 #include "freertos/FreeRTOS.h"
 #include "matrix/matrix.h"
+#include "animations/Frame.h"
 
-class Display {
+class Display : public Frame {
 public:
     Display(gpio_num_t gpio);
 

@@ -4,5 +4,5 @@
 
 class Kaleidascope : public JsonAnimation {
 public:
-    Kaleidascope(Display &display);
+    Kaleidascope();
 };

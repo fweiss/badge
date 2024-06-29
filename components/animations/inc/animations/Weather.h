@@ -4,7 +4,7 @@
 
 class Weather : public BitmapAnimation {
 public:
-    Weather(Display &display);
+    Weather();
 protected:
     static Frames frames;
 };

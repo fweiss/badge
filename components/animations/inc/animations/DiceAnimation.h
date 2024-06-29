@@ -4,7 +4,7 @@
 
 class DiceAnimation : public BitmapAnimation {
 public:
-    DiceAnimation(Display &display);
+    DiceAnimation();
 private:
     static std::vector<std::vector<uint32_t>> frames;
 };

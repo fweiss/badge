@@ -1,4 +1,4 @@
-#include "display.h"
+#include "Display.h"
 
 Display::Display(gpio_num_t gpio) : matrix(gpio, 64) {
     this->brightness = 25;

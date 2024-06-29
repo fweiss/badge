@@ -23,15 +23,23 @@ static void composeText(std::vector<uint32_t> &target, std::vector<std::vector<u
 			const char ch = text[j];
 			uint16_t k =  ch - 'a' + 26;
 			if (ch == ' ') k = 52;
+			// target.insert(target.end(), frames[k].begin() + i*8, frames[k].begin() + i*8+em);
 			target.insert(target.end(), frames[k].begin() + i*8, frames[k].begin() + i*8+em);
 		}
 	}
 
 }
 
-Tween::Tween(Display &display) : BitmapAnimation(display, frames, 35), compositeFrame() {
+Tween::Tween() : BitmapAnimation(frames, 350), compositeFrame() {
 //	this->compositeFrame = new std::vector<uint32_t>(0);
 	composeText(this->compositeFrame, frames);
+}
+
+void Tween::drawFrame(Frame &frame) {
+    // std::vector<uint32_t> currentFrame = frames.at(frameIndex);
+    // frame.draw(currentFrame);
+    // nextFrame();
+    frame.draw(compositeFrame);
 }
 
 uint32_t scale(uint32_t source, float factor) {
@@ -99,9 +107,8 @@ void Tween::drawFrame(uint16_t frameIndex) {
     	const uint16_t row = i / 8;
     	const uint16_t col = (i % 8 + shift) % cols;
     	const uint16_t index = i;
-        display.setPixel(index, tween(compositeFrame, trans[smoothFrameFraction], row, col));
+        // display.setPixel(index, tween(compositeFrame, trans[smoothFrameFraction], row, col));
     }
-    display.update();
 }
 
 BitmapAnimation::Frames Tween::frames = {

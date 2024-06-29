@@ -4,7 +4,7 @@
 
 class JsonAnimation : public BitmapAnimation {
 public:
-    JsonAnimation(Display &display);
-    JsonAnimation(Display &display, const char *json);
+    JsonAnimation();
+    JsonAnimation(const char *json);
     void loadJson(const char *json);
 };

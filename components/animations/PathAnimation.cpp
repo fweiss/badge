@@ -1,20 +1,15 @@
 #include "PathAnimation.h"
 
-PathAnimation::PathAnimation(Display &display) : Animation(display) {
+PathAnimation::PathAnimation() {
 
 }
 
-PathAnimation::PathAnimation(Display &display, uint16_t framePeriodMilis) : Animation(display, framePeriodMilis){
-
-}
-
-void PathAnimation::drawFrame() {
+ void PathAnimation::drawFrame(Frame &frame) {
     for (ChaserPath cp : chaserPaths) {
         cp.chaser->roll();
-        drawPath(cp.path, cp.chaser);
+        frame.drawPath(cp.path, cp.chaser);
     }
-    display.show();
-}
+ }
 
 // reverse the paths so that chaser gets applied reverse
 void PathAnimation::reverse() {
@@ -23,10 +18,11 @@ void PathAnimation::reverse() {
     }
 }
 
+// @deprecated use Frame::drawPath instead
 void PathAnimation::drawPath(std::vector<uint16_t> path, Chaser *chaser) {
-    uint16_t i = 0;
-    for (int pixelIndex : path) {
-        uint32_t pixelColor = chaser->get(i++);
-        display.setPixel(pixelIndex, pixelColor);
-    }
+    // uint16_t i = 0;
+    // for (int pixelIndex : path) {
+    //     uint32_t pixelColor = chaser->get(i++);
+    //     display.setPixel(pixelIndex, pixelColor);
+    // }
 }

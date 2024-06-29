@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Animation.h"
-#include "Display.h"
 #include "motion/Motion.hpp"
 
 #include <vector>
@@ -26,10 +25,10 @@ typedef struct {
 
 class Gravity : public Animation {
 public:
-    Gravity(Display &display);
+    Gravity();
     virtual ~Gravity();
 
-    void drawFrame() override;
+    virtual void drawFrame(Frame &frame) override;
 
     void setMotion(MotionData motionData);
 private:

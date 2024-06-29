@@ -1,6 +1,6 @@
 #include "FunBit64.h"
 
-FunBit64::FunBit64(Display &display) : BitmapAnimation(display, frames, 2000) {
+FunBit64::FunBit64() : BitmapAnimation(frames, 2000) {
 
 }
 

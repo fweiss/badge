@@ -4,7 +4,7 @@
 
 class FunBit64 : public BitmapAnimation {
 public:
-    FunBit64(Display &display);
+    FunBit64();
 protected:
     static Frames frames;
 };

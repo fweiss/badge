@@ -4,7 +4,7 @@
 
 class Felix : public BitmapAnimation {
 public:
-    Felix(Display &display);
+    Felix();
 protected:
     static std::vector<std::vector<uint32_t>> yy;
 };

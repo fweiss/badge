@@ -1,7 +1,7 @@
 #pragma once
 
-#include "animations/display.h"
-#include "animations/AnimationProgram.h"
+#include "player/Display.h"
+#include "player/AnimationProgram.h"
 #include "animations/PaintPixel.h"
 
 #include "blewiz/BLECharacteristic.h"

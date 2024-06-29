@@ -1,6 +1,6 @@
 #include "Weather.h"
 
-Weather::Weather(Display &display) : BitmapAnimation(display, frames, 2000) {
+Weather::Weather() : BitmapAnimation(frames, 2000) {
 
 }
 

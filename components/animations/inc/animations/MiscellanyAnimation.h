@@ -4,7 +4,7 @@
 
 class MiscellanyAnimation : public BitmapAnimation {
 public:
-    MiscellanyAnimation(Display &display);
+    MiscellanyAnimation();
 protected:
     static Frames frames;
 };

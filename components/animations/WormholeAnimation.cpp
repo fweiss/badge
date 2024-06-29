@@ -4,28 +4,26 @@ const uint16_t framePeriod{100};
 const uint16_t chaserLength{4};
 const uint16_t chaserStep{256 * 3 / 8};
 
-WormholeAnimation::WormholeAnimation(Display &display) : PathAnimation(display, framePeriod), chaser(chaserLength, chaserStep) {
+WormholeAnimation::WormholeAnimation() : PathAnimation(framePeriod), chaser(chaserLength, chaserStep) {
 }
 
 // need greater chaser granularity
 // default is 3 * 256 steps
 // but the "roll" should be as the next color is being added to the chaser
-void WormholeAnimation::drawFrame() {
-
+void WormholeAnimation::drawFrame(Frame &frame) {
     chaser.roll();
 
     uint16_t colorIndex = 0;
     for (std::vector<uint16_t> path :paths) {
         uint32_t color = chaser.get(colorIndex++);
-        drawPath(path, color);
+        frame.drawPath(path, color);
     }
-    display.update();
 }
 
 void WormholeAnimation::drawPath(std::vector<uint16_t> path, uint32_t color) {
-    for (uint16_t pixelIndex : path) {
-        display.setPixel(pixelIndex, color);
-    }
+    // for (uint16_t pixelIndex : path) {
+    //     display.setPixel(pixelIndex, color);
+    // }
 }
 
 std::vector<std::vector<uint16_t>> WormholeAnimation::paths = {

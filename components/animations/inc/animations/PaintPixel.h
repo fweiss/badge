@@ -6,7 +6,7 @@ typedef uint32_t Color;
 
 class PaintPixel : public BitmapAnimation {
 public:
-    PaintPixel(Display &display);
+    PaintPixel();
 
     void clearFrames();
     void setFrame(std::vector<uint32_t> frame);

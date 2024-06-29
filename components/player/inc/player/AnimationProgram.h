@@ -5,6 +5,7 @@
 #include "Animation.h"
 #include "AnimationTask.h"
 #include "Profiler.h"
+#include "Frame.h"
 
 class AnimationProgram {
 public:
@@ -12,6 +13,7 @@ public:
     virtual ~AnimationProgram() {};
 
     void drawFrame();
+    void drawFrame(Frame &frame);
     void putAnimation(uint8_t index, Animation *animation);
     void setProgram(uint8_t index);
     uint8_t getProgramIndex() { return index; } 

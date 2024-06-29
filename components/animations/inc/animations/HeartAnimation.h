@@ -6,7 +6,7 @@
 
 class HeartAnimation : public BitmapAnimation {
 public:
-    HeartAnimation(Display &display);
+    HeartAnimation();
 protected:
 
     static std::vector<std::vector<uint32_t>> heart;

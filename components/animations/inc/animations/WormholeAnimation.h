@@ -5,9 +5,9 @@
 
 class WormholeAnimation : public PathAnimation {
 public:
-    WormholeAnimation(Display &display);
+    WormholeAnimation();
 
-    virtual void drawFrame() override;
+    virtual void drawFrame(Frame &frame) override;
 private:
     RainbowChaser chaser;
     void drawPath(std::vector<uint16_t>, uint32_t);

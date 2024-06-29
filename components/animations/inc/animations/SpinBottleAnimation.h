@@ -4,7 +4,7 @@
 
 class SpinBottleAnimation : public BitmapAnimation {
 public:
-    SpinBottleAnimation(Display &display);
+    SpinBottleAnimation();
 private:
     static std::vector<std::vector<uint32_t>> frames;
 

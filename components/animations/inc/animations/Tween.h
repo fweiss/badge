@@ -4,10 +4,11 @@
 
 class Tween : public BitmapAnimation {
 public:
-	Tween(Display &display);
+    Tween();
 
 	void drawFrame(uint16_t frameIndex) override;
-	virtual void nextFrame() { frameIndex = (frameIndex + 1); } // let it wrap!
+    virtual void drawFrame(Frame &frame) override;
+	virtual void nextFrame() { frameIndex = (frameIndex + 1) % 52; } // let it wrap!
 private:
     static BitmapAnimation::Frames frames;
     std::vector<uint32_t> compositeFrame;

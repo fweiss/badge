@@ -13,10 +13,10 @@ void AnimationProgram::putAnimation(uint8_t index, Animation *animation) {
     programs[index] = animation;
 }
 
-void AnimationProgram::drawFrame() {
+void AnimationProgram::drawFrame(Frame &frame) {
 	profiler.startTime();
     // fixme check index
-    programs[index]->drawFrame();
+    programs[index]->drawFrame(frame);
     profiler.stopTime();
 }
 

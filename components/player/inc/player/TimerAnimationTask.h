@@ -6,6 +6,7 @@
 
 #include "BaseAnimationTask.h"
 
+// @deprecated
 class TimerAnimationTask : public BaseAnimationTask {
 public:
 	TimerAnimationTask();

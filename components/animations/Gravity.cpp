@@ -8,7 +8,7 @@
 #include "esp_log.h"
 const char* TAG = "Gravity";
 
-Gravity::Gravity(Display &display) : Animation(display, 100) {
+Gravity::Gravity() {
     this->motionData = { 0.0, 0.0, 0.0 };
     this->board = std::vector<std::vector<Cell*>>(8, std::vector<Cell*>(8, NULL));
     for (int r=0; r<8; r++) {
@@ -21,6 +21,7 @@ Gravity::Gravity(Display &display) : Animation(display, 100) {
     }
     this->initBoardRandom();
 }
+
 
 Gravity::~Gravity() {
 }
@@ -68,30 +69,40 @@ void Gravity::initBoardRandom() {
 // the view, but we allow some processing here
 // because to throttle it
 // floating point, slow?
-void Gravity::drawFrame() {
-    // updateSimpleFrame();
-    drawBoard();
-    display.update();
-}
-
-void Gravity::drawBoard() {
+void Gravity::drawFrame(Frame &frame) {
     updateBoardMotion(this->motionData);
-    display.clear();
+    frame.clear();
     const int rows = 8;
     const int cols = 8;
     for (int r=0; r<rows; r++) {
         for (int c=0; c<cols; c++) {
             Cell* cell = this->board[r][c];
             if (cell) {
-                this->paintPixel(r, c, cell->color);
+                int offset = r * 8 + c;
+                frame.setPixel(offset, cell->color.flat);
             }
         }
     }
 }
 
+void Gravity::drawBoard() {
+    // updateBoardMotion(this->motionData);
+    // display.clear();
+    // const int rows = 8;
+    // const int cols = 8;
+    // for (int r=0; r<rows; r++) {
+    //     for (int c=0; c<cols; c++) {
+    //         Cell* cell = this->board[r][c];
+    //         if (cell) {
+    //             this->paintPixel(r, c, cell->color);
+    //         }
+    //     }
+    // }
+}
+
 void Gravity::paintPixel(uint16_t row, uint16_t col, ZColor& color) {
-    int offset = row * 8 + col;
-    display.setPixel(offset, color.comp.r, color.comp.g, color.comp.b);
+    // int offset = row * 8 + col;
+    // display.setPixel(offset, color.comp.r, color.comp.g, color.comp.b);
 
     // paths for each occupied point
     // projected on gradient 
@@ -220,7 +231,7 @@ void Gravity::updateBoardMotion(MotionData motionData) {
 }
 
 void Gravity::updateSimpleFrame() {
-    display.clear();
+    // display.clear();
 
     // debug verify addressing
     // int p = this->x + (8 * this->y);
@@ -251,7 +262,7 @@ void Gravity::updateSimpleFrame() {
     if (offset > 63) {
         offset = 63;
     }
-    display.setPixel(offset, 160, 160, 10);
+    // display.setPixel(offset, 160, 160, 10);
 }
 
 void Gravity::setMotion(MotionData motionData) {

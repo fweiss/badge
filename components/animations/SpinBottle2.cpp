@@ -1,6 +1,6 @@
 #include "SpinBottle2.h"
 
-SpinBottle2::SpinBottle2(Display &display) : BitmapAnimation(display, frames) {
+SpinBottle2::SpinBottle2() : BitmapAnimation(frames) {
 
 }
 

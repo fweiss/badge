@@ -1,6 +1,6 @@
 #include "Felix.h"
 
-Felix::Felix(Display& display) : BitmapAnimation(display, yy) {
+Felix::Felix() : BitmapAnimation(yy) {
 
 }
 

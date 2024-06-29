@@ -1,7 +1,7 @@
 #include "Plasma.h"
 #include <math.h>
 
-Plasma::Plasma(Display &display) : Animation(display, 100), phase(0) {
+Plasma::Plasma() : Animation(100), phase(0) {
 
 }
 
@@ -27,8 +27,8 @@ uint32_t xy(Point &p) {
     return (int)p.x + (int)p.y * 8;
 }
 
-void Plasma::drawFrame() {
-    display.clear();
+void Plasma::drawFrame(Frame &frame) {
+    frame.clear();
     Point p1 = lissajous(phase, 1, 1.27);
     Point p2 = lissajous(phase, 3, 4.2);
     Point p3 = lissajous(phase, 5, 3.2);
@@ -37,10 +37,10 @@ void Plasma::drawFrame() {
     const int r = 160;
     const int g = 150;
     const int b = 10;
-    display.setPixel(p, r, g, b);
-    display.setPixel(xy(p2), 160, 10, 10);
-    display.setPixel(xy(p3), 10, 10, 220);
-    display.update();
+    frame.setPixel(p, r, g, b);
+    frame.setPixel(xy(p2), 160, 10, 10);
+    frame.setPixel(xy(p3), 10, 10, 220);
+    // display.update();
 
     frameIndex += 1;
     phase = (float)frameIndex * 0.1;

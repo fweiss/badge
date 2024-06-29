@@ -1,6 +1,6 @@
 #include "HeartAnimation.h"
 
-HeartAnimation::HeartAnimation(Display &display) : BitmapAnimation(display, heart, 300) {
+HeartAnimation::HeartAnimation() : BitmapAnimation(heart, 300) {
 
 }
 

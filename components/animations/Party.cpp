@@ -1,6 +1,6 @@
 #include "Party.h"
 
-Party::Party(Display &display) : BitmapAnimation(display, frames, 2000) {
+Party::Party() : BitmapAnimation(frames, 2000) {
 
 }
 

@@ -11,7 +11,7 @@ Chaser::Chaser(uint16_t size, uint16_t step) : colors(size), step(step) {
 
 void Chaser::roll() {
 
-    uint32_t nc;
+    uint32_t nc = 0;
 
     for (uint16_t i=0; i<step; i++) {
         nc = nextColor();

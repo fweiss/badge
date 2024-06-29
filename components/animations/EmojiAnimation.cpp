@@ -1,6 +1,6 @@
 #include "EmojiAnimation.h"
 
-EmojiAnimation::EmojiAnimation(Display &display) : BitmapAnimation(display, frames, 2000) {
+EmojiAnimation::EmojiAnimation() : BitmapAnimation(frames, 2000) {
 
 }
 

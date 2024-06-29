@@ -2,7 +2,7 @@
 
 static const uint16_t defaultFramePeriodMillis = 300;
 
-SpinBottleAnimation::SpinBottleAnimation(Display &display) : BitmapAnimation(display, frames, defaultFramePeriodMillis) {
+SpinBottleAnimation::SpinBottleAnimation() : BitmapAnimation(frames, defaultFramePeriodMillis) {
 
 }
 

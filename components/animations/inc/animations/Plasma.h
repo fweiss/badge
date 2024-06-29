@@ -1,13 +1,12 @@
 #pragma once
 
 #include "Animation.h"
-#include "Display.h"
 
 class Plasma : public Animation {
 public:
-    Plasma(Display &display);
+    Plasma();
     virtual ~Plasma() {}
 
-    void drawFrame() override;
+    void drawFrame(Frame &frame) override;
     float phase;
 };
