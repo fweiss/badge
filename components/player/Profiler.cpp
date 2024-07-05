@@ -9,7 +9,7 @@ Profiler::Profiler(bool enable) {
 	if (enable) {
 		ESP_LOGI(TAG, "started");
 	} else {
-		ESP_LOGI(TAG, " not started");
+		ESP_LOGI(TAG, "not started");
 	}
 	reset();
 
@@ -43,14 +43,18 @@ void Profiler::stopTime() {
 	samples++;
 }
 
-void Profiler::callback(void* arg) {
-	((Profiler*)arg)->dump();
+void Profiler::dump() {
+    if (samples == 0) {
+	    ESP_LOGI(TAG, "samples: none");
+    } else {
+        uint64_t average = runTime / samples;
+        ESP_LOGI(TAG, "samples: %lld run time: %lld average (us): %lld", samples, runTime, average);
+    }
+	reset();
 }
 
-void Profiler::dump() {
-	uint64_t average = runTime / samples;
-	ESP_LOGI(TAG, "samples: %lld run time: %lld average (us): %lld", samples, runTime, average);
-	reset();
+void Profiler::callback(void* arg) {
+	((Profiler*)arg)->dump();
 }
 
 void Profiler::reset() {

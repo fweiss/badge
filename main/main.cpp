@@ -58,9 +58,8 @@ TaskHandle_t mainTaskHandle;
 // initialize the app on a task pinned to the APP core
 void mainTask(void *parameters) {
     ESP_LOGI(TAG, "main task running on core: %d", xPortGetCoreID());
-
-    Motion motion;
-    motion.start();
+    Profiler profiler(true);
+    profiler.startTime();
 
     static Display display( GPIO_NUM_14);
 
@@ -105,26 +104,33 @@ void mainTask(void *parameters) {
     // badgeService.setPaintPixel(&paintPixel);
     badgeService.init();
 
-    BLECore core;
-    core.registerService(&badgeService);
-    core.init();
-
     animator.setCallback(
         [] {
             animationProgram.drawFrame(display);
             display.show();
         }
     );
-    motion.setListeners([](MotionData motionData){
-        gravity.setMotion(motionData);
-    });
 
     display.setBrightness(5);
     animationProgram.setProgram(defaultIndex);
     animator.start();
 
+    profiler.stopTime();
+
+    // start motion
+    Motion motion;
+    motion.setListeners([](MotionData motionData){
+        gravity.setMotion(motionData);
+    });
+    motion.start();
+
+    // start BLE
+    BLECore core;
+    core.registerService(&badgeService);
+    core.init();
+
     // main task does nothing but initialize app on core 1
-    for (;;) {
+    while(true) {
 
     }
 }
