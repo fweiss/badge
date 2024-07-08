@@ -16,7 +16,6 @@ public:
 
 protected:
     virtual void nextFrame() { frameIndex = (frameIndex + 1) % frames.size(); }
-    virtual void drawFrame(uint16_t frameIndex);
     virtual void drawFrame(Frame &frame);
 
     std::vector<std::vector<uint32_t>> &frames;

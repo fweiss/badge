@@ -76,7 +76,7 @@ void mainTask(void *parameters) {
     REGISTER(1, meteorShowerAnimation, MeteorShowerAnimation);
     REGISTER(2, smearAnimation, SmearAnimation);
     REGISTER(3, felix, Felix);
-#if 0 // to conserve memory?
+#if 1 // to conserve memory?
     REGISTER(4, heart1Animation, HeartAnimation);
     REGISTER(5, spinBottle, SpinBottleAnimation);
     REGISTER(6, spinBottle2, SpinBottle2);

@@ -81,6 +81,7 @@ static uint32_t tween(std::vector<uint32_t> frame, float trans[][3], uint16_t r,
 	return p;
 }
 
+#if 0
 void Tween::drawFrame(uint16_t frameIndex) {
 	// a smooth effect from six subframes
 	// a gamma correction is required, since effective brightness of (1/6,5/6) is less than (0/6, 6/6)
@@ -110,6 +111,7 @@ void Tween::drawFrame(uint16_t frameIndex) {
         // display.setPixel(index, tween(compositeFrame, trans[smoothFrameFraction], row, col));
     }
 }
+#endif
 
 BitmapAnimation::Frames Tween::frames = {
 

@@ -7,7 +7,6 @@ class MarqueeAnimation : public PathAnimation {
 public:
     MarqueeAnimation();
 
-    // void drawFrame();
     virtual void drawFrame(Frame &frame) override;
 protected:
     RainbowChaser chaser;

@@ -4,6 +4,9 @@ PathAnimation::PathAnimation() {
 
 }
 
+PathAnimation::PathAnimation(uint16_t framePeriodMilis) : Animation(framePeriodMilis) {
+}
+
  void PathAnimation::drawFrame(Frame &frame) {
     for (ChaserPath cp : chaserPaths) {
         cp.chaser->roll();

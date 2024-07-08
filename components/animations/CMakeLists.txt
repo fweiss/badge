@@ -12,6 +12,7 @@ idf_component_register(
 		Funbit64.cpp
 		Gravity.cpp
 		HeartAnimation.cpp
+        IndexedColorAnimation.cpp
 		JsonAnimation.cpp
 		Kaleidascope.cpp
 		MarqueeAniumation.cpp
@@ -36,3 +37,5 @@ idf_component_register(
     	json
 		motion
 )
+
+set_target_properties(${COMPONENT_LIB} PROPERTIES COMPILE_FLAGS "-save-temps=obj")
