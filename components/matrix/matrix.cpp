@@ -5,7 +5,7 @@
 static const char TAG[] = "Matrix";
 
 Matrix::Matrix(gpio_num_t gpioPin, size_t size) : size(size) {
-    esp_err_t status;
+    // esp_err_t status;
 
     grbPixels = (typeof(grbPixels[0])*)malloc(size * bytesPerPixel);
     if (grbPixels == 0) {
@@ -14,13 +14,12 @@ Matrix::Matrix(gpio_num_t gpioPin, size_t size) : size(size) {
     }
 
     channel = NULL;
-    rmt_tx_channel_config_t config = {
-        .gpio_num = gpioPin,
-        .clk_src = RMT_CLK_SRC_DEFAULT,
-        .resolution_hz = tickResolutionHz,
-        .mem_block_symbols = 64,
-        .trans_queue_depth = 4,
-    };
+    rmt_tx_channel_config_t config{};
+    config.gpio_num = gpioPin;
+    config.clk_src = RMT_CLK_SRC_DEFAULT;
+    config.resolution_hz = tickResolutionHz;
+    config.mem_block_symbols = 64;
+    config.trans_queue_depth = 4;
     // config.flags.with_dma = 1; // depends on chip
     ESP_ERROR_CHECK(rmt_new_tx_channel(&config, &channel));
 
@@ -101,7 +100,6 @@ void Matrix::show() {
 
 //    sendReset();
 
-    bool wait_tx_done = true;
     rmt_transmit_config_t transmitConfig{};
     status = rmt_transmit(channel, encoder, grbPixels, size * bytesPerPixel, &transmitConfig);
     if (status != ESP_OK) {

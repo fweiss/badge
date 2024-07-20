@@ -129,7 +129,7 @@ void BadgeService::init() {
 
     appVersionCharacteristic.setReadCallback(
         [this](uint16_t *len, uint8_t **value){
-            const esp_app_desc_t *app_description = esp_ota_get_app_description();
+            const esp_app_desc_t *app_description = esp_app_get_description();
             ESP_LOGI(LOG_TAG, "version: %-16s", app_description->version);
             *len = strlen(app_description->version);
             *value = (uint8_t*) app_description->version;
@@ -242,7 +242,7 @@ void BadgeService::onDisconnect() {
 }
 
 void BadgeService::onStarted() {
-    const esp_app_desc_t *app_description = esp_ota_get_app_description();
+    const esp_app_desc_t *app_description = esp_app_get_description();
     ESP_LOGI(LOG_TAG, "version: %32s", app_description->version);
     appVersionCharacteristic.setValue(sizeof(app_description->version), (const uint8_t*)app_description->version);
 }

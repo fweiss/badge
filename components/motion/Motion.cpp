@@ -17,7 +17,8 @@ Motion::Motion() : MPU6050(0x68) {
 		.callback = &Motion::timerCallback,
 		.arg = this,
 		.dispatch_method = ESP_TIMER_TASK,
-		.name = "motion timer"
+		.name = "motion timer",
+        .skip_unhandled_events = true,
 	};
 	esp_err = esp_timer_create(&create_args, &timer);
 	if (esp_err != ESP_OK) {

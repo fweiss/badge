@@ -20,7 +20,6 @@ I2CDevice::I2CDevice(uint8_t address) {
 
 	// ESP32 i2c0
 	// MPU sda 21, scl 22
-	int i2c_master_port = 0;
 	// issue with designated initialer in c++11
 	i2c_config_t conf;
 	conf.mode = I2C_MODE_MASTER;
@@ -32,7 +31,6 @@ I2CDevice::I2CDevice(uint8_t address) {
 	    // .clk_flags = 0,          /*!< Optional, you can use I2C_SCLK_SRC_FLAG_* flags to choose i2c source clock here. */
 	conf.master.clk_speed = 400000;
 	conf.clk_flags = 0;
-	// esp_err = i2c_param_config(i2c_master_port, &conf);
     i2c_port_t port{I2C_NUM_0};
 	esp_err = i2c_param_config(port, &conf);
     if (esp_err != ESP_OK) {

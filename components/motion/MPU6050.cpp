@@ -80,7 +80,7 @@ esp_err_t MPU6050::setAccelFullScale(accel_fs_t fsr) {
 	esp_err_t esp_err;
 
 	const uint8_t reg = 0x1C;
-	uint8_t AFS_SEL_2G = 0x00;
+	__attribute__((unused)) uint8_t AFS_SEL_2G = 0x00;
 	__attribute__((unused)) uint8_t AFS_SEL_4G = 0x01;
 	uint8_t AFS_SEL_F_B = 3;
 	uint8_t AFS_SEL_F_L = 2;
@@ -126,7 +126,7 @@ esp_err_t MPU6050::performAccelSelfTest() {
 }
 
 void MPU6050::setDigitalLowPassFilter(int data) {
-	esp_err_t esp_err;
+	__attribute__((unused)) esp_err_t esp_err;
 
 	const uint8_t reg = 0x1a;
 	const uint8_t offset = 0;

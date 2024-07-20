@@ -14,10 +14,11 @@ Profiler::Profiler(bool enable) {
 	reset();
 
 	const esp_timer_create_args_t create_args= {
-			.callback = &Profiler::callback,
-			.arg = this,
-			.dispatch_method = ESP_TIMER_TASK,
-			.name = "profiler timer"
+        .callback = &Profiler::callback,
+        .arg = this,
+        .dispatch_method = ESP_TIMER_TASK,
+        .name = "profiler timer",
+        .skip_unhandled_events = true,
 	};
 	esp_err = esp_timer_create(&create_args, &timer);
 	if (esp_err != ESP_OK) {
