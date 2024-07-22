@@ -2,6 +2,44 @@
 
 #include "string.h"
 
+// in the usual case, tweening is taking two key frames
+// and interpolating a number of frame between them. 
+// In this case, the pixel offset between the key frames is one
+// and the tweening is done by blending the two frames
+// as if there were a number of subframes between them
+// and the target pixel picks up a blend of the adjacent pixels
+// based of the proportion of the offset of the subframe
+// in effect, the pixel is a weighted average of the adjacent pixels
+// and the subframes are the tweened frames
+// the desired result is a smooth transition between the key frames
+
+Tween::Tween() : BitmapAnimation(frames, 75), compositeFrame() {
+//	this->compositeFrame = new std::vector<uint32_t>(0);
+	composeText(this->compositeFrame, frames);
+}
+
+void Tween::drawFrame(Frame &frame) {
+    uint32_t compositeFrameColumns = compositeFrame.size() / 8;
+    for (int row=0; row<8; row++) {
+        for (int col=0; col<8; col++) {
+            uint32_t offset = frameIndex + row * compositeFrameColumns + col;
+            const uint32_t pixel = compositeFrame.at(offset);
+            uint32_t color = pixel == 0 ? backgroundColor : foregroundColor;
+            frame.setPixel(row*8+col, color);
+        }
+    }
+    // nextFrame();
+    // iterator start
+    // frame.draw(compositeFrame);
+
+    nextFrame();
+}
+
+void Tween::nextFrame() {
+    // leave off the last cell
+    // DRY compositeFrameColumns
+    frameIndex = (frameIndex + 1) % (compositeFrame.size() / 8 - 8);
+}
 
 static void compose(std::vector<uint32_t> &target, std::vector<std::vector<uint32_t>> &frames) {
 	const uint16_t segments = 26;
@@ -13,33 +51,25 @@ static void compose(std::vector<uint32_t> &target, std::vector<std::vector<uint3
 	}
 }
 
-static void composeText(std::vector<uint32_t> &target, std::vector<std::vector<uint32_t>> &frames) {
+// composite frame is 8 pixels tall and 8*n pixels wide
+// where n is the number of characters in the text
+// a frame is usually 8x8 pixels as flattened row-major
+void Tween::composeText(std::vector<uint32_t> &target, std::vector<std::vector<uint32_t>> &frames) {
+    // note right padding to prevent index out of bounds
 	const char* text = "the quick brown fox jumped over the lazy dogs back   ";
 	const uint16_t segments = strlen(text);
 	const uint8_t em = 6;
 	target.clear();
-	for (int i=0; i<8; i++) {
+	for (int i=0; i<8; i++) { // row-major
 		for (int j=0; j<segments; j++) {
 			const char ch = text[j];
 			uint16_t k =  ch - 'a' + 26;
 			if (ch == ' ') k = 52;
+            std::vector<uint32_t> frame = frames[k];
 			// target.insert(target.end(), frames[k].begin() + i*8, frames[k].begin() + i*8+em);
-			target.insert(target.end(), frames[k].begin() + i*8, frames[k].begin() + i*8+em);
+			target.insert(target.end(), frame.begin() + i*8, frame.begin() + i*8+em);
 		}
 	}
-
-}
-
-Tween::Tween() : BitmapAnimation(frames, 350), compositeFrame() {
-//	this->compositeFrame = new std::vector<uint32_t>(0);
-	composeText(this->compositeFrame, frames);
-}
-
-void Tween::drawFrame(Frame &frame) {
-    // std::vector<uint32_t> currentFrame = frames.at(frameIndex);
-    // frame.draw(currentFrame);
-    // nextFrame();
-    frame.draw(compositeFrame);
 }
 
 uint32_t scale(uint32_t source, float factor) {
