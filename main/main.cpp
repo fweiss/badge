@@ -97,7 +97,7 @@ void mainTask(void *parameters) {
     REGISTER(20, plasma, Plasma)
     REGISTER(21, gravity, Gravity);
 
-    const int defaultIndex = 19;
+    const int defaultIndex = 20;
 
 //    testJson.loadJson();
 
@@ -111,6 +111,7 @@ void mainTask(void *parameters) {
         }
     );
 
+    display.reset();
     display.setBrightness(5);
     animationProgram.setProgram(defaultIndex);
     animator.start();

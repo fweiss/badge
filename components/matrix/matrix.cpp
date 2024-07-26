@@ -43,6 +43,8 @@ Matrix::Matrix(gpio_num_t gpioPin, size_t size) : size(size) {
     ESP_ERROR_CHECK(rmt_new_bytes_encoder(&bytesEncoderConfig, &encoder));
     ESP_LOGI(TAG, "encoder created %p", encoder);
 
+    createResetEncoder();
+
     ESP_ERROR_CHECK(rmt_enable(channel));
 }
 
@@ -98,8 +100,6 @@ void Matrix::show() {
         return;
     }
 
-//    sendReset();
-
     rmt_transmit_config_t transmitConfig{};
     status = rmt_transmit(channel, encoder, grbPixels, size * bytesPerPixel, &transmitConfig);
     if (status != ESP_OK) {
@@ -110,22 +110,54 @@ void Matrix::show() {
 
 // some have reported that since 2017, WS2812B requires 300 us reset low
 void Matrix::sendReset() {
-    // esp_err_t status;
+    esp_err_t status;
 
-    // rmt_item32_t rmt_item[2];
-    // rmt_item[0].duration0 = 1000;
-    // rmt_item[0].level0 = 1;
-    // rmt_item[0].duration1 = 10000; // 500 us
-    // rmt_item[0].level1 = 0;
-    // rmt_item[1].duration0 = 10000;
-    // rmt_item[1].level0 = 0;
-    // rmt_item[1].duration1 = 1000;
-    // rmt_item[1].level1 = 1;
+//     rmt_item32_t rmt_item[2];
+//     rmt_item[0].duration0 = 1000;
+//     rmt_item[0].level0 = 1;
+//     rmt_item[0].duration1 = 10000; // 500 us
+//     rmt_item[0].level1 = 0;
+//     rmt_item[1].duration0 = 10000;
+//     rmt_item[1].level0 = 0;
+//     rmt_item[1].duration1 = 1000;
+//     rmt_item[1].level1 = 1;
 
-    // bool wait_tx_done = true;
-    // status = rmt_write_items(channel, rmt_item, 2, wait_tx_done);
-    // if (status != ESP_OK) {
-    //     ESP_LOGW(TAG, "rmt write items failed: %d", status);
-    // }
+//     bool wait_tx_done = true;
+//     status = rmt_write_items(channel, rmt_item, 2, wait_tx_done);
+//     if (status != ESP_OK) {
+//         ESP_LOGW(TAG, "rmt write items failed: %d", status);
+//     }
 //    ESP_LOGI(TAG, "reset pulse sent");
+
+    rmt_transmit_config_t config{};
+    uint8_t dummyReset = 0;
+    status = rmt_transmit(channel, resetEncoder, &dummyReset, 1, &config);
+    if (status != ESP_OK) {
+        ESP_LOGW(TAG, "rmt write items failed: %d", status);
+    }
+    ESP_LOGI(TAG, "reset pulse sent");
+    rmt_tx_wait_all_done(channel, 100);
+}
+
+void Matrix::createResetEncoder() {
+    // note duration is in usec
+    rmt_bytes_encoder_config_t resetEncoderConfig{
+        .bit0{
+            .duration0 = 50,
+            .level0 = 0,
+            .duration1 = 0,
+            .level1 = 0,
+        },
+        .bit1{
+            .duration0 = 50,
+            .level0 = 0,
+            .duration1 = 0,
+            .level1 = 0,
+        },
+        .flags = {
+            .msb_first = 1, // WS2812 data is sent MSB first
+        },
+    };
+    ESP_ERROR_CHECK(rmt_new_bytes_encoder(&resetEncoderConfig, &resetEncoder));
+    ESP_LOGI(TAG, "reset encoder created %p", resetEncoder);
 }

@@ -18,11 +18,13 @@ public:
     uint32_t getPixelRgb(uint16_t index);
 
     void show();
+    void sendReset();
 private:
     rmt_channel_handle_t channel;
     rmt_encoder_handle_t encoder;
+    rmt_encoder_handle_t resetEncoder;
     size_t size;
     uint8_t *grbPixels;
 
-    void sendReset();
+    void createResetEncoder();
 };

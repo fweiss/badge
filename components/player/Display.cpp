@@ -4,6 +4,10 @@ Display::Display(gpio_num_t gpio) : matrix(gpio, 64) {
     this->brightness = 25;
 }
 
+void Display::reset() {
+    matrix.sendReset();
+}
+
 void Display::clear() {
     for (int i=0; i<64; i++) {
         setPixel(i, 0, 0, 0);

@@ -15,7 +15,6 @@ void AnimationProgram::putAnimation(uint8_t index, Animation *animation) {
 
 void AnimationProgram::drawFrame(Frame &frame) {
 	profiler.startTime();
-    // fixme check index
     programs[index]->drawFrame(frame);
     profiler.stopTime();
 }
