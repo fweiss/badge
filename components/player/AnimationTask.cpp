@@ -5,6 +5,10 @@
 static const char *TAG = "AniumationTask";
 
 AnimationTask::AnimationTask() {
+    // note that the semaphore is in the "taken" state
+    // we expect setIntervalSecs() to "give" the semaphore
+    // nonetheless, we rely on xSemaphoreTake() timeout to pace the animation
+    // however, start() must be after the first call to setIntervalSecs()
     semaphoreHandle = xSemaphoreCreateBinary();
     currentIntervalTicks = 300 / portTICK_PERIOD_MS;
 }
@@ -44,11 +48,6 @@ void AnimationTask::taskCode(void *parameters) {
 
 void AnimationTask::run() {
     for (;;) {
-
-        // call the animation drawframe function
-//            ESP_LOGI(TAG, "drawing...");
-        func();
-
         // block waiting for an animation change or the current animation interval
         // this allows changes to occur without waiting for the interval to expire,
         // such as would be the case with vTaskDelayUntil()
@@ -57,13 +56,13 @@ void AnimationTask::run() {
         BaseType_t notified = xSemaphoreTake(semaphoreHandle, currentIntervalTicks);
         if (notified) {
             // the animation task was interruoted
+            // this is expected when the interval is changed
             ESP_LOGI(TAG, "animation task interrupted");
         } else {
             // the animation task interval expired
+            // this is normal and requests the animation to be updated
         }
 
-//        vTaskDelay(300 / portTICK_PERIOD_MS);
-
-        //  check task status
+        func(); // call the animation update function
     }
 }
