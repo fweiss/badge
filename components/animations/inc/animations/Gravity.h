@@ -5,12 +5,28 @@
 
 #include <vector>
 
-typedef union {
+// todo rename and move to Frame.h
+union ZColor {
     uint32_t flat;
     struct {
-        uint8_t l, b, g, r; // LE
+        // uint8_t l, b, g, r; // LE
+        // uint8_t g, r, b, l;
+        uint8_t r : 8;
+        uint8_t g : 8;
+        uint8_t b : 8;
+        uint8_t l : 8; 
     } comp;
-} ZColor;
+
+    ZColor() { flat = 0; };
+    ZColor(uint32_t flat) { this->flat = flat; };
+    ZColor(uint8_t r, uint8_t g, uint8_t b) { 
+        // comp = { .g{g}, .r{r}, .b{b}, .l{0} };
+        comp.r = r;
+        comp.g = g;
+        comp.b = b;
+        comp.l = 255;
+    };
+};
 
 class Cell {
 public:

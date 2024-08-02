@@ -35,19 +35,21 @@ int b(float x) {
 
 // different than updateBoard
 void Gravity::initBoard() {
-    ZColor color = { .flat = 0xa04040ff };
+    ZColor color{ 0xa04040ff };
     Cell* cell = new Cell(color);
     this->board[2][3] = cell;
 }
 
 void Gravity::initBoardRandom() {
-    std::vector<ZColor> colorPallette = {
-        // { .comp = { 160, 160, 20, 255 } }
-        { .flat = 0xa04040ff },
-        { .flat = 0x40a040ff },
-        { .flat = 0x4040a0ff },
-        { .flat = 0xa0a040ff },
-        { .flat = 0xa040a0ff }
+
+    // try to get a uniform pallette with distinct colors
+    // fixme yellow is not working
+    std::vector<ZColor> colorPallette{
+        ZColor(255, 0, 0),
+        ZColor(0, 255, 0),
+        ZColor(0, 0, 255),
+        ZColor(255, 255, 255),
+        ZColor(255, 255, 0),
     };
 
     std::vector<CPoint> cpoints = this->allPoints;
@@ -57,12 +59,24 @@ void Gravity::initBoardRandom() {
     std::shuffle(cpoints.begin(), cpoints.end(), rng);
 
     // sample and assign cell
-    const uint16_t pieces = 13;  
+    const uint16_t pieces = 23;  
+    ESP_LOGI(TAG, "assigning pallette %d to pieces %d", colorPallette.size(), pieces);
     for (int x=0; x<pieces; x++) {
         CPoint cp = cpoints[x];
         ZColor acolor = colorPallette[x % colorPallette.size()];
         Cell* cell = new Cell(acolor);
         this->board[cp.r][cp.c] = cell;
+    }
+
+    const int rows = 8;
+    const int cols = 8;
+    for (int r=0; r<rows; r++) {
+        for (int c=0; c<cols; c++) {
+            Cell* cell = this->board[r][c];
+            if (cell) {
+                ESP_LOGI(TAG, "cell color %lx", cell->color.flat);
+            }
+        }
     }
 }
 

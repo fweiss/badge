@@ -97,7 +97,7 @@ void mainTask(void *parameters) {
     REGISTER(20, plasma, Plasma)
     REGISTER(21, gravity, Gravity);
 
-    const int defaultIndex = 0;
+    const int defaultIndex = 21;
 
 //    testJson.loadJson();
 
