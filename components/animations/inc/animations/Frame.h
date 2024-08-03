@@ -22,4 +22,16 @@ public:
     void drawPath(std::vector<uint16_t> path, Chaser *chaser);
     void draw(std::vector<uint32_t> frame);
     void drawPath(std::vector<uint16_t> path, uint32_t color);
+
+    struct Color {
+        Color(uint8_t r, uint8_t g, uint8_t b) : r(r), g(g), b(b), flat(toHex(r, g, b)) {}
+
+        const uint8_t r;
+        const uint8_t g;
+        const uint8_t b;
+        const uint32_t flat;
+    };
+    static uint32_t toHex(uint8_t r, uint8_t g, uint8_t b) {
+        return (r << 16) | (g << 8) | b;
+    }
 };

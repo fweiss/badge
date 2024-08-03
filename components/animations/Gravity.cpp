@@ -35,7 +35,8 @@ int b(float x) {
 
 // different than updateBoard
 void Gravity::initBoard() {
-    ZColor color{ 0xa04040ff };
+    // Frame::Color color{ 0xa04040ff };
+    Frame::Color color{ 0xa0, 0x40, 0x40 };
     Cell* cell = new Cell(color);
     this->board[2][3] = cell;
 }
@@ -44,12 +45,12 @@ void Gravity::initBoardRandom() {
 
     // try to get a uniform pallette with distinct colors
     // fixme yellow is not working
-    std::vector<ZColor> colorPallette{
-        ZColor(255, 0, 0),
-        ZColor(0, 255, 0),
-        ZColor(0, 0, 255),
-        ZColor(255, 255, 255),
-        ZColor(255, 255, 0),
+    std::vector<Frame::Color> colorPallette{
+        Frame::Color(255, 0, 0),
+        Frame::Color(0, 255, 0),
+        Frame::Color(0, 0, 255),
+        Frame::Color(255, 255, 255),
+        Frame::Color(255, 255, 0),
     };
 
     std::vector<CPoint> cpoints = this->allPoints;
@@ -63,7 +64,7 @@ void Gravity::initBoardRandom() {
     ESP_LOGI(TAG, "assigning pallette %d to pieces %d", colorPallette.size(), pieces);
     for (int x=0; x<pieces; x++) {
         CPoint cp = cpoints[x];
-        ZColor acolor = colorPallette[x % colorPallette.size()];
+        Frame::Color acolor = colorPallette[x % colorPallette.size()];
         Cell* cell = new Cell(acolor);
         this->board[cp.r][cp.c] = cell;
     }
@@ -114,13 +115,13 @@ void Gravity::drawBoard() {
     // }
 }
 
-void Gravity::paintPixel(uint16_t row, uint16_t col, ZColor& color) {
+// void Gravity::paintPixel(uint16_t row, uint16_t col, ZColor& color) {
     // int offset = row * 8 + col;
     // display.setPixel(offset, color.comp.r, color.comp.g, color.comp.b);
 
     // paths for each occupied point
     // projected on gradient 
-}
+// }
 
 typedef struct {
     CPoint point;

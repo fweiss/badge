@@ -2,6 +2,7 @@
 
 #include "Animation.h"
 #include "motion/Motion.hpp"
+#include "Frame.h"
 
 #include <vector>
 
@@ -28,10 +29,13 @@ union ZColor {
     };
 };
 
+// conflict with PaintPixel
+// using Color = Frame::Color;
+
 class Cell {
 public:
-    Cell(ZColor color) { this->color = color; }
-    ZColor color;
+    Cell(Frame::Color color) : color(color) {};
+    Frame::Color color;
 };
 
 typedef struct {
@@ -57,6 +61,6 @@ private:
     void initBoard();  // @deprecate
     void initBoardRandom();
     void drawBoard();
-    void paintPixel(uint16_t r, uint16_t c, ZColor& color);
+    void paintPixel(uint16_t r, uint16_t c, Frame::Color& color);
     void updateBoardMotion(MotionData motionData);
 };
